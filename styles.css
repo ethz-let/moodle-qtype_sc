@@ -1,0 +1,379 @@
+/**  The SC question rendering table */
+
+.que.sc table.sc {
+    border-top: 0px;
+    border-bottom: 0px;
+    border-collapse: collapse;
+}
+
+.que.sc table.sc div.r0 label, .que.sc table.sc div.r1 label,
+        .que.sc table.sc div.r0 div.specificfeedback, .que.sc table.sc div.r1 div.specificfeedback
+        {
+        /* In Chrome and IE, the text-indent above is applied to any embedded table
+       cells or <li>s, which screws up the intended layout. This fixes it again. */
+        text-indent: 0 !important;
+}
+
+.que.sc table.sc tbody tr {
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+}
+
+.que.sc table.sc tbody tr td {
+    border-top: 0px !important;
+    /*border-bottom: 1px solid #aaa !important;*/
+}
+
+.que.sc table.sc tbody td.scoptionbutton {
+    text-align: left;
+    width: 2em;
+    vertical-align: inherit;
+}
+.que.sc table.sc tbody td.scoptionbutton.correctness {
+    /*border-top: 0px solid #fff !important;*/
+    /*border-bottom: 0px solid #fff !important;*/
+    padding: 8px;
+    line-height: 20px;
+    padding-top: 5px;
+    margin-top: 0.1em;
+    width: 3em;
+}
+.que.sc table.sc thead {
+    background-color: #ffffff;
+}
+.que.sc table.sc thead tr th{
+    border-top: none;
+    border-bottom: none;
+}
+
+.que.sc table.sc tbody>tr:nth-of-type(odd) {
+    background-color: #ffffff;
+}
+.que.sc table.sc tbody>tr>td {
+    background-color: #ffffff;
+}
+.que.sc table.sc tbody>tr>td.sccorrectness {
+    border-left: 1px solid #888;
+}
+
+.que.sc table.sc tbody>tr.highlight {
+    background-color: #cff5cc;
+}
+.que.sc table.sc tbody>tr.highlight>td {
+    background-color: #cff5cc;
+}
+
+.que.sc table.sc th {
+        border-width: 1px;
+}
+
+.que.sc table.sc td.c0 {
+    width: 10%;
+}
+
+.que.sc table.sc td.c1 {
+    width: 40%;
+}
+.que.sc table.sc td.c2 {
+    width: 10%;
+}
+
+.que.sc table.sc td.c3 {
+    width: 40%;
+}
+
+
+.que.sc table.sc tbody td.scoptionbutton.correctness input[type="radio"], input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+.que.sc table.sc tbody td.scoptiontext {
+        min-width: 10em;
+        text-align: left;
+        padding-right: 2em;
+        vertical-align: inherit;
+}
+
+.que.sc table.sc tbody td.scoptiontext span.linethrough {
+    text-decoration: line-through;
+        opacity: 0.3;
+}
+
+
+.que.sc table.sc tbody td.scdistractorbutton {
+    width: 2em;
+    vertical-align: middle;
+    text-align: right;
+}
+.que.sc table.sc span.answernumber {
+        margin-right: 0.2em;
+}
+.que.sc table.sc tbody td.scspecificfeedbackcell {
+        vertical-align: inherit;
+}
+
+.que.sc table.sc tbody td.scspecificfeedbackcell div.scspecificfeedback {
+        background: #FFF3BF !important;
+        padding: 0.1em 0em 0.1em 1em;
+        text-align: left !important;
+}
+
+.que.sc .formulation {
+    background-color: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+}
+
+.scgreyingout {
+        opacity: 0.3;
+        filter: alpha(opacity = 30);
+}
+
+.scgreyingout i {
+        vertical-align: inherit;
+}
+
+input[type=checkbox].optioncheckbox {
+    display:none;
+}
+
+input[type=checkbox].optioncheckbox + label {
+    background-image: url([[pix:qtype_sc|radio]]);
+    background-size: contain;
+    background-repeat: no-repeat;
+    /*background-color: #f6f7f8;*/
+    height: 12px;
+    width: 12px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    vertical-align: inherit;
+}
+
+input[type=checkbox].optioncheckbox:checked + label {
+    background-image: url([[pix:qtype_sc|radio-active]]);
+}
+
+input[type=checkbox].distractorcheckbox {
+    display:none;
+}
+
+input[type=checkbox].distractorcheckbox + label {
+    background-image: url([[pix:qtype_sc|cross]]);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #f6f7f8;
+    height: 16px;
+    width: 16px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    vertical-align: inherit;
+}
+
+input[type=checkbox].distractorcheckbox + label:hover {
+    cursor: not-allowed;
+}
+
+input[type=checkbox].distractorcheckbox.active + label:hover {
+    background-color: #dedede;
+    cursor: pointer;
+}
+
+input[type=checkbox].distractorcheckbox:checked + label {
+    background-image: url([[pix:qtype_sc|cross-active]]);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #f6f7f8;
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    padding: 0 0 0 0px;
+    vertical-align: inherit;
+}
+
+body#page-question-type-sc div#fitem_id_responsetext_2 div.fitemtitle {
+        display: none;
+}
+
+body#page-question-type-sc div.optionbox {
+    display: block;
+    padding-left: 20px;
+    background: #EEE;
+    margin-top: 0;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    max-width: 720px;
+}
+
+body#page-question-type-sc div.optionbox label.optiontitle {
+        font-weight: bold;
+        margin-bottom: 0px;
+}
+/* Try to fix the default width of the editors (especially in the case of no JavaScript) */
+body#page-question-type-sc div.optionbox div.feditor {
+        width: 480px;
+}
+
+body#page-question-type-sc div.optionbox div.feditor textarea {
+        width: 460px !important;
+}
+
+body#page-question-type-sc noscript object {
+        width: 470px !important;
+}
+/* Put option text editor to the left */
+body#page-question-type-sc div.optiontext {
+    float: left;
+    width: 80%;
+}
+
+/* Put response checkboxes in the middle */
+body#page-question-type-sc div.responses {
+        float: right;
+        width: 100px !important;
+        margin-bottom: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5em;
+        vertical-align: middle;
+        text-align: center;
+        border: 0;
+        position: relative;
+}
+
+@media ( max-width : 986px) {
+        body#page-question-type-sc div.responses {
+                padding-top: 0px;
+                float: left;
+        }
+}
+
+body#page-question-type-sc div.responses fieldset.fgroup span {
+        border: 1px;
+        solid: #CCCCCC;
+        padding: 5px 10px 10px 5px;
+        margin: 0px 0px 8px 2px;
+        background-color: white;
+        border-radius: 5px;
+        vertical-align: middle;
+        display: inline-block;
+        width: 80px;
+}
+
+body#page-question-type-sc div.responses fieldset.fgroup span input
+        {
+        vertical-align: bottom;
+        position: relative;
+        top: -2px;
+}
+
+body#page-question-type-sc div.responses fieldset.fgroup span label
+        {
+        vertical-align: bottom;
+}
+
+body#page-question-type-sc div.responses div.fitem_fgroup {
+        text-align: left;
+        width: auto;
+        border-width: 0 0 0 0;
+}
+
+@media (min-width: 1200px) {
+    body#page-question-type-sc div.responses div.fitem.fradio {
+            margin-left: 0px !important;
+    }
+    body#page-question-type-sc div.responses .fradio {
+        margin-left: 0px !important;
+    }
+}
+
+body#page-question-type-sc div.responses div.fitem_fradio div.fitemtitle {
+        text-align: left;
+        float: right;
+        width: 0px;
+}
+
+body#page-question-type-sc div.optiontext div.fitemtitle {
+        width: auto;
+        padding-left: 0px;
+        padding-top: 0px;
+}
+
+body#page-question-type-sc div.feedbacktext {
+    width: 80%;
+    clear: both;
+}
+
+body#page-question-type-sc div.optionbox label.feedbacktitle {
+        color: #777;
+}
+
+body#page-question-type-sc div.feedbacktext div.fitemtitle {
+        width: auto;
+        padding-left: 0px;
+        padding-top: 0px;
+}
+
+body#page-question-type-sc div.optiontext div.feditor {
+        margin-left: 0px;
+}
+
+body#page-question-type-sc div.feedbacktext div.feditor {
+        margin-left: 0px;
+}
+
+body#page-question-type-multichoice div[id^=fitem_id_][id*=feedback_] {
+        background: #EEE;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border: 1px solid #BBB;
+        border-bottom: 0;
+}
+
+body#page-question-type-sc div[id^=fitem_id_][id*=option_] {
+        background: #EEE;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-bottom: 5px;
+        padding-top: 5px;
+}
+
+body#page-question-type-sc div[id^=fitem_id_][id*=option_] .fitemtitle
+        {
+        font-weight: bold;
+}
+
+body#page-question-type-sc div[id^=fitem_id_] .fitemtitle {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 6px;
+        padding-right: 0px;
+}
+
+body.dir-rtl#page-question-type-sc div[id^=fitem_id_] .fitemtitle {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 6px;
+}
+
+body#page-question-type-sc div[id^=fgroup_id_][id*=responses_] {
+        background: #EEE;
+        margin-bottom: 2em;
+        margin-top: 0;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border: 1px solid #BBB;
+        border-top: 0;
+}
+
+body#page-question-type-sc div[id^=fgroup_id_weightsarray] {
+        background: #EEE;
+        margin-top: 0;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border: 1px solid #BBB;
+        border-top: 0;
+}

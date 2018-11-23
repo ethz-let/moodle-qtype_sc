@@ -1,4 +1,7 @@
-# moodle-qtype_sc
-eDaktik Single Choice Qtype
-
-Note: This plugin was provided by 3rd party company (eDaktik). for our internal plugin, you can find it here: https://github.com/ethz-let/qtype_sc
+ * @package qtype_sc
+ * @author        Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author        Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright     2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ 
+# moodle-qtype_sc created for ETH Zürich by eDaktik GmbH
