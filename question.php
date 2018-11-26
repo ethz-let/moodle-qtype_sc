@@ -213,6 +213,23 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
+     *
+     * @param array $response responses, as returned by
+     *        {@link question_attempt_step::get_qt_data()}.
+     * @return int the number of choices that were selected. in this response.
+     */
+    public function get_num_selected_choices(array $response) {
+        $numselected = 0;
+        foreach ($response as $key => $value) {
+            // Response keys starting with _ are internal values like _order, so ignore them.
+            if (!empty($value) && $key[0] != '_') {
+                $numselected += 1;
+            }
+        }
+        return $numselected;
+    }
+
+    /**
      * Produce a plain text summary of a response.
      *
      * @param $response a response, as might be passed to {@link grade_response()}.
@@ -423,38 +440,39 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * Computes the final grade for a set of responses.
-     * {@inheritDoc}
-     * @see question_automatically_gradable_with_countback::compute_final_grade()
+     * Computes the final grade when "Multiple Attempts" or "Hints" are enabled
+     *
+     * @param array $responses Contains the user responses. 1st dimension = attempt, 2nd dimension = answers
+     * @param int $totaltries Not needed
      */
     public function compute_final_grade($responses, $totaltries) {
-        $totalscore = 0;
-        foreach ($this->order as $key => $rowid) {
-            $optionfield = $this->optionfield($key);
-            $row = $this->rows[$rowid];
+        $last_response = sizeOf($responses) - 1;
+        $num_points = isset($responses[$last_response]) ? $this->grading()->grade_question($this, $responses[$last_response]) : 0;
+        return max(0, $num_points - max(0, $last_response) * $this->penalty);
+    }
 
-            if ($row->number == $this->correctrow) {
-                $lastwrongindex = -1;
-                $finallyright = false;
-                foreach ($responses as $i => $response) {
-                    if (array_key_exists($optionfield, $response) && $response[$optionfield] == 1) {
-                        $finallyright = true;
-                    } else {
-                        $lastwrongindex = $i;
-                        $finallyright = false;
-                    }
-                }
+    /**
+     * Disable those hint settings that we don't want when the student has selected
+     * more choices than the number of right choices.
+     * This avoids giving the game away.
+     *
+     * @param question_hint_with_parts $hint a hint.
+     */
+    protected function disable_hint_settings_when_too_many_selected(question_hint_with_parts $hint) {
+        $hint->clearwrong = false;
+    }
 
-                if ($finallyright) {
-                    $totalscore += max(0, 1 - ($lastwrongindex + 1) * $this->penalty);
-                }
-            }
+    public function get_hint($hintnumber, question_attempt $qa) {
+        $hint = parent::get_hint($hintnumber, $qa);
+        if (is_null($hint)) {
+            return $hint;
         }
-        if (count($this->order) > 0) {
-            return $totalscore / count($this->order);
-        } else {
-            return 0.0;
+        
+        if ($this->get_num_selected_choices($qa->get_last_qt_data()) > 1) {
+            $hint = clone ($hint);
+            $this->disable_hint_settings_when_too_many_selected($hint);
         }
+        return $hint;
     }
 
     /**
