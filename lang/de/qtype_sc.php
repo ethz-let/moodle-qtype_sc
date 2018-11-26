@@ -22,7 +22,6 @@
  * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['answernumbering'] = 'Nummerierung der Optionen';
-
 $string['checked'] = 'ausgewählt';
 $string['configintro'] = 'Administrationseinstellungen für den Fragentyp Single Choice.';
 $string['correct'] = 'Richtig';
@@ -43,12 +42,10 @@ $string['mustsupplyvalue'] = 'Sie müssen einen Text für diese Wahlantwort eing
 $string['mustsupplyname'] = 'Sie müssen einen Aufgabentitel eingeben.';
 $string['numberofrows'] = 'Anzahl Wahlantworten';
 $string['numberofrows_help'] = 'Wählen Sie die Anzahl der Wahlantworten. Wenn Sie auf eine kleinere Anzahl von Wahlantworten wechseln, werden überzählige Wahlantworten gelöscht, sobald die Frage gespeichert wird.';
-
 $string['oneradiobutton'] = 'Sie müssen eine der Wahlantworten als richtig markieren!';
 $string['option'] = 'Wahlantwort';
 $string['optionno'] = 'Wahlantwort {$a}';
 $string['optionsandfeedback'] = 'Wahlantworten und Feedback';
-
 $string['pluginname'] = 'SC(ETH)';
 $string['pluginname_help'] = 'In Einfachwahlaufgaben („Typ A") muss eine von mehreren Wahlantworten als die einzig richtige oder die beste ausgewählt werden. Studenten können Wahlantworten, die sie als falsch erachten, markieren und erhalten, je nach Bewertungsmethode, Teilpunkte.';
 $string['pluginname_link'] = 'question/type/sc';
@@ -58,6 +55,7 @@ $string['pluginnameediting'] = 'Einfachwahlaufgabe („Typ A") bearbeiten';
 $string['pluginnameediting_help'] = 'Zur Beantwortung einer Fragestellung muss eine von mehreren Wahlantworten als die einzig richtige oder die beste ausgewählt werden.';
 $string['pluginnamesummary'] = 'In Einfachwahlaufgaben („Typ A") muss eine von mehreren Wahlantworten als die einzig richtige oder die beste ausgewählt werden. Studenten können Wahlantworten, die sie als falsch erachten, als Distraktoren markieren und erhalten, je nach Bewertungsmethode, Teilpunkte.';
 $string['preview'] = 'Vorschau';
+$string['privacy:metadata'] = 'Das Plugin für den Fragetyp "MTF" speichert keine persönlichen Daten.';
 $string['scoringaprime'] = 'Aprim';
 $string['scoringsconezero'] = 'SC1/0';
 $string['scoringmethod'] = 'Bewertungsmethode';
@@ -69,7 +67,6 @@ $string['scoringsubpoints'] = 'Teilpunkte';
 $string['selectone'] = 'Wählen Sie eine Wahlantwort aus:';
 $string['shuffleanswers'] = 'Wahlantworten mischen';
 $string['shuffleanswers_help'] = 'Wenn aktiviert, ist die Reihenfolge der Wahlantworten bei jedem Versuch zufällig, sofern die Option "In Fragen zufällig mischen" aktiviert ist.';
-
 $string['stem'] = 'Stamm';
 $string['tasktitle'] = 'Aufgabentitel';
 $string['unchecked'] = 'nicht ausgewählt';

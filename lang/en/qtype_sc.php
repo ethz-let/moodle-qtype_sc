@@ -23,7 +23,6 @@
  */
 
 $string['answernumbering'] = 'Number the options?';
-
 $string['checked'] = 'chosen';
 $string['configintro'] = 'Administration settings for the single choice question type.';
 $string['correct'] = 'Correct';
@@ -44,12 +43,10 @@ $string['mustsupplyvalue'] = 'You must enter an option text.';
 $string['mustsupplyname'] = 'You must enter a task title.';
 $string['numberofrows'] = 'Number of options';
 $string['numberofrows_help'] = 'Specify the number of options. When changing to fewer options, surplus options will be deleted once the item is saved';
-
 $string['oneradiobutton'] = 'You have to choose one of the options!';
 $string['option'] = 'Option';
 $string['optionno'] = 'Option {$a}';
 $string['optionsandfeedback'] = 'Options and Feedback';
-
 $string['pluginname'] = 'SC(ETH)';
 $string['pluginname_help'] = 'In Single Choice ("Type A") questions the one option which is the only correct or best option has to be identified. The students can also mark options they consider as wrong to receive a fraction of the points depending on the grading method.';
 $string['pluginname_link'] = 'question/type/sc';
@@ -59,6 +56,7 @@ $string['pluginnameediting'] = 'Editing a Single Choice ("Type A") question';
 $string['pluginnameediting_help'] = 'In response to a question prompt the candidates must identify one answer as the only correct answer or the best answer.';
 $string['pluginnamesummary'] = 'In Single Choice ("Type A") questions the one option which is the only correct or best option has to be identified. The students can also mark options they consider as wrong to receive a fraction of the points depending on the grading method.';
 $string['preview'] = 'Preview';
+$string['privacy:metadata'] = 'The MTF question type plugin does not store any personal data.';
 $string['scoringaprime'] = 'Aprime';
 $string['scoringsconezero'] = 'SC1/0';
 $string['scoringmethod'] = 'Scoring method';
@@ -71,7 +69,6 @@ $string['selectone'] = 'Select one option:';
 $string['shuffleanswers'] = 'Shuffle options';
 $string['shuffleanswers_help'] = 'If enabled, the order of the options is randomly shuffled for each attempt,
          provided that "Shuffle within questions" in the activity settings is also enabled.';
-
 $string['stem'] = 'Stem';
 $string['tasktitle'] = 'Task title';
 $string['unchecked'] = 'not chosen';
