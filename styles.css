@@ -26,7 +26,6 @@
 
 .que.sc table.sc tbody td.scoptionbutton {
     text-align: left;
-    width: 2em;
     vertical-align: inherit;
 }
 .que.sc table.sc tbody td.scoptionbutton.correctness {

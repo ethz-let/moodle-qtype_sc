@@ -38,7 +38,7 @@ if ($ADMIN->fulltree) {
     $settings->add(
             new admin_setting_configselect('qtype_sc/scoringmethod',
                     get_string('scoringmethod', 'qtype_sc'),
-                    get_string('scoringmethod_help', 'qtype_sc'), 'sc', $options));
+                    get_string('scoringmethod_help', 'qtype_sc'), 'sconezero', $options));
 
     // Shuffle options.
     $settings->add(
