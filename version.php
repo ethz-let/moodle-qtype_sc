@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_sc';
-$plugin->version = 2019031200;
+$plugin->version = 2019041500;
 $plugin->requires = 2017051501; // Moodle >= 3.3.
 
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0 for Moodle 3.3+';
+$plugin->release = '1.1 for Moodle 3.3+';
