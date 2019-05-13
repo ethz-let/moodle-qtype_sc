@@ -208,7 +208,6 @@ body#page-question-type-sc div.optionbox {
     margin-bottom: 5px;
     padding-bottom: 5px;
     padding-top: 5px;
-    max-width: 720px;
 }
 
 body#page-question-type-sc div.optionbox label.optiontitle {
@@ -394,11 +393,15 @@ body#page-question-type-sc div[id^=fgroup_id_weightsarray] {
     }
 }
 
-/* Chrome, Opera, Firefox, ... */
+/* Chrome, Opera, Firefox, ... */ 
 body#page-question-type-sc #id_questiontexteditable,
 body#page-question-type-sc #id_generalfeedbackeditable,
 body#page-question-type-sc .optionbox,
 .que.sc .optiontext {
     word-break: break-word;
     overflow-wrap: anywhere;
+}
+
+#page-mod-quiz-review .generaltable.sc tbody tr:hover {
+    background-color: unset;
 }

@@ -181,32 +181,29 @@ class qtype_sc_edit_form extends question_edit_form {
                 $a->time = get_string('unknown', 'question');
                 $a->user = get_string('unknown', 'question');
             }
-            $mform->addElement('static', 'created', get_string('created', 'question'),
-                    get_string('byandon', 'question', $a));
+            $mform->addElement('static', 'created', get_string('created', 'question'), get_string('byandon', 'question', $a));
             if (!empty($this->question->modifiedby)) {
                 $a = new stdClass();
                 $a->time = userdate($this->question->timemodified);
                 $a->user = fullname($DB->get_record('user', array('id' => $this->question->modifiedby)));
-                $mform->addElement('static', 'modified', get_string('modified', 'question'),
-                                get_string('byandon', 'question', $a));
+                $mform->addElement('static', 'modified', get_string('modified', 'question'), get_string('byandon', 'question', $a));
             }
         }
         $buttonarray = array();
-        $buttonarray[] = $mform->createElement('submit', 'updatebutton',
-                get_string('savechangesandcontinueediting', 'question'));
+        $buttonarray[] = $mform->createElement('submit', 'updatebutton', get_string('savechangesandcontinueediting', 'question'));
         if ($this->can_preview()) {
-            $buttonarray[] = $mform->createElement('button', 'previewbutton', get_string('preview', 'qtype_sc'));
+            $previewlink = $PAGE->get_renderer('core_question')->question_preview_link($this->question->id, $this->context, true);
+            $buttonarray[] = $mform->createElement('static', 'previewlink', '', $previewlink);
         }
 
         $mform->addGroup($buttonarray, 'updatebuttonar', '', array(' '), false);
         $mform->closeHeaderBefore('updatebuttonar');
 
-        if ((!empty($this->question->id)) && (!($this->question->formoptions->canedit ||
-                 $this->question->formoptions->cansaveasnew))) {
-            $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'
-            ));
+        if ((!empty($this->question->id)) 
+            && (!($this->question->formoptions->canedit 
+            || $this->question->formoptions->cansaveasnew))) {
+            $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'));
         }
-
         $this->add_hidden_fields();
         $this->add_action_buttons();
     }
@@ -227,9 +224,7 @@ class qtype_sc_edit_form extends question_edit_form {
             $buttonarray = array();
             $buttonarray[] = &$mform->createElement('submit', 'submitbutton', $submitlabel,
                     array('onclick' => 'skipClientValidation = true; return true;'));
-            if (!isset($this->question->id)) {
-                $buttonarray[] = &$mform->createElement('cancel');
-            }
+            $buttonarray[] = &$mform->createElement('cancel');
             $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
             $mform->closeHeaderBefore('buttonar');
         } else {
@@ -249,7 +244,6 @@ class qtype_sc_edit_form extends question_edit_form {
 
         $scconfig = get_config('qtype_sc');
 
-
         $this->editoroptions['changeformat'] = 1;
         $mform->addElement('select', 'answernumbering',
                   get_string('answernumbering', 'qtype_sc'),
@@ -261,92 +255,72 @@ class qtype_sc_edit_form extends question_edit_form {
         } else {
             $this->numberofrows = QTYPE_SC_NUMBER_OF_OPTIONS;
         }
+        $this->lastnumberofrows = $this->numberofrows;
+
         if ($this->can_preview()) {
             $loadingUrl = new moodle_url('/question/type/sc/loading.php');
             $previewurl = question_preview_url($this->question->id, null, null, null, null, $this->context);
-            $PAGE->requires->js_call_amd('qtype_sc/question_edit', 'init', array($this->messages, $previewurl->out(), $loadingUrl->out()));
-        } else {
-            $PAGE->requires->js_call_amd('qtype_sc/question_edit', 'init', array($this->messages, null));
         }
-
-        // Add number of options setting.
-        $availableanumbersofanswers = array(2 => 2,
-                                  3 => 3, 4 => 4, 5 => 5);
-        $mform->addElement('select', 'numberofrows',
-                  get_string('numberofrows', 'qtype_sc'),
-                  $availableanumbersofanswers, array());
+        $PAGE->requires->js_call_amd('qtype_sc/question_edit', 'init');
+        
+        // Add number of rows setting.
+        $availableanumbersofanswers = array(2 => 2, 3 => 3, 4 => 4, 5 => 5);
+        $mform->addElement('select', 'numberofrows', get_string('numberofrows', 'qtype_sc'), $availableanumbersofanswers, array());
         $mform->setDefault('numberofrows', $this->numberofrows);
         $mform->addHelpButton('numberofrows', 'numberofrows', 'qtype_sc');
 
-        $mform->addElement('header', 'scoringmethodheader',
-                get_string('scoringmethod', 'qtype_sc'));
+        // Keep state of number of rows.
+        $mform->addElement('hidden', 'lastnumberofrows');
+        $mform->setType('lastnumberofrows', PARAM_INT);
+        $mform->setDefault('lastnumberofrows', $this->lastnumberofrows);
+        $mform->addElement('header', 'scoringmethodheader', get_string('scoringmethod', 'qtype_sc'));
         $mform->setExpanded('scoringmethodheader', true);
 
         // Add the scoring method radio buttons.
         $attributes = array();
         $scoringbuttons = array();
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
-                get_string('scoringsconezero', 'qtype_sc'), 'sconezero', $attributes);
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
-                get_string('scoringaprime', 'qtype_sc'), 'aprime', $attributes);
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
-                get_string('scoringsubpoints', 'qtype_sc'), 'subpoints', $attributes);
-        $mform->addGroup($scoringbuttons, 'radiogroupscoring',
-                get_string('scoringmethod', 'qtype_sc'), array(' <br/> '
-                ), false);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '', get_string('scoringsconezero', 'qtype_sc'), 'sconezero', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '', get_string('scoringaprime', 'qtype_sc'), 'aprime', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '', get_string('scoringsubpoints', 'qtype_sc'), 'subpoints', $attributes);
+        $mform->addGroup($scoringbuttons, 'radiogroupscoring', get_string('scoringmethod', 'qtype_sc'), array(' <br/> '), false);
         $mform->addHelpButton('radiogroupscoring', 'scoringmethod', 'qtype_sc');
         $mform->setDefault('scoringmethod', 'sconezero');
 
         // Add the shuffleanswers checkbox.
-        $mform->addElement('advcheckbox', 'shuffleanswers',
-                get_string('shuffleanswers', 'qtype_sc'), null, null, array(0, 1
-                ));
+        $mform->addElement('advcheckbox', 'shuffleanswers', get_string('shuffleanswers', 'qtype_sc'), null, null, array(0, 1));
         $mform->addHelpButton('shuffleanswers', 'shuffleanswers', 'qtype_sc');
         $mform->setDefault('shuffleanswers', $scconfig->shuffleanswers);
-
-        $mform->addElement('header', 'optionsandfeedbackheader',
-                get_string('optionsandfeedback', 'qtype_sc'));
+        $mform->addElement('header', 'optionsandfeedbackheader', get_string('optionsandfeedback', 'qtype_sc'));
         $mform->setExpanded('optionsandfeedbackheader');
 
         // Add an option text editor, response radio buttons and a feedback editor for each option.
-        for ($i = 1; $i <= $this->numberofrows; ++$i) {
+        for ($i = 1; $i <= 5; ++$i) {
             // Add the option editor.
-            $mform->addElement('html', '<div class="optionbox">'); // Open div.optionbox.
+            $mform->addElement('html', '<div class="optionbox" id="optionbox_response_' . $i . '">'); // Open div.optionbox.
             $mform->addElement('html', '<div class="optionandresponses">'); // Open div.optionbox.
-
             $mform->addElement('html', '<div class="optiontext">'); // Open div.optiontext.
-            $mform->addElement('html', '<label class="optiontitle">' . get_string('optionno', 'qtype_sc', $i) .
-                            '</label>');
+            $mform->addElement('html', '<label class="optiontitle">' . get_string('optionno', 'qtype_sc', $i) . '</label>');
             $mform->addElement('editor', 'option_' . $i, '', array('rows' => 2.5), $this->editoroptions);
-            $mform->setDefault('option_' . $i,
-                    array('text' => get_string('enteroptionhere', 'qtype_sc')
-                    ));
+            $mform->setDefault('option_' . $i, array('text' => get_string('enteroptionhere', 'qtype_sc')));
             $mform->setType('option_' . $i, PARAM_RAW);
-
             $mform->addElement('html', '</div>'); // Close div.optiontext.
 
             // Add the radio for correctness.
             $mform->addElement('html', '<div class="responses">'); // Open div.responses.
-
             $mform->addElement('radio', 'correctrow', '', get_string('correct', 'qtype_sc'), $i, $attributes);
             $mform->setDefault('correctrow', 0);
-
             $mform->addElement('html', '</div>'); // Close div.responses.
             $mform->addElement('html', '</div>'); // Close div.optionsandresponses.
-
             $mform->addElement('html', '<br /><br />'); // Close div.optionsandresponses.
 
             // Add the feedback text editor in a new line.
             $mform->addElement('html', '<div class="feedbacktext">'); // Open div.feedbacktext.
-            $mform->addElement('html', '<label class="feedbacktitle">' . get_string('feedbackforoption', 'qtype_sc') .
-                            '</label>');
+            $mform->addElement('html', '<label class="feedbacktitle">' . get_string('feedbackforoption', 'qtype_sc') . '</label>');
             $mform->addElement('editor', 'feedback_' . $i, '', array('rows' => 1.5, 'placeholder' => ''), $this->editoroptions);
             $mform->setType('feedback_' . $i, PARAM_RAW);
-
             $mform->addElement('html', '</div>'); // Close div.feedbacktext.
             $mform->addElement('html', '</div>'); // Close div.optionbox.
         }
-
         $mform->addElement('hidden', 'qtype');
         $mform->setType('qtype', PARAM_ALPHA);
         $mform->addElement('hidden', 'makecopy');
@@ -361,6 +335,14 @@ class qtype_sc_edit_form extends question_edit_form {
         $repeatedoptions['hintclearwrong']['disabledif'] = array('single', 'eq', 1);
         $repeatedoptions['hintshownumcorrect']['disabledif'] = array('single', 'eq', 1);
         return array($repeated, $repeatedoptions);
+    }
+
+    public function js_call() {
+        global $PAGE;
+        foreach (array_keys(
+            get_string_manager()->load_component_strings('qtype_sc', current_language())) as $string) {
+            $PAGE->requires->string_for_js($string, 'qtype_sc');
+        }
     }
 
     /**
@@ -403,7 +385,7 @@ class qtype_sc_edit_form extends question_edit_form {
                 ++$key;
             }
         }
-
+        $this->js_call();
         return $question;
     }
 
@@ -424,32 +406,51 @@ class qtype_sc_edit_form extends question_edit_form {
      * @see question_edit_form::validation()
      */
     public function validation($data, $files) {
-        global $PAGE;
-        if ($data['numberofrows'] != $this->numberofrows) {
-            return array();
-        }
-
         $errors = parent::validation($data, $files);
-        if (!array_key_exists('name', $data) || empty($data['name'])) {
+
+        // If the questionname is empty 
+        // or if the variable is missing
+        if (!array_key_exists('name', $data) 
+            || empty($data['name'])) {
             $errors['name'] = get_string('mustsupplyname', 'qtype_sc');
         }
 
-        // Check for empty option texts.
-        for ($i = 1; $i <= $data['numberofrows']; ++$i) {
-            if (array_key_exists('option_' . $i, $data)) {
-                $optiontext = $this->clean_option_text($data['option_' . $i]['text']);
-                if (empty($optiontext)) {
-                    $errors['option_' . $i] = get_string('mustsupplyvalue', 'qtype_sc');
+        // If the variable numberofrows does not exist
+        // If the variable is empty or if the value of
+        // the variable exceeds 5 or is smaller than 2. 
+        if (!array_key_exists('numberofrows', $data) 
+            || empty($data['numberofrows']) 
+            || $data['numberofrows'] > 5 
+            || $data['numberofrows'] < 2) {
+            $errors['numberofrows'] = get_string('mustsupplyvalue', 'qtype_sc');
+        }
+       
+        // If one of the optiontexts if empty
+        if (array_key_exists('numberofrows', $data) 
+            || !empty($data['numberofrows'])) {
+            for ($i = 1; $i <= $data['numberofrows']; ++$i) {
+                if (array_key_exists('option_' . $i, $data)) {
+                    $optiontext = $this->clean_option_text($data['option_' . $i]['text']);
+                    if (empty($optiontext)) {
+                        $errors['option_' . $i] = get_string('mustsupplyvalue', 'qtype_sc');
+                    }
                 }
             }
         }
 
-        if (!array_key_exists('correctrow', $data) ||
-            !$data['correctrow'] ||
-            $data['correctrow'] > $data['numberofrows']) {
-            $errors['correctrow'] = get_string('mustchoosecorrectoption', 'qtype_sc');
+        // If the correctrow value is missing
+        // or if the correctrow is greater than 
+        // the number of rows (out of range)
+        if (array_key_exists('numberofrows', $data) 
+        || !empty($data['numberofrows'])) {
+            if (!array_key_exists('correctrow', $data)
+            || !$data['correctrow'] 
+            || $data['correctrow'] > $data['numberofrows']) {
+                $errors['correctrow'] = get_string('mustchoosecorrectoption', 'qtype_sc');
+            }
         }
+
+        // Finally return errors, in case there are any errors
         return $errors;
     }
-
 }

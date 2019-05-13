@@ -15,103 +15,70 @@
 
 /**
  * @package qtype_sc
- * @author        Jürgen Zimmer (juergen.zimmer@edaktik.at)
- * @author        Andreas Hruska (andreas.hruska@edaktik.at)
- * @copyright     2017 eDaktik GmbH {@link http://www.edaktik.at}
- * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author Martin Hanusch martin.hanusch@let.ethz.ch
+ * @copyright ETHz 2019 martin.hanusch@let.ethz.ch
  */
 
 define(['jquery', 'qtype_sc/jquery.form'], function($) {
+    // Setting up an Event listener
+    $('select[id="id_numberofrows"]').change(function () {
+        numberofrowschanged();
+    });
 
-    var previousValue = null;
-    var messages = {};
-    var previewUrl = null;
-    var loadingUrl = null;
-
-    function setFocus(numberOfRows) {
-        previousValue = numberOfRows.val();
-    }
-
-    function updateValue(numberOfRows) {
-        var newValueInt = parseInt(numberOfRows.val());
-        var oldValueInt = parseInt(previousValue);
-        if (newValueInt < oldValueInt) {
-            if (confirm(messages.warningreduceoptions)) {
-                previousValue = numberOfRows.val();
-                $("input[name='updatebutton']").click();
+    function numberofrowschanged() {
+        // Setting up some variables
+        var numberofrows_cur = parseInt($('select[id="id_numberofrows"]').val());
+        var numberofrows_pre = parseInt($('input[name="lastnumberofrows"]').val());
+        var numberofrows_max = 5;
+        var permission = true;
+        // Check if the number of rows has decreased
+        // If true: Show prompts
+        if (numberofrows_pre > numberofrows_cur) {
+            var differenceinrows = numberofrows_pre - numberofrows_cur;
+            if (confirm(M.util.get_string('deleterawswarning', 'qtype_sc', differenceinrows))) {
+                permission = true;
             } else {
-                numberOfRows.val(previousValue);
+                permission = false;
+                if (numberofrows_pre > numberofrows_max) {
+                    numberofrows_pre = numberofrows_max;
+                    alert(M.util.get_string('mustdeleteextrarows', 'qtype_sc', differenceinrows));
+                }
+                $('select[id="id_numberofrows"]').val(numberofrows_pre);
             }
         }
-        if (newValueInt > oldValueInt) {
-            previousValue = numberOfRows.val();
-            $("input[name='updatebutton']").click();
-        }
-    }
-
-    function validate_options() {
-        var numberOfRows = parseInt($('#id_numberofrows').val());
-        for (var i = 1; i <= numberOfRows; i++) {
-            var textarea = $('#id_option_' + i);
-            var textValue = textarea.val();
-
-            textValue.replace('<br/>', '');
-            textValue.replace('<p></p>', '');
-
-            if (textValue == '') {
-                return false;
+        // Proceed with updating the DOM by 
+        // Adding or deleting the defined amount of optionboxes
+        if (permission) {
+            // Backup the current numberofrows value
+            $('input[name="lastnumberofrows"]').val(numberofrows_cur);
+            // Update the visibility of all optionboxes
+            $('[id^="optionbox_response_"]').hide();
+            var numberofrows_rendered = numberofrows_cur < numberofrows_max ? numberofrows_cur : numberofrows_max;
+            for (var i = 1; i <= numberofrows_rendered; i++) {
+                $('#optionbox_response_' + i).show();
+            }
+            // Reset the correctness radio button if the
+            // previously ticked button is out of range now.
+            // This will also be checked serverside but improves
+            // usability
+            if (numberofrows_pre > numberofrows_cur) {
+                var corretrow = 1;
+                for (var i = 0; i <= numberofrows_max; i++) {
+                    if ($('#id_correctrow_' + i).is(':checked')) {
+                        corretrow = i;
+                    }
+                }
+                if (corretrow > numberofrows_cur) {
+                    alert(M.util.get_string('correctvaluereset', 'qtype_sc'));
+                    $('#id_correctrow_1').prop('checked',true);
+                }
             }
         }
-        return true;
     }
-
-    function saveAndPreview(previewButton) {
-        if (!validate_options()) {
-            $("input[name='updatebutton']").click();
-            return;
-        }
-
-        var form = previewButton.closest("form");
-        if (form) {
-            var previewWindow = window.open(loadingUrl, 'PreviewQuestion', 'height=620,width=750');
-
-            form.ajaxForm(function(response) {
-                previewWindow.location.href = previewUrl;
-            });
-            form.submit();
-            form.off();
-        }
-    }
-
     return {
-        init: function(messageStrings, prevUrl, loadUrl) {
-            messages = messageStrings;
-            previewUrl = prevUrl;
-            loadingUrl = loadUrl;
-
-            var numberOfRows = $('#id_numberofrows');
-            numberOfRows.focus(function () {
-                setFocus($(this));
-            });
-            numberOfRows.change(function () {
-                updateValue($(this));
-            });
-
-            if (previewUrl) {
-                // Check if preview window is open.
-                var previewButton = $("button[name='previewbutton']");
-                if (previewButton) {
-                    previewButton.click(function () {
-                        saveAndPreview($(this));
-                    });
-                }
-                var previewInput = $("input[name='previewbutton']");
-                if (previewInput) {
-                    previewInput.click(function () {
-                        saveAndPreview($(this));
-                    });
-                }
-            }
+        init: function() {
+            // Initial setup
+            numberofrowschanged();
         }
     };
 });

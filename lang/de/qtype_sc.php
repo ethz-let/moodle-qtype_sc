@@ -21,10 +21,13 @@
  * @copyright     2017 eDaktik GmbH {@link http://www.edaktik.at}
  * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 $string['answernumbering'] = 'Nummerierung der Optionen';
 $string['checked'] = 'ausgewählt';
 $string['configintro'] = 'Administrationseinstellungen für den Fragentyp Single Choice.';
 $string['correct'] = 'Richtig';
+$string['correctvaluereset'] = 'Der Wert für die korrekte Wahlantwort wurde zurückgesetzt. Wahlantwort 1 wurde provisorisch als korrekte Antwort markiert.';
+$string['deleterawswarning'] = 'Wenn Sie auf eine kleinere Anzahl Wahlantworten wechseln, werden die letzten {$a} Wahlantwort(en) gelöscht. Möchten Sie fortfahren?';
 $string['enteroptionhere'] = '';
 $string['enterstemhere'] = 'Stamm in Form einer Frage oder einer Aussage eingeben.';
 $string['feedbackforoption'] = 'Feedback';
@@ -38,8 +41,10 @@ $string['markedascorrect'] = 'Diese Wahlantwort wurde ausgewählt.';
 $string['markedasdistractor'] = 'Diese Wahlantwort wurde als definitiv falsch markiert';
 $string['maxpoints'] = 'Max. Punkte';
 $string['mustchoosecorrectoption'] = 'Sie müssen eine der Wahlantworten als richtig markieren!';
-$string['mustsupplyvalue'] = 'Sie müssen einen Text für diese Wahlantwort eingeben.';
+$string['mustdeleteextrarows'] = 'Der Fragetyp SC erlaubt maximal 5 Wahlantworten.  {$a} Wahlantwort(en) werden gelöscht. Falls Sie abbrechen ohne zu speichern, bleiben die überzähligen Wahlantworten erhalten.';
 $string['mustsupplyname'] = 'Sie müssen einen Aufgabentitel eingeben.';
+$string['mustsupplyvalue'] = 'Sie müssen einen Text für diese Wahlantwort eingeben.';
+$string['mustsupplyvalidvalue'] = 'Sie müssen einen Wert im Wertebereich zwischen 2 und 5 angeben.';
 $string['numberofrows'] = 'Anzahl Wahlantworten';
 $string['numberofrows_help'] = 'Wählen Sie die Anzahl der Wahlantworten. Wenn Sie auf eine kleinere Anzahl von Wahlantworten wechseln, werden überzählige Wahlantworten gelöscht, sobald die Frage gespeichert wird.';
 $string['oneradiobutton'] = 'Sie müssen eine der Wahlantworten als richtig markieren!';
