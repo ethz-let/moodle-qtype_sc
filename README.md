@@ -27,10 +27,3 @@ This is currently wip and will be updated in the near future.
 ## Contributors:
 ETH Zürich (Lead maintainer)
 Thomas Korner (Service owner, thomas.korner@let.ethz.ch)
-
-## moodle-qtype_sc created for ETH Zürich by eDaktik GmbH
- * @package qtype_sc
- * @author        Jürgen Zimmer (juergen.zimmer@edaktik.at)
- * @author        Andreas Hruska (andreas.hruska@edaktik.at)
- * @copyright     2017 eDaktik GmbH {@link http://www.edaktik.at}
- * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
