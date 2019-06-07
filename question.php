@@ -175,7 +175,10 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     public function is_complete_response(array $response) {
         foreach ($this->order as $key => $rowid) {
             $optionfield = $this->optionfield($key);
-            if (array_key_exists($optionfield, $response) && $response[$optionfield] == 1) {
+            $distractorfield = $this->distractorfield($key);
+
+            if ((array_key_exists($optionfield, $response) && $response[$optionfield] == 1)
+                || (array_key_exists($distractorfield, $response) && $response[$distractorfield] == 1) ) {
                 return true;
             }
         }
