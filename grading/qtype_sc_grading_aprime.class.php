@@ -73,7 +73,9 @@ class qtype_sc_grading_aprime extends qtype_sc_grading {
                 }
             }
         }
-        if ($correctdistractors == ($question->numberofrows - 2)) {
+        if ($correctdistractors == ($question->numberofrows - 1)) {
+            return 1.0;
+        } else if ($correctdistractors == ($question->numberofrows - 2)) {
             return 0.5;
         } else {
             return 0.0;

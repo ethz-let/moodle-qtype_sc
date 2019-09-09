@@ -21,7 +21,10 @@
 
 .que.sc table.sc tbody tr td {
     border-top: 0px !important;
-    /*border-bottom: 1px solid #aaa !important;*/
+}
+
+.que.sc table.sc tbody tr:hover {
+    background-color: unset;
 }
 
 .que.sc table.sc tbody td.scoptionbutton {
@@ -29,8 +32,6 @@
     vertical-align: inherit;
 }
 .que.sc table.sc tbody td.scoptionbutton.correctness {
-    /*border-top: 0px solid #fff !important;*/
-    /*border-bottom: 0px solid #fff !important;*/
     padding: 8px;
     line-height: 20px;
     padding-top: 5px;
@@ -139,31 +140,11 @@
         vertical-align: inherit;
 }
 
-input[type=checkbox].optioncheckbox {
+input[type=radio].distractorcheckbox {
     display:none;
 }
 
-input[type=checkbox].optioncheckbox + label {
-    background-image: url([[pix:qtype_sc|radio]]);
-    background-size: contain;
-    background-repeat: no-repeat;
-    /*background-color: #f6f7f8;*/
-    height: 12px;
-    width: 12px;
-    display:inline-block;
-    padding: 0 0 0 0px;
-    vertical-align: inherit;
-}
-
-input[type=checkbox].optioncheckbox:checked + label {
-    background-image: url([[pix:qtype_sc|radio-active]]);
-}
-
-input[type=checkbox].distractorcheckbox {
-    display:none;
-}
-
-input[type=checkbox].distractorcheckbox + label {
+input[type=radio].distractorcheckbox + label {
     background-image: url([[pix:qtype_sc|cross]]);
     background-size: cover;
     background-repeat: no-repeat;
@@ -175,16 +156,16 @@ input[type=checkbox].distractorcheckbox + label {
     vertical-align: inherit;
 }
 
-input[type=checkbox].distractorcheckbox + label:hover {
+input[type=radio].distractorcheckbox + label:hover {
     cursor: not-allowed;
 }
 
-input[type=checkbox].distractorcheckbox.active + label:hover {
+input[type=radio].distractorcheckbox.active + label:hover {
     background-color: #dedede;
     cursor: pointer;
 }
 
-input[type=checkbox].distractorcheckbox:checked + label {
+input[type=radio].distractorcheckbox.checked + label {
     background-image: url([[pix:qtype_sc|cross-active]]);
     background-size: cover;
     background-repeat: no-repeat;
@@ -197,7 +178,7 @@ input[type=checkbox].distractorcheckbox:checked + label {
 }
 
 body#page-question-type-sc div#fitem_id_responsetext_2 div.fitemtitle {
-        display: none;
+    display: none;
 }
 
 body#page-question-type-sc div.optionbox {

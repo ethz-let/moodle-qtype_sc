@@ -207,14 +207,14 @@ class qtype_sc_question_test extends advanced_testcase {
     public function test_classify_response() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
-        $this->assertEquals(array('1' => new question_classified_response(11, 'option text 1', 1.0)),
+        $this->assertEquals(array('0' => new question_classified_response(11, 'option text 1', 1.0)),
         $question->classify_response(array('option0' => '1', 'option1' => '0', 'option2' => '0')));
-        $this->assertNotEquals(array('2' => new question_classified_response(21, 'option text 2', 0.0)),
+        $this->assertNotEquals(array('0' => new question_classified_response(11, 'option text 2', 0.0)),
         $question->classify_response(array('option0' => '1', 'option1' => '0', 'option2' => '0')));
-        $this->assertEquals(array('2' => new question_classified_response(21, 'option text 2', 0.0)),
+        $this->assertEquals(array('0' => new question_classified_response(21, 'option text 2', 0.0)),
         $question->classify_response(array('option0' => '0', 'option1' => '1', 'option2' => '0')));
-       $this->assertEquals(array(),
-        $question->classify_response(array()));
+        $this->assertEquals(array('0' =>  question_classified_response::no_response()),
+        $question->classify_response(array('option0' => '0', 'option1' => '0', 'option2' => '0')));
     }
 
     public function test_make_html_inline() {

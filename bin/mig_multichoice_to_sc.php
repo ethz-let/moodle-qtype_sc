@@ -29,6 +29,7 @@ require_once('migration_lib.php');
 
 $courseid = optional_param('courseid', 0, PARAM_INT);
 $categoryid = optional_param('categoryid', 0, PARAM_INT);
+$includesubcategories = optional_param('includesubcategories', 0, PARAM_INT);
 $all = optional_param('all', 0, PARAM_INT);
 $dryrun = optional_param('dryrun', 0, PARAM_INT);
 
@@ -84,9 +85,25 @@ if ($courseid > 0) {
 
 if ($categoryid > 0) {
     if ($category = $DB->get_record('question_categories', array('id' => $categoryid))) {
+
         echo 'Migration restricted to category "' . $category->name . "\".<br/>\n";
-        $sql .= ' AND q.category = :category ';
-        $params['category'] = $categoryid;
+
+        $catids = [];
+
+        if ($includesubcategories == 1) {
+            $subcategories = get_subcategories($categoryid);
+            $catids = array_column($subcategories, 'id');
+            $catnames = array_column($subcategories, 'name');
+
+            echo "Also migrating subcategories:<br>\n";
+            echo implode(",<br>", $catnames) . "<br>\n\n";
+        }
+
+        $catids['catid' . count($catids)] = $categoryid;
+        list($csql, $params) = $DB->get_in_or_equal($catids, SQL_PARAMS_NAMED, 'catid');
+
+        $sql .= " AND q.category $csql ";
+
         $contextid = $DB->get_field('question_categories', 'contextid', array('id' => $categoryid));
     } else {
         echo "<br/><font color='red'>Question category with ID $categoryid  not found...!</font><br/>\n";
@@ -94,7 +111,7 @@ if ($categoryid > 0) {
         die();
     }
 }
-
+$sql .= " ORDER BY category ASC";
 $questions = $DB->get_records_sql($sql, $params);
 
 echo '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>';
@@ -268,3 +285,16 @@ foreach ($notmigrated as $question) {
     echo $question->id . ' : ' . $question->name . "<br/>\n";
 }
 die();
+
+// Getting the subcategories of a certain category.
+function get_subcategories($categoryid) {
+    global $DB;
+
+    $subcategories = $DB->get_records('question_categories', array('parent' => $categoryid), 'id');
+
+    foreach ($subcategories as $subcategory) {
+        $subcategories = array_merge($subcategories, get_subcategories($subcategory->id));
+    }
+
+    return $subcategories;
+}

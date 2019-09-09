@@ -60,25 +60,23 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_definition::apply_attempt_state()
      */
     public function apply_attempt_state(question_attempt_step $step) {
+
         $this->order = explode(',', $step->get_qt_var('_order'));
 
-        // Add any missing answers. Sometimes people edit questions after they
-        // have been attempted which breaks things.
-        // Retrieve the question rows (mtf options).
-
-        if (!isset($this->rows[$this->order[0]])) {
-            global $DB;
-            $rows = $DB->get_records('qtype_sc_rows',
-                    array('questionid' => $this->id
-                    ), 'number ASC', 'id, number', 0, $this->numberofrows);
-
-            $arr = array();
-            foreach ($rows as $row) {
-                $arr[$row->number - 1] = $row->id;
+        for ($i = 0; $i < count($this->order); $i++) {
+            if (isset($this->rows[$this->order[$i]])) {
+                continue;
             }
-            unset($this->order);
-            $this->order = $arr;
-            $this->editedquestion = 1;
+
+            $a = new stdClass();
+            $a->id = 0;
+            $a->questionid = $this->id;
+            $a->number = -1;
+            $a->optiontext = html_writer::span(get_string('deletedchoice', 'qtype_sc'), 'notifyproblem');
+            $a->optiontextformat = FORMAT_HTML;
+            $a->optionfeedback = "";
+            $a->optionfeedbackformat = FORMAT_HTML;
+            $this->rows[$this->order[$i]] = $a;
         }
         parent::apply_attempt_state($step);
     }
@@ -175,10 +173,8 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     public function is_complete_response(array $response) {
         foreach ($this->order as $key => $rowid) {
             $optionfield = $this->optionfield($key);
-            $distractorfield = $this->distractorfield($key);
 
-            if ((array_key_exists($optionfield, $response) && $response[$optionfield] == 1)
-                || (array_key_exists($distractorfield, $response) && $response[$distractorfield] == 1) ) {
+            if (array_key_exists($optionfield, $response) && $response[$optionfield] == 1) {
                 return true;
             }
         }
@@ -283,22 +279,29 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_with_responses::classify_response()
      */
     public function classify_response(array $response) {
+
+        if (!$this->is_complete_response($response)) {
+            return array($this->id => question_classified_response::no_response());
+        }
+
         list($partialcredit, $state) = $this->grade_response($response);
-        $parts = array();
+
         foreach ($this->order as $key => $rowid) {
             $optionfield = $this->optionfield($key);
+
             if (array_key_exists($optionfield, $response) && ($response[$optionfield] == 1)) {
                 $row = $this->rows[$rowid];
+
                 if ($row->number == $this->correctrow) {
                     $partialcredit = 1.0;
                 } else {
                     $partialcredit = 0; // Due to non-linear math.
                 }
-                $parts[$rowid] = new question_classified_response($rowid . '1',
-                    question_utils::to_plain_text($row->optiontext, $row->optiontextformat), $partialcredit);
+
+                return array($this->id => new question_classified_response($rowid . '1',
+                    question_utils::to_plain_text($row->optiontext, $row->optiontextformat), $partialcredit));
             }
         }
-        return $parts;
     }
 
     /**

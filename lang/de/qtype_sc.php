@@ -27,6 +27,7 @@ $string['checked'] = 'ausgewählt';
 $string['configintro'] = 'Administrationseinstellungen für den Fragentyp Single Choice.';
 $string['correct'] = 'Richtig';
 $string['correctvaluereset'] = 'Der Wert für die korrekte Wahlantwort wurde zurückgesetzt. Wahlantwort 1 wurde provisorisch als korrekte Antwort markiert.';
+$string['deletedchoice'] = 'Diese Antwort wurde gelöscht, nachdem der Test gestartet worde ist.';
 $string['deleterawswarning'] = 'Wenn Sie auf eine kleinere Anzahl Wahlantworten wechseln, werden die letzten {$a} Wahlantwort(en) gelöscht. Möchten Sie fortfahren?';
 $string['enteroptionhere'] = '';
 $string['enterstemhere'] = 'Stamm in Form einer Frage oder einer Aussage eingeben.';

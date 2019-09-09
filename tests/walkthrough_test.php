@@ -33,10 +33,10 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  */
 class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
 
-    public function get_contains_sc_checkbox_expectation($index, $value, $enabled = null, $checked = null) {
-        return $this->get_contains_checkbox_expectation(array(
-            'name' => $this->quba->get_field_prefix($this->slot) .  "option" .  $index,
-            'value' => 1
+    public function get_contains_sc_radio_expectation($index, $value, $enabled = null, $checked = null) {
+        return $this->get_contains_radio_expectation(array(
+            'name' => $this->quba->get_field_prefix($this->slot) . "option" . $index,
+            'value' => $value
         ), $enabled, $checked);
     }
 
@@ -94,18 +94,20 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
         $this->check_current_output(
-            $this->get_contains_sc_checkbox_expectation(0, 1, true, true),
-            $this->get_contains_sc_checkbox_expectation(1, 1, true, false),
-            $this->get_contains_sc_checkbox_expectation(2, 1, true, false),
+            $this->get_contains_sc_radio_expectation(0, 1, true, true),
+            $this->get_contains_sc_radio_expectation(1, 1, true, false),
+            $this->get_contains_sc_radio_expectation(2, 1, true, false),
             $this->get_does_not_contain_correctness_expectation(),
             $this->get_does_not_contain_feedback_expectation());
         $this->quba->finish_all_questions();
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(1);
         $this->check_current_output(
-            $this->get_contains_sc_checkbox_expectation(0, 1, false, true),
+            $this->get_contains_sc_radio_expectation(0, 1, false, true),
+            $this->get_contains_sc_radio_expectation(1, 1, false, false),
+            $this->get_contains_sc_radio_expectation(2, 1, false, false),
             $this->get_contains_correct_expectation(),
-            new question_pattern_expectation('/name=\".*1_option0\".*value=\"1\".*checked=\"checked\"/')
+            new question_pattern_expectation('/name=\".*1_option0\".*checked=\"checked\".*value=\"1\"/')
         );
     }
 }

@@ -280,28 +280,51 @@ class qtype_sc_renderer extends qtype_renderer {
     protected static function optioncheckbox($questionid, $name, $value, $checked, $readonlybool, $optionhighlighting) {
         $output = '';
         $readonly = $readonlybool ? 'readonly="readonly" disabled="disabled"' : '';
-        $checked = $checked ? 'checked="checked"' : '';
+
+        if ($checked) {
+            $radio1checked = 'checked="checked"';
+            $radio2checked = '';
+            $radio1class = 'checked';
+            $radio2class = '';
+        } else {
+            $radio1checked = '';
+            $radio2checked = 'checked="checked"';
+            $radio1class = '';
+            $radio2class = 'checked';
+        }
+
         $inputid = 'q' . $questionid . '_optionbutton' . $value;
 
-//        $waschecked = $checked ? 'data-waschecked="true"' : 'data-waschecked="false"';
-//        $highlighting = $optionhighlighting ? 'true' : 'false';
-
-//        $output .= '<input id="'. $inputid . '" type="radio" class="optionbutton" name="' . $name .
-//            '" value="' . $value . '" ' . $checked . ' ' . $readonly . ' ' . $waschecked . ' data-questionid="' .
-//            $questionid . '" data-number="' . $value . '"/>';
-
         if (!$readonlybool) {
-            $output .= html_writer::empty_tag('input', array(
-                'type' => 'hidden',
-                'name' => $name,
-                'value' => 0,
-            ));
-            $output .= '<input type="checkbox" name="'. $name . '" value="1" id="' . $inputid . '" ' .
-                $checked . ' class="optioncheckbox active" data-questionid="' . $questionid . '" data-number="' . $value .
-                '"/>';
+
+            $output .= '<input type ="radio" ' .
+                        'name="' . $name . '" ' .
+                        'id="' . $inputid . '_hid" ' .
+                        'class="optioncheckbox hidden active ' . $radio2class . '"' .
+                        'data-questionid="' . $questionid . '" '.
+                        'data-number="' . $value . '" ' .
+                        $radio2checked .
+                        'value="0" />';
+
+            $output .= '<input type ="radio" ' .
+                        'name="' . $name . '" ' .
+                        'id="' . $inputid . '" ' .
+                        'class="optioncheckbox active ' . $radio1class . '"' .
+                        'data-questionid="' . $questionid . '" '.
+                        'data-number="' . $value . '" ' .
+                        $radio1checked .
+                        'value="1" />';
         } else {
-            $output .= '<input type="checkbox" name="'. $name . '" value="1" id="' . $inputid . '" ' .
-                $checked . ' class="optioncheckbox" ' . $readonly . ' data-number="' . $value . '"/>';
+
+            $output .= '<input type ="radio" ' .
+                        'name="' . $name . '" ' .
+                        'id="' . $inputid . '" ' .
+                        'class="optioncheckbox"' .
+                        'data-questionid="' . $questionid . '" '.
+                        'data-number="' . $value . '" ' .
+                        $radio1checked .
+                        $readonly .
+                        'value="1" />';
         }
 
         $labeltitle = '';
@@ -327,26 +350,55 @@ class qtype_sc_renderer extends qtype_renderer {
      *
      * @return string
      */
-    protected static function distractorcheckbox($questionid, $name, $value, $checkedbool, $readonlybool, $optionhighlighting) {
+    protected static function distractorcheckbox($questionid, $name, $value, $checked, $readonlybool, $optionhighlighting) {
         global $OUTPUT;
 
         $output = '';
         $readonly = $readonlybool ? 'readonly="readonly" disabled="disabled"' : '';
-        $checked = $checkedbool ? 'checked="checked"' : '';
+
+        if ($checked) {
+            $radio1checked = 'checked="checked"';
+            $radio2checked = '';
+            $radio1class = 'checked';
+            $radio2class = '';
+        } else {
+            $radio1checked = '';
+            $radio2checked = 'checked="checked"';
+            $radio1class = '';
+            $radio2class = 'checked';
+        }
+
         $inputid = 'q' . $questionid . '_distractor' . $value;
 
         if (!$readonlybool) {
-            $output .= html_writer::empty_tag('input', array(
-                    'type' => 'hidden',
-                    'name' => $name,
-                    'value' => 0,
-                ));
-            $output .= '<input type="checkbox" name="'. $name . '" value="1" id="' . $inputid . '" ' .
-                $checked . ' class="distractorcheckbox active" data-questionid="' . $questionid . '" data-number="' . $value .
-                '"/>';
+
+            $output .= '<input type ="radio" ' .
+                        'name="' . $name . '" ' .
+                        'id="' . $inputid . '_hid" ' .
+                        'class="distractorcheckbox hidden active ' . $radio2class . '"' .
+                        'data-questionid="' . $questionid . '" '.
+                        'data-number="' . $value . '" ' .
+                        $radio2checked .
+                        'value="0" />';
+
+            $output .= '<input type ="radio" ' .
+                        'name="' . $name . '" ' .
+                        'id="' . $inputid . '" ' .
+                        'class="distractorcheckbox xg active ' . $radio1class . '"' .
+                        'data-questionid="' . $questionid . '" '.
+                        'data-number="' . $value . '" ' .
+                        $radio1checked .
+                        'value="1" />';
         } else {
-            $output .= '<input type="checkbox" name="'. $name . '" value="1" id="' . $inputid . '" ' .
-                $checked . ' class="distractorcheckbox" ' . $readonly . ' data-number="' . $value . '"/>';
+            $output .= '<input type ="radio" ' .
+            'name="' . $name . '" ' .
+            'id="' . $inputid . '" ' .
+            'class="distractorcheckbox"' .
+            'data-questionid="' . $questionid . '" '.
+            'data-number="' . $value . '" ' .
+            $radio1checked .
+            $readonly .
+            'value="1" />';
         }
 
         $labeltitle = '';

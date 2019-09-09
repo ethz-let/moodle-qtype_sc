@@ -134,11 +134,14 @@ class qtype_sc_test extends advanced_testcase {
     public function test_get_possible_responses() {
         $question = $this->get_test_question_data();
         $responses = $this->qtype->get_possible_responses($question);
-        $this->assertEquals(array( 
-                1 => array(11=>new question_possible_response('option text 1', 1)),
-                2 => array(21=>new question_possible_response('option text 2', 0)),
-                3 => array(31=>new question_possible_response('option text 3', 0)),
-            ), $this->qtype->get_possible_responses($question));
+
+        $this->assertEquals(array (
+            $question->idnumber => array(
+                11 => new question_possible_response('option text 1', 1),
+                21 => new question_possible_response('option text 2', 0),
+                31 => new question_possible_response('option text 3', 0),
+                null => question_possible_response::no_response())),
+            $this->qtype->get_possible_responses($question));
     }
 
     public function get_question_saving_which() {

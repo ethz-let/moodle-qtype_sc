@@ -415,20 +415,22 @@ class qtype_sc extends question_type {
      */
     public function get_possible_responses($questiondata) {
         $question = $this->make_question($questiondata);
-        $parts = array();
+        $choices = array();
 
         foreach ($question->rows as $rowid => $row) {
-            $choices = array();
+
             if ($row->number == $question->correctrow) {
                 $partialcredit = 1.0;
             } else {
                 $partialcredit = 0; // Due to non-linear math.
             }
+
             $choices[$rowid . '1'] = new question_possible_response(
-                    question_utils::to_plain_text($row->optiontext, $row->optiontextformat), $partialcredit);
-            $parts[$rowid] = $choices;
+                question_utils::to_plain_text($row->optiontext, $row->optiontextformat), $partialcredit);
         }
-        return $parts;
+        $choices[null] = question_possible_response::no_response();
+
+        return array($questiondata->id => $choices);
     }
 
     /**

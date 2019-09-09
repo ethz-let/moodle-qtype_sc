@@ -27,6 +27,7 @@ $string['checked'] = 'chosen';
 $string['configintro'] = 'Administration settings for the single choice question type.';
 $string['correct'] = 'Correct';
 $string['correctvaluereset'] = 'The value for the correct answer has been reseted to option 1. Option 1 was marked as correct provisionally.';
+$string['deletedchoice'] = 'This choice was deleted after the attempt was started.';
 $string['deleterawswarning'] = 'Lowering the number of options will delete the last {$a} option(s). Are you sure you want to proceed?';
 $string['enteroptionhere'] = '';
 $string['enterstemhere'] = 'Enter the stem or question prompt here.';

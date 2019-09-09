@@ -15,9 +15,7 @@
 
 /**
  * @package qtype_sc
- * @author        Jürgen Zimmer (juergen.zimmer@edaktik.at)
- * @author        Andreas Hruska (andreas.hruska@edaktik.at)
- * @copyright     2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @author        Martin hanusch martin.hanusch@let.ethz.ch
  * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,69 +23,61 @@ define(['jquery'], function($) {
 
     /*
      * Manages checking and unchecking of option radio buttons.
-     * Expects jquery to be loaded.
      */
-    function toggleOptionButton(optionRadio, questionid, highlighting) {
-        var optionRadioId = optionRadio.prop('id');
+    function clickOptionButton(clickedRadio, questionid, highlighting) {
 
-        // Set the highlighting of the row if it is enabled.
-        if (highlighting) {
-            if (optionRadio.prop('checked')) {
-                setRowHighlighting(questionid, optionRadio.data('number'), false);
+        var distractorRadio = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_distractor' + clickedRadio.data('number'));
+
+        var optiontextspan = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_optiontext' + clickedRadio.data('number'));
+
+        if (clickedRadio) {
+            toggleRadioButton(clickedRadio);
+        }
+
+        if (clickedRadio.hasClass('checked')) {
+            if (distractorRadio && distractorRadio.hasClass('checked')) {
+                toggleRadioButton(distractorRadio);
             }
-        }
-
-        // Uncheck all other option checkboxes and switch off highlighting in their rows.
-        var optionCheckboxes = $('table#questiontable' + questionid).find('input.optioncheckbox');
-        for (var i = 0; i < optionCheckboxes.length; i++) {
-            var otherOptionCheckbox = $(optionCheckboxes[i]);
-            if (otherOptionCheckbox.prop('id') !== optionRadioId) {
-                otherOptionCheckbox.prop('checked', false);
-                if (highlighting) {
-                    setRowHighlighting(questionid, otherOptionCheckbox.data('number'), false);
-                }
-            }
-        }
-
-        if (highlighting && !optionRadio.prop('checked') && anyDistractorSelected(questionid)) {
-            highlightAvailableRows(questionid);
-        }
-
-        if (optionRadio.prop('checked')) {
-            var optiontextspan = $('table#questiontable' + questionid)
-                .find('#q' + questionid + '_optiontext' + optionRadio.data('number'));
             if (optiontextspan) {
                 optiontextspan.removeClass('linethrough');
             }
-            var distractor = $('table#questiontable' + questionid)
-                .find('#q' + questionid + '_distractor' + optionRadio.data('number'));
-            if (distractor) {
-                distractor.prop('checked', false);
+        }
+
+        var otheroptionradios = $('table#questiontable' + questionid)
+            .find('input.optioncheckbox[value=1][data-number!="' + clickedRadio.data('number') + '"]');
+
+        for (var i = 0; i < otheroptionradios.length; i++) {
+            if ($(otheroptionradios[i]) && $(otheroptionradios[i]).hasClass('checked')) {
+                toggleRadioButton($(otheroptionradios[i]));
             }
         }
+
+        highlightrows(questionid, highlighting);
     }
 
     /*
      * Manages checking and unchecking of distractor radio buttons.
-     * Expects jquery to be loaded, i.e. $PAGE->requires->jquery(); has been called.
      */
-    function toggleDistractorButton(distractorCheckbox, questionid, highlighting) {
-        var optionNumber = distractorCheckbox.data('number');
-        var optiontextspan = $('table#questiontable' + questionid).find('span#q' + questionid + '_optiontext' + optionNumber);
+    function clickDistractorButton(clickedRadio, questionid, highlighting) {
 
-        if (distractorCheckbox.prop('checked')) {
-            if (highlighting) {
-                setRowHighlighting(questionid, distractorCheckbox.data('number'), false);
+        var optiontextspan = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_optiontext' + clickedRadio.data('number'));
+
+        var optionRadio = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_optionbutton' + clickedRadio.data('number'));
+
+        if (clickedRadio) {
+            toggleRadioButton(clickedRadio);
+        }
+
+        if (clickedRadio.hasClass('checked')) {
+            if (optionRadio && optionRadio.hasClass('checked')) {
+                toggleRadioButton(optionRadio);
             }
             if (optiontextspan) {
                 optiontextspan.addClass('linethrough');
-            }
-
-            // Now disable the corresponding optionbutton.
-            var optionCheckboxid = 'q' + questionid + '_optionbutton' + optionNumber;
-            var optionCheckbox = $('#' + optionCheckboxid);
-            if (optionCheckbox && optionCheckbox.prop('checked')) {
-                toggleOptionButton(optionCheckbox, questionid,  highlighting);
             }
         } else {
             if (optiontextspan) {
@@ -95,121 +85,84 @@ define(['jquery'], function($) {
             }
         }
 
-        // Now check whether n-1 distractors have been checked.
-        // If so, retrieve the single unchecked distractor and set its option checkbox.
-        var uncheckedDistractorElem = getSingleUncheckedDistractor(questionid);
-        if (uncheckedDistractorElem !== null) {
-            var uncheckedDistractor = $(uncheckedDistractorElem);
-            var number = uncheckedDistractor.data('number');
-            var uncheckedOptionCheckboxId = 'q' + questionid + '_optionbutton' + number;
-            var uncheckedOptionCheckbox = $('#' + uncheckedOptionCheckboxId);
-            if (uncheckedOptionCheckbox) {
-                uncheckedOptionCheckbox.prop('checked', true);
-                toggleOptionButton(uncheckedOptionCheckbox, questionid, highlighting);
-            }
-        }
-        if (highlighting && !anyOptionChecked(questionid)) {
-            if (anyDistractorSelected(questionid)) {
-                highlightAvailableRows(questionid);
-            } else {
-                unhighlightAllRows(questionid);
-            }
-        }
-
+        highlightrows(questionid, highlighting);
     }
 
-    function anyOptionChecked(questionid) {
-        var options = $('table#questiontable' + questionid).find('input.optioncheckbox');
-        var checked = false;
-        for (var i = 0; i < options.length && !checked; i++) {
-            checked = options[i].checked;
-        }
-        return checked;
-    }
+    function toggleRadioButton(clickedradio) {
 
-    function anyDistractorSelected(questionid) {
-        var distractors = $('table#questiontable' + questionid).find('input.distractorcheckbox');
-        for (var i = 0; i < distractors.length; i++) {
-            if  ($(distractors[i]).prop('checked')) {
-                return true;
-            }
-        }
-        return false;
-    }
+        var correspondingradio = $('[name="' + $(clickedradio).prop('name') + '"][value=0]');
 
-    function setRowHighlighting(questionid, number, highlightRow) {
-        var row = $('table#questiontable' + questionid).find('tr[class*="optionrow' + number + '"]');
-        if (highlightRow) {
-            row.addClass('highlight');
+        if (clickedradio.hasClass('checked')) {
+            correspondingradio.click();
+            correspondingradio.prop('checked', true);
+            correspondingradio.addClass('checked');
+            clickedradio.removeClass('checked');
         } else {
-            row.removeClass('highlight');
+            clickedradio.prop('checked', true);
+            clickedradio.addClass('checked');
+            correspondingradio.removeClass('checked');
         }
     }
 
-    function highlightAvailableRows(questionid) {
-        if (getSingleUncheckedDistractor(questionid)) {
-            return;
-        }
-        var distractors = $('table#questiontable' + questionid).find('input.distractorcheckbox');
-        for (var i = 0; i < distractors.length; i++) {
-            var distractor = $(distractors[i]);
-            if (!distractor.prop('checked')) {
-                setRowHighlighting(questionid, distractor.data('number'), true);
+    function numberOptionsChosen(questionid) {
+        var chosenOptionRadios = $('table#questiontable' + questionid)
+            .find('.optioncheckbox.checked[value=1]');
+
+        return chosenOptionRadios.length;
+    }
+
+    function numberDistractorsChosen(questionid) {
+        var chosenOptionRadios = $('table#questiontable' + questionid)
+            .find('.distractorcheckbox.checked[value=1]');
+
+        return chosenOptionRadios.length;
+    }
+
+    function highlightrows(questionid, highlighting) {
+        if (highlighting) {
+
+            var rows = $('table#questiontable' + questionid)
+                .find('tr[class^="optionrow"].highlight');
+
+            for (var i = 0; i < rows.length; i++) {
+                $(rows[i]).removeClass('highlight');
+            }
+
+            if (numberOptionsChosen(questionid) == 0 && numberDistractorsChosen(questionid) > 0) {
+                var notChosenDistractors = $('table#questiontable' + questionid)
+                    .find('input.distractorcheckbox.checked[value=0]');
+
+                for (var i = 0; i < notChosenDistractors.length; i++) {
+                    var row = $('table#questiontable' + questionid)
+                        .find('tr[class*="optionrow' + $(notChosenDistractors[i]).data('number') + '"]');
+                    row.addClass('highlight');
+                }
             }
         }
-
-    }
-
-    function unhighlightAllRows(questionid) {
-        var rows = $('table#questiontable' + questionid).find('tr[class*="optionrow"]');
-        for (var i = 0; i < rows.length; i++) {
-            $(rows[i]).removeClass('highlight');
-        }
-    }
-
-    function getSingleUncheckedDistractor(questionid) {
-        var distractors = $('table#questiontable' + questionid).find('input.distractorcheckbox');
-        var result = null;
-        var count = 0;
-        for (var i = 0; i < distractors.length; i++) {
-            if (distractors[i].checked) {
-                count++;
-            } else {
-                result = distractors[i];
-            }
-        }
-        if (count !== (distractors.length - 1)) {
-            result = null;
-        }
-        return result;
     }
 
     return {
         init: function(optionHighlighting, questionid) {
 
-            // Put whatever you like here. $ is available
-            // to you as normal.
-            var distractors = $('table#questiontable' + questionid).find('input.distractorcheckbox');
+            var distractors = $('table#questiontable' + questionid)
+                .find('input.distractorcheckbox[value=1]');
+
             for (var i = 0; i < distractors.length; i++) {
-                var distractor = $(distractors[i]);
-                distractor.change(function () {
-                    toggleDistractorButton($(this), questionid, optionHighlighting);
+                $(distractors[i]).click(function () {
+                    clickDistractorButton($(this), questionid, optionHighlighting);
                 });
             }
 
-            var optionbuttons = $('table#questiontable' + questionid).find('input.optioncheckbox');
+            var optionbuttons = $('table#questiontable' + questionid)
+                .find('input.optioncheckbox[value=1]');
+
             for (var i = 0; i < optionbuttons.length; i++) {
-                var optionbutton = $(optionbuttons[i]);
-                optionbutton.change(function () {
-                    toggleOptionButton($(this), questionid, optionHighlighting);
+                $(optionbuttons[i]).click(function () {
+                    clickOptionButton($(this), questionid, optionHighlighting);
                 });
             }
 
-            if (optionHighlighting && !anyOptionChecked(questionid)) {
-                if (anyDistractorSelected(questionid)) {
-                    highlightAvailableRows(questionid);
-                }
-            }
+            highlightrows(questionid, optionHighlighting);
         }
     };
 });
