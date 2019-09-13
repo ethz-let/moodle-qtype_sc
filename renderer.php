@@ -284,13 +284,13 @@ class qtype_sc_renderer extends qtype_renderer {
         if ($checked) {
             $radio1checked = 'checked="checked"';
             $radio2checked = '';
-            $radio1class = 'checked';
+            $radio1class = 'qtype_sc_active';
             $radio2class = '';
         } else {
             $radio1checked = '';
             $radio2checked = 'checked="checked"';
             $radio1class = '';
-            $radio2class = 'checked';
+            $radio2class = 'qtype_sc_active';
         }
 
         $inputid = 'q' . $questionid . '_optionbutton' . $value;
@@ -359,13 +359,13 @@ class qtype_sc_renderer extends qtype_renderer {
         if ($checked) {
             $radio1checked = 'checked="checked"';
             $radio2checked = '';
-            $radio1class = 'checked';
+            $radio1class = 'qtype_sc_active';
             $radio2class = '';
         } else {
             $radio1checked = '';
             $radio2checked = 'checked="checked"';
             $radio1class = '';
-            $radio2class = 'checked';
+            $radio2class = 'qtype_sc_active';
         }
 
         $inputid = 'q' . $questionid . '_distractor' . $value;

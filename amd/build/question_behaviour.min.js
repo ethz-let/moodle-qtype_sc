@@ -36,8 +36,8 @@ define(['jquery'], function($) {
             toggleRadioButton(clickedRadio);
         }
 
-        if (clickedRadio.hasClass('checked')) {
-            if (distractorRadio && distractorRadio.hasClass('checked')) {
+        if (clickedRadio.hasClass('qtype_sc_active')) {
+            if (distractorRadio && distractorRadio.hasClass('qtype_sc_active')) {
                 toggleRadioButton(distractorRadio);
             }
             if (optiontextspan) {
@@ -49,7 +49,7 @@ define(['jquery'], function($) {
             .find('input.optioncheckbox[value=1][data-number!="' + clickedRadio.data('number') + '"]');
 
         for (var i = 0; i < otheroptionradios.length; i++) {
-            if ($(otheroptionradios[i]) && $(otheroptionradios[i]).hasClass('checked')) {
+            if ($(otheroptionradios[i]) && $(otheroptionradios[i]).hasClass('qtype_sc_active')) {
                 toggleRadioButton($(otheroptionradios[i]));
             }
         }
@@ -72,8 +72,8 @@ define(['jquery'], function($) {
             toggleRadioButton(clickedRadio);
         }
 
-        if (clickedRadio.hasClass('checked')) {
-            if (optionRadio && optionRadio.hasClass('checked')) {
+        if (clickedRadio.hasClass('qtype_sc_active')) {
+            if (optionRadio && optionRadio.hasClass('qtype_sc_active')) {
                 toggleRadioButton(optionRadio);
             }
             if (optiontextspan) {
@@ -92,28 +92,36 @@ define(['jquery'], function($) {
 
         var correspondingradio = $('[name="' + $(clickedradio).prop('name') + '"][value=0]');
 
-        if (clickedradio.hasClass('checked')) {
+        if (clickedradio.hasClass('qtype_sc_active')) {
             correspondingradio.click();
+
+            clickedradio.removeAttr('checked');
+            correspondingradio.attr('checked', 'checked');
             correspondingradio.prop('checked', true);
-            correspondingradio.addClass('checked');
-            clickedradio.removeClass('checked');
+
+            correspondingradio.addClass('qtype_sc_active');
+            clickedradio.removeClass('qtype_sc_active');
         } else {
+
+            correspondingradio.removeAttr('checked');
+            clickedradio.attr('checked', 'checked');
             clickedradio.prop('checked', true);
-            clickedradio.addClass('checked');
-            correspondingradio.removeClass('checked');
+
+            clickedradio.addClass('qtype_sc_active');
+            correspondingradio.removeClass('qtype_sc_active');
         }
     }
 
     function numberOptionsChosen(questionid) {
         var chosenOptionRadios = $('table#questiontable' + questionid)
-            .find('.optioncheckbox.checked[value=1]');
+            .find('.optioncheckbox.qtype_sc_active[value=1]');
 
         return chosenOptionRadios.length;
     }
 
     function numberDistractorsChosen(questionid) {
         var chosenOptionRadios = $('table#questiontable' + questionid)
-            .find('.distractorcheckbox.checked[value=1]');
+            .find('.distractorcheckbox.qtype_sc_active[value=1]');
 
         return chosenOptionRadios.length;
     }
@@ -130,7 +138,7 @@ define(['jquery'], function($) {
 
             if (numberOptionsChosen(questionid) == 0 && numberDistractorsChosen(questionid) > 0) {
                 var notChosenDistractors = $('table#questiontable' + questionid)
-                    .find('input.distractorcheckbox.checked[value=0]');
+                    .find('input.distractorcheckbox.qtype_sc_active[value=0]');
 
                 for (var i = 0; i < notChosenDistractors.length; i++) {
                     var row = $('table#questiontable' + questionid)
