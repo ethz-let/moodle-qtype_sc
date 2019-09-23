@@ -165,7 +165,7 @@ input[type=radio].distractorcheckbox.active + label:hover {
     cursor: pointer;
 }
 
-input[type=radio].distractorcheckbox.checked + label {
+input[type=radio][checked=checked].distractorcheckbox + label {
     background-image: url([[pix:qtype_sc|cross-active]]);
     background-size: cover;
     background-repeat: no-repeat;

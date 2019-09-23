@@ -413,6 +413,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
             $result[$distractorfield] = PARAM_INT;
         }
 
+        $result["qtype_sc_changed_value"] = PARAM_INT;
         return $result;
     }
 

@@ -180,6 +180,9 @@ class qtype_sc_renderer extends qtype_renderer {
 
         $result .= html_writer::table($table, true);
 
+        $changedvalue = $qa->get_qt_field_name('qtype_sc_changed_value');
+        $result .= "<input type='hidden' id='qtype_sc_changed_value_" . $question->id . "' name='" . $changedvalue . "'/>";
+
         return $result;
     }
 
@@ -284,13 +287,9 @@ class qtype_sc_renderer extends qtype_renderer {
         if ($checked) {
             $radio1checked = 'checked="checked"';
             $radio2checked = '';
-            $radio1class = 'qtype_sc_active';
-            $radio2class = '';
         } else {
             $radio1checked = '';
             $radio2checked = 'checked="checked"';
-            $radio1class = '';
-            $radio2class = 'qtype_sc_active';
         }
 
         $inputid = 'q' . $questionid . '_optionbutton' . $value;
@@ -300,7 +299,7 @@ class qtype_sc_renderer extends qtype_renderer {
             $output .= '<input type ="radio" ' .
                         'name="' . $name . '" ' .
                         'id="' . $inputid . '_hid" ' .
-                        'class="optioncheckbox hidden active ' . $radio2class . '"' .
+                        'class="optioncheckbox hidden active"' .
                         'data-questionid="' . $questionid . '" '.
                         'data-number="' . $value . '" ' .
                         $radio2checked .
@@ -309,7 +308,7 @@ class qtype_sc_renderer extends qtype_renderer {
             $output .= '<input type ="radio" ' .
                         'name="' . $name . '" ' .
                         'id="' . $inputid . '" ' .
-                        'class="optioncheckbox active ' . $radio1class . '"' .
+                        'class="optioncheckbox active"' .
                         'data-questionid="' . $questionid . '" '.
                         'data-number="' . $value . '" ' .
                         $radio1checked .
@@ -359,13 +358,9 @@ class qtype_sc_renderer extends qtype_renderer {
         if ($checked) {
             $radio1checked = 'checked="checked"';
             $radio2checked = '';
-            $radio1class = 'qtype_sc_active';
-            $radio2class = '';
         } else {
             $radio1checked = '';
             $radio2checked = 'checked="checked"';
-            $radio1class = '';
-            $radio2class = 'qtype_sc_active';
         }
 
         $inputid = 'q' . $questionid . '_distractor' . $value;
@@ -375,7 +370,7 @@ class qtype_sc_renderer extends qtype_renderer {
             $output .= '<input type ="radio" ' .
                         'name="' . $name . '" ' .
                         'id="' . $inputid . '_hid" ' .
-                        'class="distractorcheckbox hidden active ' . $radio2class . '"' .
+                        'class="distractorcheckbox hidden active"' .
                         'data-questionid="' . $questionid . '" '.
                         'data-number="' . $value . '" ' .
                         $radio2checked .
@@ -384,7 +379,7 @@ class qtype_sc_renderer extends qtype_renderer {
             $output .= '<input type ="radio" ' .
                         'name="' . $name . '" ' .
                         'id="' . $inputid . '" ' .
-                        'class="distractorcheckbox xg active ' . $radio1class . '"' .
+                        'class="distractorcheckbox xg active"' .
                         'data-questionid="' . $questionid . '" '.
                         'data-number="' . $value . '" ' .
                         $radio1checked .
