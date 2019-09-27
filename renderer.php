@@ -182,6 +182,7 @@ class qtype_sc_renderer extends qtype_renderer {
 
         $changedvalue = $qa->get_qt_field_name('qtype_sc_changed_value');
         $result .= "<input type='hidden' id='qtype_sc_changed_value_" . $question->id . "' name='" . $changedvalue . "'/>";
+        $result .= "<input type='hidden' id='qtype_sc_scoring_method_" . $question->id . "' value='" . $question->scoringmethod . "'/>";
 
         return $result;
     }

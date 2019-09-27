@@ -21,115 +21,87 @@
 
 define(['jquery'], function($) {
 
+    /*
+     * Manages checking and unchecking of option radio buttons.
+     */
+    function clickOptionButton(clickedRadio, questionid, highlighting) {
 
-    function handleOptionClick(activatedRadio, questionid) {
-
-        updateRadioButton_onClick(activatedRadio, questionid);
-
-        if (activatedRadio.attr('checked') && activatedRadio.attr('value') == 1) {
-
-            // Uncheck other optionbuttons.
-            var otheroptionradios = $('table#questiontable' + questionid)
-            .find('input.optioncheckbox[value=0][data-number!="' + activatedRadio.data('number') + '"]');
-
-            for (var i = 0; i < otheroptionradios.length; i++) {
-                if ($(otheroptionradios[i]) && !$(otheroptionradios[i]).attr('checked')) {
-                    updateRadioButton_onClick($(otheroptionradios[i]), questionid);
-                }
-            }
-
-            // Disable distractor.
-            var distractorRadio = $('table#questiontable' + questionid)
-            .find('#q' + questionid + '_distractor' + activatedRadio.data('number') + '_hid');
-
-            if (!distractorRadio.attr('checked')) {
-                updateRadioButton_onClick(distractorRadio, questionid);
-            }
-        }
-    }
-
-    function handleOptionChange(activatedRadio, questionid, highlighting) {
-
-        updateRadioButton_onChange(activatedRadio, questionid);
-
-        if (activatedRadio.attr('checked') && activatedRadio.attr('value') == 1) {
-
-            var optiontextspan = $('table#questiontable' + questionid)
-            .find('#q' + questionid + '_optiontext' + activatedRadio.data('number'));
-
-            optiontextspan.removeClass('linethrough');
-        }
-
-        highlightrows(questionid, highlighting); 
-    }
-
-    function handleDistractorClick(activatedRadio, questionid) {
-
-        updateRadioButton_onClick(activatedRadio, questionid);
-
-        // Disable correspondig option tick
-        if (activatedRadio.attr('checked') && activatedRadio.attr('value') == 1) {
-
-            var optionRadio = $('table#questiontable' + questionid)
-            .find('#q' + questionid + '_optionbutton' + activatedRadio.data('number') + '_hid');
-
-            if (optionRadio && !optionRadio.attr('checked')) {
-                updateRadioButton_onClick(optionRadio, questionid);
-            }
-        }
-    }
-
-    function handleDistractorChange(activatedRadio, questionid, highlighting) {
-
-        updateRadioButton_onChange(activatedRadio, questionid);
+        var distractorRadio = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_distractor' + clickedRadio.data('number'));
 
         var optiontextspan = $('table#questiontable' + questionid)
-            .find('#q' + questionid + '_optiontext' + activatedRadio.data('number'));
+            .find('#q' + questionid + '_optiontext' + clickedRadio.data('number'));
 
-        if (activatedRadio.attr('checked') && activatedRadio.attr('value') == 1) {
-            optiontextspan.addClass('linethrough');
-        } else {
-            optiontextspan.removeClass('linethrough');
+        if (clickedRadio) {
+            toggleRadioButton(clickedRadio, questionid);
+        }
+
+        if (clickedRadio.attr('checked')) {
+            if (distractorRadio && distractorRadio.attr('checked')) {
+                toggleRadioButton(distractorRadio, questionid);
+            }
+            if (optiontextspan) {
+                optiontextspan.removeClass('linethrough');
+            }
+        }
+
+        var otheroptionradios = $('table#questiontable' + questionid)
+            .find('input.optioncheckbox[value=1][data-number!="' + clickedRadio.data('number') + '"]');
+
+        for (var i = 0; i < otheroptionradios.length; i++) {
+            if ($(otheroptionradios[i]) && $(otheroptionradios[i]).attr('checked')) {
+                toggleRadioButton($(otheroptionradios[i]), questionid);
+            }
         }
 
         highlightrows(questionid, highlighting);
     }
 
-    // Called on click. Adds actual checked prop.
-    function updateRadioButton_onClick(activatedRadio, questionid) {
+    /*
+     * Manages checking and unchecking of distractor radio buttons.
+     */
+    function clickDistractorButton(clickedRadio, questionid, highlighting) {
 
-        var correspondingradio;
+        var optiontextspan = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_optiontext' + clickedRadio.data('number'));
 
-        if ($(activatedRadio).prop('value') == 1) {
-            correspondingradio = $('table#questiontable' + questionid + ' [name="' + $(activatedRadio).prop('name') + '"][value=0]');
+        var optionRadio = $('table#questiontable' + questionid)
+            .find('#q' + questionid + '_optionbutton' + clickedRadio.data('number'));
+
+        if (clickedRadio) {
+            toggleRadioButton(clickedRadio, questionid);
+        }
+
+        if (clickedRadio.attr('checked')) {
+            if (optionRadio && optionRadio.attr('checked')) {
+                toggleRadioButton(optionRadio, questionid);
+            }
+            if (optiontextspan) {
+                optiontextspan.addClass('linethrough');
+            }
         } else {
-            correspondingradio = $('table#questiontable' + questionid + ' [name="' + $(activatedRadio).prop('name') + '"][value=1]');
+            if (optiontextspan) {
+                optiontextspan.removeClass('linethrough');
+            }
         }
 
-        if ($(activatedRadio).attr('checked')) {
-            correspondingradio.prop('checked', true);
-            correspondingradio.trigger( "change" );
-            
-        } else  {
-            activatedRadio.prop('checked', true);
-            activatedRadio.trigger( "change" );
-        }
-        // Trigger autosave.
-        $("[id=qtype_sc_changed_value_" + questionid + "]").val(Math.random());
+        highlightrows(questionid, highlighting);
     }
 
-    // Called on change. Changes attributes.
-    function updateRadioButton_onChange(activatedRadio, questionid) {
+    function toggleRadioButton(clickedradio, questionid) {
+        var correspondingradio = $('table#questiontable' + questionid + ' [name="' + $(clickedradio).prop('name') + '"][value=0]');
 
-        var correspondingradio;
-        if ($(activatedRadio).prop('value') == 1) {
-            correspondingradio = $('table#questiontable' + questionid + ' [name="' + $(activatedRadio).prop('name') + '"][value=0]');
+        if (clickedradio.attr('checked')) {
+
+            clickedradio.removeAttr('checked');
+            correspondingradio.attr('checked', 'checked');
+            correspondingradio.prop('checked', true);
         } else {
-            correspondingradio = $('table#questiontable' + questionid + ' [name="' + $(activatedRadio).prop('name') + '"][value=1]');
-        }
 
-        correspondingradio.removeAttr('checked');
-        activatedRadio.attr('checked', 'checked');
+            correspondingradio.removeAttr('checked');
+            clickedradio.attr('checked', 'checked');
+            clickedradio.prop('checked', true);
+        }
     }
 
     function numberOptionsChosen(questionid) {
@@ -173,34 +145,48 @@ define(['jquery'], function($) {
         init: function(optionHighlighting, questionid) {
 
             var distractors = $('table#questiontable' + questionid)
-                .find('input.distractorcheckbox');
+                .find('input.distractorcheckbox[value=1]');
 
             for (var i = 0; i < distractors.length; i++) {
                 $(distractors[i]).click(function () {
-                    handleDistractorClick($(this), questionid);
-                });
-                $(distractors[i]).change(function (e) {
-                    handleDistractorChange($(this), questionid, optionHighlighting);
-                    e.preventDefault();
-                    e.stopPropagation();
+                    clickDistractorButton($(this), questionid, optionHighlighting);
                 });
             }
 
             var optionbuttons = $('table#questiontable' + questionid)
-                .find('input.optioncheckbox');
+                .find('input.optioncheckbox[value=1]');
 
             for (var i = 0; i < optionbuttons.length; i++) {
                 $(optionbuttons[i]).click(function () {
-                    handleOptionClick($(this), questionid);
-                });
-                $(optionbuttons[i]).change(function (e) {
-                    handleOptionChange($(this), questionid, optionHighlighting);
-                    e.preventDefault();
-                    e.stopPropagation();
+                    clickOptionButton($(this), questionid, optionHighlighting);
                 });
             }
 
             highlightrows(questionid, optionHighlighting);
-        }
+        },
+        wifi_init: function(questionid) {
+
+            console.log("Wifi Resilience Backup loaded for questionid: " + questionid);
+
+            var distractors = $('table#questiontable' + questionid).find('input.distractorcheckbox[value=1]'); // Only check visbible distractors (value=1).
+            for (var i = 0; i < distractors.length; i++) {
+                if ($(distractors[i]).attr('checked')) {
+                    $('table#questiontable' + questionid + ' [name="' + $(distractors[i]).prop('name') + '"][value=0]').removeAttr('checked');
+                    $('table#questiontable' + questionid  + ' #q' + questionid + '_optiontext' + $(distractors[i]).data('number')).addClass('linethrough');
+                }
+            }
+
+            var optionbuttons = $('table#questiontable' + questionid).find('input.optioncheckbox[value=1]'); // Only check visbible options (value=1).
+            for (var i = 0; i < optionbuttons.length; i++) {
+                if ($(optionbuttons[i]).attr('checked')) {
+                    $('table#questiontable' + questionid + ' [name="' + $(optionbuttons[i]).prop('name') + '"][value=0]').removeAttr('checked');
+                }
+            }
+
+            var scoringmethod = $('#qtype_sc_scoring_method_' + questionid).val();
+            if(scoringmethod && (scoringmethod == 'aprime' || scoringmethod == 'subpoints')) {
+                highlightrows(questionid, true);
+            }
+        },
     };
 });
