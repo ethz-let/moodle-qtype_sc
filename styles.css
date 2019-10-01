@@ -386,3 +386,7 @@ body#page-question-type-sc .optionbox,
 #page-mod-quiz-review .generaltable.sc tbody tr:hover {
     background-color: unset;
 }
+
+#page-question-type-sc label {
+    white-space: nowrap!important;
+}
