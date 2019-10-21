@@ -92,7 +92,7 @@ define(['jquery'], function($) {
         var correspondingradio = $('table#questiontable' + questionid + ' [name="' + $(clickedradio).prop('name') + '"][value=0]');
 
         if (clickedradio.attr('checked')) {
-
+            correspondingradio.click();
             clickedradio.removeAttr('checked');
             correspondingradio.attr('checked', 'checked');
             correspondingradio.prop('checked', true);
