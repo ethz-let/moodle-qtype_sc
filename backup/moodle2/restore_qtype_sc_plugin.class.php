@@ -95,13 +95,30 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
     public function process_row($data) {
         global $DB;
 
+        $data = (object)$data;
+        $oldid = $data->id;
+
+        $oldquestionid = $this->get_old_parentid('question');
+        $newquestionid = $this->get_new_parentid('question');
+
         if ($this->is_question_created()) {
-            $data = (object)$data;
-            $oldid = $data->id;
-
-            $data->questionid = $this->get_new_parentid('question');
+            $data->questionid = $newquestionid;
             $newitemid = $DB->insert_record('qtype_sc_rows', $data);
-
+        } else {
+            $originalrecords = $DB->get_records('qtype_sc_rows', array('questionid' => $newquestionid));
+            foreach ($originalrecords as $record) {
+                if ($data->number == $record->number) {
+                    $newitemid = $record->id;
+                }
+            }
+        }
+        if (!$newitemid) {
+            $info = new stdClass();
+            $info->filequestionid = $oldquestionid;
+            $info->dbquestionid = $newquestionid;
+            $info->answer = $data->optiontext;
+            throw new restore_step_exception('error_question_answers_missing_in_db', $info);
+        } else {
             $this->set_mapping('qtype_sc_rows', $oldid, $newitemid);
         }
     }
@@ -110,7 +127,6 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
         if (array_key_exists('_order', $response)) {
             $response['_order'] = $this->recode_option_order($response['_order']);
         }
-
         return $response;
     }
 
@@ -123,17 +139,11 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
      */
     protected function recode_option_order($order) {
         $neworder = array();
-
         foreach (explode(',', $order) as $id) {
-            $newid = $this->get_mappingid('qtype_sc_rows', $id);
-
-            if ($newid) {
+            if ($newid = $this->get_mappingid('qtype_sc_rows', $id)) {
                 $neworder[] = $newid;
-            } else {
-                $neworder[] = $id;
             }
         }
-
         return implode(',', $neworder);
     }
 

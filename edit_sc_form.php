@@ -65,7 +65,6 @@ class qtype_sc_edit_form extends question_edit_form {
 
         // Standard fields at the start of the form.
         $mform->addElement('header', 'categoryheader', get_string('category', 'question'));
-        $mform->addElement('html', html_writer::tag('script', 'var skipClientValidation = true;'));
 
         if (!isset($this->question->id)) {
             if (!empty($this->question->formoptions->mustbeusable)) {
@@ -132,6 +131,7 @@ class qtype_sc_edit_form extends question_edit_form {
                 array('size' => 50, 'maxlength' => 255
                 ));
         $mform->setType('name', PARAM_TEXT);
+        $mform->addRule('name', null, 'required', null, 'client');
 
         $mform->addElement('text', 'defaultmark', get_string('maxpoints', 'qtype_sc'),
                 array('size' => 7
@@ -204,34 +204,18 @@ class qtype_sc_edit_form extends question_edit_form {
             || $this->question->formoptions->cansaveasnew))) {
             $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'));
         }
+
         $this->add_hidden_fields();
+
+        $mform->addElement('hidden', 'qtype');
+        $mform->setType('qtype', PARAM_ALPHA);
+
+        $mform->addElement('hidden', 'makecopy');
+        $mform->setType('makecopy', PARAM_INT);
+
+        $this->add_interactive_settings(true, true);
+
         $this->add_action_buttons();
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see moodleform::add_action_buttons()
-     */
-    public function add_action_buttons($cancel = true, $submitlabel = null) {
-        if (is_null($submitlabel)) {
-            $submitlabel = get_string('savechanges');
-        }
-        $mform =& $this->_form;
-
-        if ($cancel) {
-            // When there are two elements we need a group.
-            $buttonarray = array();
-            $buttonarray[] = &$mform->createElement('submit', 'submitbutton', $submitlabel,
-                    array('onclick' => 'skipClientValidation = true; return true;'));
-            $buttonarray[] = &$mform->createElement('cancel');
-            $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
-            $mform->closeHeaderBefore('buttonar');
-        } else {
-            // No group needed.
-            $mform->addElement('submit', 'submitbutton', $submitlabel);
-            $mform->closeHeaderBefore('submitbutton');
-        }
     }
 
     /**
@@ -321,13 +305,6 @@ class qtype_sc_edit_form extends question_edit_form {
             $mform->addElement('html', '</div>'); // Close div.feedbacktext.
             $mform->addElement('html', '</div>'); // Close div.optionbox.
         }
-        $mform->addElement('hidden', 'qtype');
-        $mform->setType('qtype', PARAM_ALPHA);
-        $mform->addElement('hidden', 'makecopy');
-        $mform->setType('makecopy', PARAM_ALPHA);
-
-        $this->add_hidden_fields();
-        $this->add_interactive_settings(true, true);
     }
 
     protected function get_hint_fields($withclearwrong = false, $withshownumpartscorrect = false) {
@@ -420,7 +397,7 @@ class qtype_sc_edit_form extends question_edit_form {
         // the variable exceeds 5 or is smaller than 2. 
         if (!array_key_exists('numberofrows', $data) 
             || empty($data['numberofrows']) 
-            || $data['numberofrows'] > 5 
+            || $data['numberofrows'] > 5
             || $data['numberofrows'] < 2) {
             $errors['numberofrows'] = get_string('mustsupplyvalue', 'qtype_sc');
         }
