@@ -1,14 +1,14 @@
 # Single Choice
 
 ## What it is:
-The MC question type as it is in Moodle is not ideal, since questions can be configured in a way which is not very well designed regarding best practices of MC questions. 
-Therefore two question types, the Mutliple True/False and the Single Choice have been developed.
+The MC question type as it is in Moodle is not ideal, since questions can be configured in a way which is not very well designed
+regarding best practices of MC questions. 
+Therefore two question types, the Multiple True/False and the Single Choice have been developed.
 
 Creating a SC question teachers will have the possibility of choosing between three scoring methods:
 1. SC 1/0
 1. Subpoints
-1. Aprime
-Aprime is a new scoring method designed to find a solution for a fairer scoring if students are risk averse.
+1. Aprime<br/>Aprime is a new scoring method designed to find a solution for a fairer scoring if students are risk averse.
 
 ## Installation:
 1. Extract the contents of the downloaded zip to `question/type/`.
