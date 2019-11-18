@@ -49,8 +49,7 @@ class qtype_sc_renderer extends qtype_renderer {
      *
      * @return string HTML fragment.
      */
-    public function formulation_and_controls(question_attempt $qa,
-            question_display_options $displayoptions) {
+    public function formulation_and_controls(question_attempt $qa, question_display_options $displayoptions) {
         global $PAGE;
 
         $question = $qa->get_question();
@@ -184,6 +183,36 @@ class qtype_sc_renderer extends qtype_renderer {
         $result .= "<input type='hidden' id='qtype_sc_changed_value_" . $question->id . "' name='" . $changedvalue . "'/>";
         $result .= "<input type='hidden' id='qtype_sc_scoring_method_" . $question->id . "' value='" . $question->scoringmethod . "'/>";
 
+        if (!empty(get_config('qtype_sc')->showscoringmethod)) {
+            $result .= $this->showscoringmethod($question);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns a string containing the rendererd question's scoring method.
+     * Appends an info icon containing information about the scoring method.
+     * @param qtype_sc_question $question
+     * @return string
+     */
+    private function showscoringmethod($question) {
+        global $OUTPUT;
+
+        $result = '';
+
+        if (get_string_manager()->string_exists('scoring' . $question->scoringmethod, 'qtype_sc')) {
+            $outputscoringmethod = get_string('scoring' . $question->scoringmethod, 'qtype_sc');
+        } else {
+            $outputscoringmethod = $question->scoringmethod;
+        }
+
+        if (get_string_manager()->string_exists('scoring' . $question->scoringmethod . '_help', 'qtype_sc')) {
+            $result .= html_writer::tag('div',
+                '<br>'. get_string('scoringmethod', 'qtype_sc'). ': <b>' . ucfirst($outputscoringmethod) . '</b>' .
+                $OUTPUT->help_icon('scoring' . $question->scoringmethod, 'qtype_sc'),
+                array('id' => 'scoringmethodinfo_q' . $question->id));
+        }
         return $result;
     }
 

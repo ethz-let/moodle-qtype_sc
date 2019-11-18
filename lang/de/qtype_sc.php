@@ -52,7 +52,7 @@ $string['oneradiobutton'] = 'Sie müssen eine der Wahlantworten als richtig mark
 $string['option'] = 'Wahlantwort';
 $string['optionno'] = 'Wahlantwort {$a}';
 $string['optionsandfeedback'] = 'Wahlantworten und Feedback';
-$string['pluginname'] = 'SC(ETH)';
+$string['pluginname'] = 'Single Choice (ETH)';
 $string['pluginname_help'] = 'In Einfachwahlaufgaben („Typ A") muss eine von mehreren Wahlantworten als die einzig richtige oder die beste ausgewählt werden. Studenten können Wahlantworten, die sie als falsch erachten, markieren und erhalten, je nach Bewertungsmethode, Teilpunkte.';
 $string['pluginname_link'] = 'question/type/sc';
 $string['pluginnameadding'] = 'Einfachwahlaufgabe („Typ A") hinzufügen';
@@ -63,13 +63,18 @@ $string['pluginnamesummary'] = 'In Einfachwahlaufgaben („Typ A") muss eine von
 $string['preview'] = 'Vorschau';
 $string['privacy:metadata'] = 'Das Plugin für den Fragetyp "MTF" speichert keine persönlichen Daten.';
 $string['scoringaprime'] = 'Aprim';
+$string['scoringaprime_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde, die Hälfte der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.';
 $string['scoringsconezero'] = 'SC1/0';
+$string['scoringsconezero_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde, sonst null Punkte.';
+$string['scoringsubpoints'] = 'Teilpunkte';
+$string['scoringsubpoints_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde. Für jeden richtig durchgestrichenen Distraktor werden Teilpunkte verteilt, bis zu maximal 50% der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.';
+$string['showscoringmethod'] = 'Bewertungsmethode anzeigen';
+$string['showscoringmethod_help'] = 'Wenn diese Option aktiviert ist, wird Studenten die Bewertungsmethode in Tests angezeigt.';
 $string['scoringmethod'] = 'Bewertungsmethode';
 $string['scoringmethod_help'] = 'Es gibt es drei alternative Bewertungsmethoden:
 <br/><strong>SC1/0</strong> (empfohlen): Bei der Auswahl „SC1/0“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige oder beste Wahlantwort ausgewählt wurde, sonst null Punkte.
 <br/><strong>Aprim</strong>: Bei der Auswahl „Aprim“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige oder beste Wahlantwort ausgewählt wurde, die Hälfte der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.
 <br/><strong>Teilpunkte</strong>: Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige oder beste Wahlantwort ausgewählt wurde. Für jeden richtig durchgestrichenen Distraktor erhalten Kandidat/innen Teilpunkte, bis zu maximal 50% der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden. Sonst erhalten sie null Punkte.';
-$string['scoringsubpoints'] = 'Teilpunkte';
 $string['selectone'] = 'Wählen Sie eine Wahlantwort aus:';
 $string['shuffleanswers'] = 'Wahlantworten mischen';
 $string['shuffleanswers_help'] = 'Wenn aktiviert, ist die Reihenfolge der Wahlantworten bei jedem Versuch zufällig, sofern die Option "In Fragen zufällig mischen" aktiviert ist.';

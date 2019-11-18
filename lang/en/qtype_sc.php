@@ -52,7 +52,7 @@ $string['oneradiobutton'] = 'You have to choose one of the options!';
 $string['option'] = 'Option';
 $string['optionno'] = 'Option {$a}';
 $string['optionsandfeedback'] = 'Options and Feedback';
-$string['pluginname'] = 'SC(ETH)';
+$string['pluginname'] = 'Single Choice (ETH)';
 $string['pluginname_help'] = 'In Single Choice ("Type A") questions the one option which is the only correct or best option has to be identified. The students can also mark options they consider as wrong to receive a fraction of the points depending on the grading method.';
 $string['pluginname_link'] = 'question/type/sc';
 $string['pluginnameadding'] = 'Adding a Single Choice ("Type A") question';
@@ -63,13 +63,18 @@ $string['pluginnamesummary'] = 'In Single Choice ("Type A") questions the one op
 $string['preview'] = 'Preview';
 $string['privacy:metadata'] = 'The MTF question type plugin does not store any personal data.';
 $string['scoringaprime'] = 'Aprime';
+$string['scoringaprime_help'] = 'Full points are awarded for selecting the correct or best option, half of total points, if all distractors except for one are crossed out, and zero points otherwise.';
 $string['scoringsconezero'] = 'SC1/0';
+$string['scoringsconezero_help'] = 'Full points are awarded for selecting the correct or best option, and zero points otherwise.';
+$string['scoringsubpoints'] = 'Subpoints';
+$string['scoringsubpoints_help'] = 'Full points are awarded for selecting the correct or best option, subpoints for each correctly crossed out distractor up to half of total points for crossing out all expect for one distractor, and zero points otherwise.';
+$string['showscoringmethod'] = 'Show scoring method';
+$string['showscoringmethod_help'] = 'If this setting is enabled, students will see the scoring method in quizes';
 $string['scoringmethod'] = 'Scoring method';
 $string['scoringmethod_help'] = 'There are three alternative scoring methods:
-<br/><strong>SC1/0</strong> (recommended): The student receives full points if the only correct or best answer is identified, and zero points otherwise
+<br/><strong>SC1/0</strong> (recommended): The student receives full points if the only correct or best answer is identified, and zero points otherwise.
 <br/><strong>Aprime</strong>: The student receives full points for selecting the correct or best option, half of total points, if all distractors save one are crossed out, and zero points otherwise.
 <br/><strong>Subpoints</strong>: The student is awarded full points for selecting the correct or best option, subpoints for each correctly crossed out distractor up to half of total points for crossing out all save one distractor, and zero points otherwise.';
-$string['scoringsubpoints'] = 'Subpoints';
 $string['selectone'] = 'Select one option:';
 $string['shuffleanswers'] = 'Shuffle options';
 $string['shuffleanswers_help'] = 'If enabled, the order of the options is randomly shuffled for each attempt,

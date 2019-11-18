@@ -27,22 +27,25 @@ if ($ADMIN->fulltree) {
     require_once($CFG->dirroot . '/question/type/sc/lib.php');
 
     // Introductory explanation that all the settings are defaults for the edit_sc_form.
-    $settings->add(
-            new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_sc')));
+    $settings->add(new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_sc')));
+
     // Scoring methods.
     $options = array('sconezero' => get_string('scoringsconezero', 'qtype_sc'),
         'aprime' => get_string('scoringaprime', 'qtype_sc'),
         'subpoints' => get_string('scoringsubpoints', 'qtype_sc')
     );
 
-    $settings->add(
-            new admin_setting_configselect('qtype_sc/scoringmethod',
-                    get_string('scoringmethod', 'qtype_sc'),
-                    get_string('scoringmethod_help', 'qtype_sc'), 'sconezero', $options));
+    $settings->add(new admin_setting_configselect('qtype_sc/scoringmethod',
+        get_string('scoringmethod', 'qtype_sc'),
+        get_string('scoringmethod_help', 'qtype_sc'), 'sconezero', $options));
+
+    // Show Scoring Method in quizes.
+    $settings->add(new admin_setting_configcheckbox('qtype_sc/showscoringmethod',
+        get_string('showscoringmethod', 'qtype_sc'),
+        get_string('showscoringmethod_help', 'qtype_sc'), 0));
 
     // Shuffle options.
-    $settings->add(
-            new admin_setting_configcheckbox('qtype_sc/shuffleanswers',
-                    get_string('shuffleanswers', 'qtype_sc'),
-                    get_string('shuffleanswers_help', 'qtype_sc'), 1));
+    $settings->add(new admin_setting_configcheckbox('qtype_sc/shuffleanswers',
+        get_string('shuffleanswers', 'qtype_sc'),
+        get_string('shuffleanswers_help', 'qtype_sc'), 1));
 }

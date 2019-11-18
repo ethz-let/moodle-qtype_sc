@@ -1,10 +1,10 @@
-# Single Choice
+# Single Choice (ETH)
 
 ## What it is:
 The MC question type as it is in Moodle is not ideal, since questions can be configured in a way which is not very well designed regarding best practices of MC questions. 
-Therefore two question types, the Mutliple True/False and the Single Choice have been developed.
+Therefore two question types, the Multiple True/False and the Single Choice have been developed.
 
-Creating a SC question teachers will have the possibility of choosing between three scoring methods:
+Creating a Single Choice question teachers will have the possibility of choosing between three scoring methods:
 1. SC 1/0
 1. Subpoints
 1. Aprime
