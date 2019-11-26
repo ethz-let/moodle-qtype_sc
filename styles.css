@@ -89,7 +89,7 @@ input[type="checkbox"] {
 }
 
 .que.sc table.sc tbody td.scdistractorbutton {
-    width: 2em;
+    width: 3em;
     vertical-align: middle;
     text-align: right;
 }
@@ -116,6 +116,12 @@ input[type="checkbox"] {
     text-align: left !important;
 }
 
+.que.sc table.sc tbody td.scoptionbutton.correctness {
+    padding: 0px 0px 0px 8px;
+    margin: unset;
+    display: table-cell;
+}
+
 .que.sc .formulation {
     background-color: #dee2e6;
     border-color: #ffffff;
@@ -126,6 +132,7 @@ input[type="checkbox"] {
     vertical-align: inherit;
 }
 .scgreyingout .fa-check-square {
+    color: #000000;
     opacity: 0.3;
     filter: alpha(opacity = 30);
 }
@@ -141,7 +148,7 @@ input[type=radio].distractorcheckbox + label {
     background-color: #f6f7f8;
     height: 16px;
     width: 16px;
-    display:inline-block;
+    display: table-cell;
     padding: 0 0 0 0px;
     vertical-align: inherit;
 }
@@ -162,7 +169,7 @@ input[type=radio][checked=checked].distractorcheckbox + label {
     background-color: #f6f7f8;
     height: 15px;
     width: 15px;
-    display: inline-block;
+    display: table-cell;
     padding: 0 0 0 0px;
     vertical-align: inherit;
 }
