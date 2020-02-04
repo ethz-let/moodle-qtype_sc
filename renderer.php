@@ -183,6 +183,12 @@ class qtype_sc_renderer extends qtype_renderer {
 
         $result .= html_writer::table($table, true);
 
+        if ($qa->get_state() == question_state::$invalid) {
+            $result .= html_writer::nonempty_tag('div',
+                    $question->get_validation_error($qa->get_last_qt_data()),
+                    array('class' => 'validationerror'));
+        }
+
         $changedvalue = $qa->get_qt_field_name('qtype_sc_changed_value');
         $result .= "<input type='hidden' id='qtype_sc_changed_value_" . $question->id . "' name='" . $changedvalue . "'/>";
         $result .= "<input type='hidden' id='qtype_sc_scoring_method_" . $question->id . "' value='" . $question->scoringmethod . "'/>";
@@ -326,6 +332,15 @@ class qtype_sc_renderer extends qtype_renderer {
             $radio2checked = 'checked="checked"';
         }
 
+        $labeltitle = '';
+        if ($readonlybool) {
+            if ($checked) {
+                $labeltitle = get_string('markedascorrect', 'qtype_sc');
+            }
+        } else {
+            $labeltitle = get_string('markascorrect', 'qtype_sc');
+        }
+
         $inputid = 'q' . $questionid . '_optionbutton' . $value;
 
         if (!$readonlybool) {
@@ -339,17 +354,17 @@ class qtype_sc_renderer extends qtype_renderer {
                         $radio2checked .
                         'value="0" />';
 
-            $output .= '<input type ="radio" ' .
+            $output .= '<label for="' . $inputid . '" title="' . $labeltitle . '"><input type ="radio" ' .
                         'name="' . $name . '" ' .
                         'id="' . $inputid . '" ' .
                         'class="optioncheckbox active"' .
                         'data-questionid="' . $questionid . '" '.
                         'data-number="' . $value . '" ' .
                         $radio1checked .
-                        'value="1" />';
+                        'value="1" /></label>';
         } else {
 
-            $output .= '<input type ="radio" ' .
+            $output .= '<label for="' . $inputid . '" title="' . $labeltitle . '"><input type ="radio" ' .
                         'name="' . $name . '" ' .
                         'id="' . $inputid . '" ' .
                         'class="optioncheckbox"' .
@@ -357,18 +372,8 @@ class qtype_sc_renderer extends qtype_renderer {
                         'data-number="' . $value . '" ' .
                         $radio1checked .
                         $readonly .
-                        'value="1" />';
+                        'value="1" /></label>';
         }
-
-        $labeltitle = '';
-        if ($readonlybool) {
-            if ($checked) {
-                $labeltitle = get_string('markedascorrect', 'qtype_sc');
-            }
-        } else {
-            $labeltitle = get_string('markascorrect', 'qtype_sc');
-        }
-        $output .= '<label for="' . $inputid . '" title="' . $labeltitle . '"></label>';
 
         return $output;
     }

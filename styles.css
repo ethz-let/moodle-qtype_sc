@@ -381,3 +381,7 @@ body#page-question-type-sc .optionbox,
 #page-question-type-sc label {
     white-space: nowrap!important;
 }
+
+#page-mod-quiz-attempt .que.sc .scoptionbutton label {
+    padding: 10px;
+}

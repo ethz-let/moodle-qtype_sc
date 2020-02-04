@@ -138,6 +138,7 @@ foreach ($questions as $question) {
 
     // Retrieve the answers.
     $answers = $DB->get_records('question_answers', array('question' => $oldquestionid));
+    sort($answers);
 
     if ($dryrun) {
         echo '--------------------------------------------------------------------------------' .

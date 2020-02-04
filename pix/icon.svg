@@ -1,0 +1,21 @@
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid meet">
+ <defs>
+  <clipPath id="a">
+   <path id="svg_1" d="m0,0l16,0l0,16l-16,0l0,-16z"/>
+  </clipPath>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_2" clip-path="url(#a)">
+   <path stroke="null" id="svg_3" d="m6.35163,2.852076l9.070155,0l0,1l-9.070155,0l0,-1z"/>
+   <path id="svg_4" stroke-miterlimit="10" stroke="#000" d="m2.057504,13.5a1,1 0 1 1 2,0a1,1 0 0 1 -2,0zm0,-10a1,1 0 1 1 2,0a1,1 0 0 1 -2,0zm0,5a1,1 0 1 1 2,0a1,1 0 0 1 -2,0z"/>
+   <text stroke="null" transform="matrix(0.751963973045349,0,0,0.3611263036727905,7.107153261080384,11.938952200114727) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_5" y="13.588938" x="15.071001" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#000000"/>
+   <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Arvo, sans-serif" font-size="8" id="svg_19" y="13.074841" x="10.207644" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="null" fill="#000000">C</text>
+   <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Arvo, sans-serif" font-size="8" id="svg_21" y="12.965714" x="5.742721" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="null" fill="#000000">S</text>
+  </g>
+ </g>
+</svg>
