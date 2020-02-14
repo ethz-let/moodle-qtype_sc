@@ -14,14 +14,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-  * @package    qtype_sc
-  * @author     Amr Hourani (amr.hourani@id.ethz.ch)
-  * @author     Martin Hanusch (martin.hanusch@let.ethz.ch)
-  * @author     Jürgen Zimmer (juergen.zimmer@edaktik.at)
-  * @author     Andreas Hruska (andreas.hruska@edaktik.at)
-  * @copyright  2018 ETHZ {@link http://ethz.ch/}
-  * @copyright  2017 eDaktik GmbH {@link http://www.edaktik.at}
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_sc
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @copyright   2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define(['jquery'], function($) {
@@ -177,7 +177,7 @@ define(['jquery'], function($) {
             for (var i = 0; i < distractors.length; i++) {
                 if ($(distractors[i]).attr('checked')) {
                     $('table#questiontable' + questionid + ' [name="' + $(distractors[i]).prop('name') + '"][value=0]').removeAttr('checked');
-                    $('table#questiontable' + questionid  + ' #q' + questionid + '_optiontext' + $(distractors[i]).data('number')).addClass('linethrough');
+                    $('table#questiontable' + questionid + ' #q' + questionid + '_optiontext' + $(distractors[i]).data('number')).addClass('linethrough');
                 }
             }
 

@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-  * @package    qtype_sc
-  * @author     Amr Hourani (amr.hourani@id.ethz.ch)
-  * @author     Martin Hanusch (martin.hanusch@let.ethz.ch)
-  * @author     Jürgen Zimmer (juergen.zimmer@edaktik.at)
-  * @author     Andreas Hruska (andreas.hruska@edaktik.at)
-  * @copyright  2018 ETHZ {@link http://ethz.ch/}
-  * @copyright  2017 eDaktik GmbH {@link http://www.edaktik.at}
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_sc
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @copyright   2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -93,7 +93,8 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
     public function test_deferredfeedback_feedback_sc() {
         $sc = $this->make_a_sc_question();
         $this->start_attempt_at_question($sc, 'deferredfeedback', 1);
-        $this->process_submission(array("option0" => 1, "distractor0" => 0, "option1" => 0, "distractor1" => 0, "option2" => 0, "distractor2" => 0));
+        $this->process_submission(
+            array("option0" => 1, "distractor0" => 0, "option1" => 0, "distractor1" => 0, "option2" => 0, "distractor2" => 0));
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
         $this->check_current_output(

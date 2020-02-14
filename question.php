@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-  * @package    qtype_sc
-  * @author     Amr Hourani (amr.hourani@id.ethz.ch)
-  * @author     Martin Hanusch (martin.hanusch@let.ethz.ch)
-  * @author     Jürgen Zimmer (juergen.zimmer@edaktik.at)
-  * @author     Andreas Hruska (andreas.hruska@edaktik.at)
-  * @copyright  2018 ETHZ {@link http://ethz.ch/}
-  * @copyright  2017 eDaktik GmbH {@link http://www.edaktik.at}
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_sc
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @copyright   2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -456,9 +456,9 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @param int $totaltries Not needed
      */
     public function compute_final_grade($responses, $totaltries) {
-        $last_response = sizeOf($responses) - 1;
-        $num_points = isset($responses[$last_response]) ? $this->grading()->grade_question($this, $responses[$last_response]) : 0;
-        return max(0, $num_points - max(0, $last_response) * $this->penalty);
+        $lastresponse = count($responses) - 1;
+        $numpoints = isset($responses[$lastresponse]) ? $this->grading()->grade_question($this, $responses[$lastresponse]) : 0;
+        return max(0, $numpoints - max(0, $lastresponse) * $this->penalty);
     }
 
     /**
@@ -477,7 +477,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         if (is_null($hint)) {
             return $hint;
         }
-        
+
         if ($this->get_num_selected_choices($qa->get_last_qt_data()) > 1) {
             $hint = clone ($hint);
             $this->disable_hint_settings_when_too_many_selected($hint);
@@ -486,7 +486,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * (non-PHPdoc).
+     * (non-PHPdoc)
      *
      * @see question_definition::check_file_access()
      */

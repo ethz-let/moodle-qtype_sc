@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-  * @package    qtype_sc
-  * @author     Amr Hourani (amr.hourani@id.ethz.ch)
-  * @author     Martin Hanusch (martin.hanusch@let.ethz.ch)
-  * @author     Jürgen Zimmer (juergen.zimmer@edaktik.at)
-  * @author     Andreas Hruska (andreas.hruska@edaktik.at)
-  * @copyright  2018 ETHZ {@link http://ethz.ch/}
-  * @copyright  2017 eDaktik GmbH {@link http://www.edaktik.at}
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_sc
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @copyright   2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -102,51 +102,144 @@ class qtype_sc_question_test extends advanced_testcase {
     public function test_get_expected_data() {
         $question = $this->make_a_sc_question();
         $question->order = array_keys($question->rows);
-        $this->assertEquals(array('option0' => PARAM_INT, 'option1' => PARAM_INT, 'option2' => PARAM_INT,
-        'distractor0' => PARAM_INT, 'distractor1' => PARAM_INT, 'distractor2' => PARAM_INT), $question->get_expected_data());
+        $this->assertEquals(
+            array(
+                'option0' => PARAM_INT,
+                'option1' => PARAM_INT,
+                'option2' => PARAM_INT,
+                'distractor0' => PARAM_INT,
+                'distractor1' => PARAM_INT,
+                'distractor2' => PARAM_INT,
+                'qtype_sc_changed_value' => PARAM_INT),
+            $question->get_expected_data());
     }
 
     public function test_is_complete_response() {
         $question = $this->make_a_sc_question();
         $question->order = array_keys($question->rows);
-        $this->assertFalse($question->is_complete_response(array()));
-        $this->assertFalse($question->is_complete_response(array('option0' => '0')));
-        $this->assertFalse($question->is_complete_response(array('option0' => '0', 'distractor0' => '0')));
-        $this->assertTrue($question->is_complete_response(array('option0' => '1','option1' => '0','option2' => '0')));
-        $this->assertTrue($question->is_complete_response(array('option0' => '1', 'distractor0' => '0', 'option1' => '0', 'distractor1' => '0', 'option2' => '0', 'distractor2' => '0')));
+        $this->assertFalse($question->is_complete_response(
+            array())
+        );
+        $this->assertFalse($question->is_complete_response(
+            array(
+                'option0' => '0'))
+            );
+        $this->assertFalse($question->is_complete_response(
+            array(
+                'option0' => '0',
+                'distractor0' => '0'))
+        );
+        $this->assertTrue($question->is_complete_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0'))
+        );
+        $this->assertTrue($question->is_complete_response(
+            array(
+                'option0' => '1',
+                'distractor0' => '0',
+                'option1' => '0',
+                'distractor1' => '0',
+                'option2' => '0',
+                'distractor2' => '0'))
+        );
     }
 
     public function test_is_gradable_response_sconezero() {
-        // Sconezero
+        // Sconezero.
         $question = $this->make_a_sc_question();
         $question->order = array_keys($question->rows);
-        $this->assertFalse($question->is_gradable_response(array()));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1')));
-        $this->assertFalse($question->is_gradable_response(array('option0' => '0')));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1','option1' => '0', 'option2' => '0')));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1','option1' => '0', 'option2' => '0', 'distractor0' => '0', 'distractor1' => '0', 'distractor2' => '0',)));
+        $this->assertFalse($question->is_gradable_response(
+            array())
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1'))
+        );
+        $this->assertFalse($question->is_gradable_response(
+            array(
+                'option0' => '0'))
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0'))
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0',
+                'distractor0' => '0',
+                'distractor1' => '0',
+                'distractor2' => '0'))
+        );
     }
 
     public function test_is_gradable_response_aprime() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'aprime';
         $question->order = array_keys($question->rows);
-        $this->assertFalse($question->is_gradable_response(array()));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1')));
-        $this->assertFalse($question->is_gradable_response(array('option0' => '0')));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1','option1' => '0', 'option2' => '0')));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1','option1' => '0', 'option2' => '0', 'distractor0' => '0', 'distractor1' => '0', 'distractor2' => '0',)));
+        $this->assertFalse($question->is_gradable_response(
+            array())
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1'))
+        );
+        $this->assertFalse($question->is_gradable_response(
+            array(
+                'option0' => '0'))
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0'))
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0',
+                'distractor0' => '0',
+                'distractor1' => '0',
+                'distractor2' => '0'))
+        );
     }
 
     public function test_is_gradable_response_subpoints() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'subpoints';
         $question->order = array_keys($question->rows);
-        $this->assertFalse($question->is_gradable_response(array()));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1')));
-        $this->assertFalse($question->is_gradable_response(array('option0' => '0')));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1','option1' => '0', 'option2' => '0')));
-        $this->assertTrue($question->is_gradable_response(array('option0' => '1','option1' => '0', 'option2' => '0', 'distractor0' => '0', 'distractor1' => '0', 'distractor2' => '0',)));
+        $this->assertFalse($question->is_gradable_response(
+            array())
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1'))
+        );
+        $this->assertFalse($question->is_gradable_response(
+            array(
+                'option0' => '0'))
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0'))
+        );
+        $this->assertTrue($question->is_gradable_response(
+            array(
+                'option0' => '1',
+                'option1' => '0',
+                'option2' => '0',
+                'distractor0' => '0',
+                'distractor1' => '0',
+                'distractor2' => '0'))
+        );
     }
 
     public function test_get_order() {
@@ -180,10 +273,10 @@ class qtype_sc_question_test extends advanced_testcase {
             array('option0' => '0')));
         $this->assertFalse($question->is_same_response(
             array('option0' => '1'),
-            array('option1' => '1','option2' => '0')));
+            array('option1' => '1', 'option2' => '0')));
         $this->assertFalse($question->is_same_response(
-            array('option0' => '1','option2' => '0'),
-            array('option1' => '1','option2' => '1')));
+            array('option0' => '1', 'option2' => '0'),
+            array('option1' => '1', 'option2' => '1')));
         $this->assertTrue($question->is_same_response(
             array('option0' => '1', 'distractor0' => '0'),
             array('option0' => '1', 'distractor0' => '0')));
@@ -195,8 +288,8 @@ class qtype_sc_question_test extends advanced_testcase {
     public function test_grading() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
-        $this->assertEquals(array('option0' => 1, 'option1' => 0, 'option2' => 0), 
-        $question->get_correct_response());
+        $this->assertEquals(array('option0' => 1, 'option1' => 0, 'option2' => 0),
+            $question->get_correct_response());
     }
 
     public function test_summarise_response() {
@@ -211,13 +304,13 @@ class qtype_sc_question_test extends advanced_testcase {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
         $this->assertEquals(array('0' => new question_classified_response(11, 'option text 1', 1.0)),
-        $question->classify_response(array('option0' => '1', 'option1' => '0', 'option2' => '0')));
+            $question->classify_response(array('option0' => '1', 'option1' => '0', 'option2' => '0')));
         $this->assertNotEquals(array('0' => new question_classified_response(11, 'option text 2', 0.0)),
-        $question->classify_response(array('option0' => '1', 'option1' => '0', 'option2' => '0')));
+            $question->classify_response(array('option0' => '1', 'option1' => '0', 'option2' => '0')));
         $this->assertEquals(array('0' => new question_classified_response(21, 'option text 2', 0.0)),
-        $question->classify_response(array('option0' => '0', 'option1' => '1', 'option2' => '0')));
-        $this->assertEquals(array('0' =>  question_classified_response::no_response()),
-        $question->classify_response(array('option0' => '0', 'option1' => '0', 'option2' => '0')));
+            $question->classify_response(array('option0' => '0', 'option1' => '1', 'option2' => '0')));
+        $this->assertEquals(array('0' => question_classified_response::no_response()),
+            $question->classify_response(array('option0' => '0', 'option1' => '0', 'option2' => '0')));
     }
 
     public function test_make_html_inline() {
@@ -225,9 +318,9 @@ class qtype_sc_question_test extends advanced_testcase {
         $this->assertEquals('Frog', $question->make_html_inline('<p>Frog</p>'));
         $this->assertEquals('Frog<br />Toad', $question->make_html_inline("<p>Frog</p>\n<p>Toad</p>"));
         $this->assertEquals('<img src="http://example.com/pic.png" alt="Graph" />',
-        $question->make_html_inline('<p><img src="http://example.com/pic.png" alt="Graph" /></p>'));
+            $question->make_html_inline('<p><img src="http://example.com/pic.png" alt="Graph" /></p>'));
         $this->assertEquals("Frog<br />XXX <img src='http://example.com/pic.png' alt='Graph' />",
-        $question->make_html_inline(" <p> Frog </p> \n\r<p> XXX <img src='http://example.com/pic.png' alt='Graph' /> </p> "));
+            $question->make_html_inline(" <p> Frog </p> \n\r<p> XXX <img src='http://example.com/pic.png' alt='Graph' /> </p> "));
         $this->assertEquals('Frog', $question->make_html_inline('<p>Frog</p><p></p>'));
         $this->assertEquals('Frog<br />†', $question->make_html_inline('<p>Frog</p><p>†</p>'));
     }
@@ -243,29 +336,29 @@ class qtype_sc_question_test extends advanced_testcase {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
         $this->assertEquals('1.0', $question->compute_final_grade(array(
-            0 => array('option0' => '1','option1' => '0')),
+            0 => array('option0' => '1', 'option1' => '0')),
             1));
         $this->assertEquals('0.0', $question->compute_final_grade(array(
-            0 => array('option0' => '0','option1' => '1')),
+            0 => array('option0' => '0', 'option1' => '1')),
             1));
         $this->assertEquals('0.0', $question->compute_final_grade(array(
-            0 => array('distractor1' => '1','distractor2' => '1')),
+            0 => array('distractor1' => '1', 'distractor2' => '1')),
             1));
         $this->assertEquals('0.66666669999999995', $question->compute_final_grade(array(
             0 => array(),
-            1 => array('option0' => '1','option1' => '0')),
+            1 => array('option0' => '1', 'option1' => '0')),
             1));
         $this->assertEquals('0.3333334', $question->compute_final_grade(array(
             0 => array(),
             1 => array(),
-            2 => array('option0' => '1','option1' => '0')),
+            2 => array('option0' => '1', 'option1' => '0')),
             1));
         $this->assertEquals('0.0', $question->compute_final_grade(array(
             0 => array(),
             1 => array(),
             2 => array(),
             3 => array(),
-            4 => array('option0' => '1','option1' => '0')),
+            4 => array('option0' => '1', 'option1' => '0')),
             1));
     }
 
@@ -274,10 +367,10 @@ class qtype_sc_question_test extends advanced_testcase {
         $question->scoringmethod = 'aprime';
         $question->start_attempt(new question_attempt_step(), 1);
         $this->assertEquals('1.0', $question->compute_final_grade(array(
-            0 => array('option0' => '1','option1' => '0', 'option2' => '0')),
+            0 => array('option0' => '1', 'option1' => '0', 'option2' => '0')),
             1));
         $this->assertEquals('0.0', $question->compute_final_grade(array(
-            0 => array('option0' => '0','option1' => '1', 'option2' => '0')),
+            0 => array('option0' => '0', 'option1' => '1', 'option2' => '0')),
             1));
         $this->assertEquals('0.5', $question->compute_final_grade(array(
             0 => array('distractor2' => '1')),
@@ -298,10 +391,10 @@ class qtype_sc_question_test extends advanced_testcase {
         $question->scoringmethod = 'subpoints';
         $question->start_attempt(new question_attempt_step(), 1);
         $this->assertEquals('1.0', $question->compute_final_grade(array(
-            0 => array('option0' => '1','option1' => '0', 'option2' => '0')),
+            0 => array('option0' => '1', 'option1' => '0', 'option2' => '0')),
             1));
         $this->assertEquals('0.0', $question->compute_final_grade(array(
-            0 => array('option0' => '0','option1' => '1', 'option2' => '0')),
+            0 => array('option0' => '0', 'option1' => '1', 'option2' => '0')),
             1));
         $this->assertEquals('0.5', $question->compute_final_grade(array(
             0 => array('distractor2' => '1')),

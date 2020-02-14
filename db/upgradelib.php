@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-  * @package    qtype_sc
-  * @author     Amr Hourani (amr.hourani@id.ethz.ch)
-  * @author     Martin Hanusch (martin.hanusch@let.ethz.ch)
-  * @author     Jürgen Zimmer (juergen.zimmer@edaktik.at)
-  * @author     Andreas Hruska (andreas.hruska@edaktik.at)
-  * @copyright  2018 ETHZ {@link http://ethz.ch/}
-  * @copyright  2017 eDaktik GmbH {@link http://www.edaktik.at}
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_sc
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @copyright   2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -37,7 +37,7 @@ function qtype_sc_convert_question_attempts() {
 
     list($qsql, $params) = $DB->get_in_or_equal($questionids, SQL_PARAMS_NAMED, 'qid');
     $attemptsql = "SELECT id
-                     FROM {question_attempts} qa 
+                     FROM {question_attempts} qa
                     WHERE qa.questionid " . $qsql;
 
     $attemptids = $DB->get_fieldset_sql($attemptsql, $params);
@@ -63,15 +63,15 @@ function qtype_sc_convert_question_attempts() {
 }
 
 function qtype_sc_is_order_or_finish_step(array $stepdatarows) {
-      foreach ($stepdatarows as $stepdata) {
-          if ($stepdata->name == '_order') {
-              return true;
-          }
-          if ($stepdata->name == '-finish') {
-              return true;
-          }
-      }
-      return false;
+    foreach ($stepdatarows as $stepdata) {
+        if ($stepdata->name == '_order') {
+            return true;
+        }
+        if ($stepdata->name == '-finish') {
+            return true;
+        }
+    }
+    return false;
 }
 
 function qtype_sc_convert_attempt_step_data($numberofrows, array $stepdatarows, $attemptstepid) {

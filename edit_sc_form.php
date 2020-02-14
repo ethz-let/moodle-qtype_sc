@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-  * @package    qtype_sc
-  * @author     Amr Hourani (amr.hourani@id.ethz.ch)
-  * @author     Martin Hanusch (martin.hanusch@let.ethz.ch)
-  * @author     Jürgen Zimmer (juergen.zimmer@edaktik.at)
-  * @author     Andreas Hruska (andreas.hruska@edaktik.at)
-  * @copyright  2018 ETHZ {@link http://ethz.ch/}
-  * @copyright  2017 eDaktik GmbH {@link http://www.edaktik.at}
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_sc
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @copyright   2017 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -202,8 +202,8 @@ class qtype_sc_edit_form extends question_edit_form {
         $mform->addGroup($buttonarray, 'updatebuttonar', '', array(' '), false);
         $mform->closeHeaderBefore('updatebuttonar');
 
-        if ((!empty($this->question->id)) 
-            && (!($this->question->formoptions->canedit 
+        if ((!empty($this->question->id))
+            && (!($this->question->formoptions->canedit
             || $this->question->formoptions->cansaveasnew))) {
             $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'));
         }
@@ -245,11 +245,11 @@ class qtype_sc_edit_form extends question_edit_form {
         $this->lastnumberofrows = $this->numberofrows;
 
         if ($this->can_preview()) {
-            $loadingUrl = new moodle_url('/question/type/sc/loading.php');
+            $loadingurl = new moodle_url('/question/type/sc/loading.php');
             $previewurl = question_preview_url($this->question->id, null, null, null, null, $this->context);
         }
         $PAGE->requires->js_call_amd('qtype_sc/question_edit', 'init');
-        
+
         // Add number of rows setting.
         $availableanumbersofanswers = array(2 => 2, 3 => 3, 4 => 4, 5 => 5);
         $mform->addElement('select', 'numberofrows', get_string('numberofrows', 'qtype_sc'), $availableanumbersofanswers, array());
@@ -266,9 +266,12 @@ class qtype_sc_edit_form extends question_edit_form {
         // Add the scoring method radio buttons.
         $attributes = array();
         $scoringbuttons = array();
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '', get_string('scoringsconezero', 'qtype_sc'), 'sconezero', $attributes);
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '', get_string('scoringaprime', 'qtype_sc'), 'aprime', $attributes);
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '', get_string('scoringsubpoints', 'qtype_sc'), 'subpoints', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
+            get_string('scoringsconezero', 'qtype_sc'), 'sconezero', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
+            get_string('scoringaprime', 'qtype_sc'), 'aprime', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
+            get_string('scoringsubpoints', 'qtype_sc'), 'subpoints', $attributes);
         $mform->addGroup($scoringbuttons, 'radiogroupscoring', get_string('scoringmethod', 'qtype_sc'), array(' <br/> '), false);
         $mform->addHelpButton('radiogroupscoring', 'scoringmethod', 'qtype_sc');
         $mform->setDefault('scoringmethod', 'sconezero');
@@ -388,25 +391,25 @@ class qtype_sc_edit_form extends question_edit_form {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        // If the questionname is empty 
-        // or if the variable is missing
-        if (!array_key_exists('name', $data) 
+        // If the questionname is empty.
+        // or if the variable is missing.
+        if (!array_key_exists('name', $data)
             || empty($data['name'])) {
             $errors['name'] = get_string('mustsupplyname', 'qtype_sc');
         }
 
-        // If the variable numberofrows does not exist
-        // If the variable is empty or if the value of
-        // the variable exceeds 5 or is smaller than 2. 
-        if (!array_key_exists('numberofrows', $data) 
-            || empty($data['numberofrows']) 
+        // If the variable numberofrows does not exist.
+        // If the variable is empty or if the value of.
+        // the variable exceeds 5 or is smaller than 2.
+        if (!array_key_exists('numberofrows', $data)
+            || empty($data['numberofrows'])
             || $data['numberofrows'] > 5
             || $data['numberofrows'] < 2) {
             $errors['numberofrows'] = get_string('mustsupplyvalue', 'qtype_sc');
         }
-       
-        // If one of the optiontexts if empty
-        if (array_key_exists('numberofrows', $data) 
+
+        // If one of the optiontexts if empty.
+        if (array_key_exists('numberofrows', $data)
             || !empty($data['numberofrows'])) {
             for ($i = 1; $i <= $data['numberofrows']; ++$i) {
                 if (array_key_exists('option_' . $i, $data)) {
@@ -418,19 +421,19 @@ class qtype_sc_edit_form extends question_edit_form {
             }
         }
 
-        // If the correctrow value is missing
-        // or if the correctrow is greater than 
-        // the number of rows (out of range)
-        if (array_key_exists('numberofrows', $data) 
+        // If the correctrow value is missing.
+        // or if the correctrow is greater than.
+        // the number of rows (out of range).
+        if (array_key_exists('numberofrows', $data)
         || !empty($data['numberofrows'])) {
             if (!array_key_exists('correctrow', $data)
-            || !$data['correctrow'] 
+            || !$data['correctrow']
             || $data['correctrow'] > $data['numberofrows']) {
                 $errors['correctrow'] = get_string('mustchoosecorrectoption', 'qtype_sc');
             }
         }
 
-        // Finally return errors, in case there are any errors
+        // Finally return errors, in case there are any errors.
         return $errors;
     }
 }
