@@ -77,6 +77,9 @@ class qtype_sc_grading_subpoints extends qtype_sc_grading {
                 }
             }
         }
+        if ($correctdistractors == 0) {
+            return 0.0;
+        }
         if ($correctdistractors == ($question->numberofrows - 1)) {
             return 1.0;
         } else if ($correctdistractors == ($question->numberofrows - 2)) {
