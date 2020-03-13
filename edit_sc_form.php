@@ -161,7 +161,8 @@ class qtype_sc_edit_form extends question_edit_form {
         // Any questiontype specific fields.
         $this->definition_inner($mform);
 
-        // TAGS - See API 3 https://docs.moodle.org/dev/Tag_API_3_Specification.
+        $this->add_interactive_settings(true, true);
+
         if (class_exists('core_tag_tag')) {
             if (core_tag_tag::is_enabled('core_question', 'question')) {
                 $mform->addElement('header', 'tagshdr', get_string('tags', 'tag'));
@@ -192,6 +193,7 @@ class qtype_sc_edit_form extends question_edit_form {
                 $mform->addElement('static', 'modified', get_string('modified', 'question'), get_string('byandon', 'question', $a));
             }
         }
+
         $buttonarray = array();
         $buttonarray[] = $mform->createElement('submit', 'updatebutton', get_string('savechangesandcontinueediting', 'question'));
         if ($this->can_preview()) {
@@ -215,8 +217,6 @@ class qtype_sc_edit_form extends question_edit_form {
 
         $mform->addElement('hidden', 'makecopy');
         $mform->setType('makecopy', PARAM_INT);
-
-        $this->add_interactive_settings(true, true);
 
         $this->add_action_buttons();
     }
