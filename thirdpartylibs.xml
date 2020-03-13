@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>amd/src/jquery.form.js</location>
+    <name>jQuery Form Plugin</name>
+    <license>MIT</license>
+    <version>3.51</version>
+    <licenseversion></licenseversion>
+  </library>
+</libraries>
