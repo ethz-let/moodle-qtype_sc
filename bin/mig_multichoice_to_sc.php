@@ -35,7 +35,7 @@ $courseid = optional_param('courseid', 0, PARAM_INT);
 $categoryid = optional_param('categoryid', 0, PARAM_INT);
 $includesubcategories = optional_param('includesubcategories', 0, PARAM_INT);
 $all = optional_param('all', 0, PARAM_INT);
-$dryrun = optional_param('dryrun', 0, PARAM_INT);
+$dryrun = optional_param('dryrun', 1, PARAM_INT);
 
 require_login();
 

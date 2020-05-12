@@ -43,7 +43,6 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     public $correctrow;
 
-    // All the methods needed for option shuffling.
     /**
      * (non-PHPdoc).
      *
@@ -63,7 +62,6 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_definition::apply_attempt_state()
      */
     public function apply_attempt_state(question_attempt_step $step) {
-
         $this->order = explode(',', $step->get_qt_var('_order'));
 
         for ($i = 0; $i < count($this->order); $i++) {
@@ -87,18 +85,15 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     /**
      *
      * @param question_attempt $qa
-     *
-     * @return multitype:
+     * @return array
      */
     public function get_order(question_attempt $qa) {
         $this->init_order($qa);
-
         return $this->order;
     }
 
     /**
-     * Initialises the order (if it is not set yet) by decoding
-     * the question attempt variable '_order'.
+     * Initialises the order (if it is not set yet) by decoding the question attempt variable '_order'.
      *
      * @param question_attempt $qa
      */
@@ -109,52 +104,32 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * Returns the name field name for option choice. Every option has its own fieldname because
-     * options essentially behave like checkboxes.
-     *
-     * @param unknown $key
-     * @return string
-     */
-    public function optionfield($key) {
-        return 'option' . $key;
-    }
-
-    /**
      * Returns the name field name for distractor buttons.
      *
-     * @param unknown $key
-     * @return type
+     * @param int $key
+     * @return string
      */
     public function distractorfield($key) {
         return 'distractor' . $key;
     }
 
     /**
-     * Checks whether an row is answered by a given response.
-     *
-     * @param type $response
-     * @param type $row
-     * @param type $col
-     *
+     * @param array $response
+     * @param int $key
      * @return bool
      */
-    public function is_answered($response, $rownumber) {
-        $optionfield = $this->optionfield($rownumber);
-        // Get the value of the radiobutton array, if it exists in the response.
-        return array_key_exists($optionfield, $response) && $response[$optionfield];
+    public function is_option_selected($response, $key) {
+        return array_key_exists('option', $response) && $response['option'] == $key;
     }
 
     /**
-     * @param $response
-     * @param $key
+     * @param array $response
+     * @param int $key
      * @return bool
      */
-    public function is_row_selected($response, $key) {
-        $optionfield = $this->optionfield($key);
-        if (array_key_exists($optionfield, $response) && $response[$optionfield] == 1) {
-            return true;
-        }
-        return false;
+    public function is_distractor_selected($response, $key) {
+        $distractorfield = $this->distractorfield($key);
+        return array_key_exists($distractorfield, $response) && $response[$distractorfield];
     }
 
     /**
@@ -168,20 +143,12 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Returns true if an option was chosen, false otherwise.
-     * @param array $response responses, as returned by
-     *        {@link question_attempt_step::get_qt_data()}.
      *
-     * @return bool whether this response is a complete answer to this question.
+     * @param array $response response
+     * @return bool
      */
     public function is_complete_response(array $response) {
-        foreach ($this->order as $key => $rowid) {
-            $optionfield = $this->optionfield($key);
-
-            if (array_key_exists($optionfield, $response) && $response[$optionfield] == 1) {
-                return true;
-            }
-        }
-        return false;
+        return array_key_exists('option', $response) && $response['option'] !== '-1';
     }
 
     /**
@@ -190,6 +157,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_graded_automatically::is_gradable_response()
      */
     public function is_gradable_response(array $response) {
+
         if ($this->is_complete_response($response)) {
             return true;
         }
@@ -201,12 +169,13 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * In situations where is_gradable_response() returns false, this method
-     * should generate a description of what the problem is.
+     * In situations where is_gradable_response() returns false, this method should generate a description of what the problem is.
      *
+     * @param array response
      * @return string the message.
      */
     public function get_validation_error(array $response) {
+
         $isgradable = $this->is_gradable_response($response);
         if ($isgradable) {
             return '';
@@ -216,14 +185,13 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      *
-     * @param array $response responses, as returned by
-     *        {@link question_attempt_step::get_qt_data()}.
+     * @param array $response
      * @return int the number of choices that were selected. in this response.
      */
     public function get_num_selected_choices(array $response) {
+
         $numselected = 0;
         foreach ($response as $key => $value) {
-            // Response keys starting with _ are internal values like _order, so ignore them.
             if (!empty($value) && $key[0] != '_') {
                 $numselected += 1;
             }
@@ -234,17 +202,15 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     /**
      * Produce a plain text summary of a response.
      *
-     * @param $response a response, as might be passed to {@link grade_response()}.
-     *
+     * @param array $response
      * @return string a plain text summary of that response, that could be used in reports.
      */
     public function summarise_response(array $response) {
+
         $result = array();
 
         foreach ($this->order as $key => $rowid) {
-            $optionfield = $this->optionfield($key);
-
-            if (array_key_exists($optionfield, $response) && $response[$optionfield]) {
+            if (array_key_exists('option', $response) && $response['option'] == $key) {
                 $row = $this->rows[$rowid];
                 $result[] = $this->html_to_text($row->optiontext, $row->optiontextformat);
             }
@@ -263,10 +229,12 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Returns true if at least one distractor was marked in a response.
+     *
      * @param array $response
      * @return bool
      */
     public function any_distractor_chosen(array $response) {
+
         foreach ($this->order as $key => $rowid) {
             $field = $this->distractorfield($key);
             if (array_key_exists($field, $response) && $response[$field] == 1) {
@@ -279,6 +247,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     /**
      * (non-PHPdoc).
      *
+     * @param array $response
      * @see question_with_responses::classify_response()
      */
     public function classify_response(array $response) {
@@ -290,42 +259,40 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         list($partialcredit, $state) = $this->grade_response($response);
 
         foreach ($this->order as $key => $rowid) {
-            $optionfield = $this->optionfield($key);
+            if (array_key_exists('option', $response) && ($response['option'] == $key)) {
 
-            if (array_key_exists($optionfield, $response) && ($response[$optionfield] == 1)) {
                 $row = $this->rows[$rowid];
-
                 if ($row->number == $this->correctrow) {
                     $partialcredit = 1.0;
                 } else {
                     $partialcredit = 0; // Due to non-linear math.
                 }
 
-                return array($this->id => new question_classified_response($rowid . '1',
-                    question_utils::to_plain_text($row->optiontext, $row->optiontextformat), $partialcredit));
+                return array($this->id => new question_classified_response(
+                    $rowid . '1',
+                    question_utils::to_plain_text($row->optiontext, $row->optiontextformat),
+                    $partialcredit));
             }
         }
     }
 
     /**
-     * Use by many of the behaviours to determine whether the student's
-     * response has changed.
-     * This is normally used to determine that a new set
-     * of responses can safely be discarded.
+     * Use by many of the behaviours to determine whether the student's response has changed.
+     * This is normally used to determine that a new set of responses can safely be discarded.
      *
      * @param array $prevresponse the responses previously recorded for this question,
      *        as returned by {@link question_attempt_step::get_qt_data()}
      * @param array $newresponse the new responses, in the same format.
-     *
      * @return bool whether the two sets of responses are the same - that is
      *         whether the new set of responses can safely be discarded.
      */
     public function is_same_response(array $prevresponse, array $newresponse) {
+
+        if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, 'option')) {
+            return false;
+        }
+
         foreach ($this->order as $key => $rowid) {
-            $optionfield = $this->optionfield($key);
-            if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, $optionfield)) {
-                return false;
-            }
             $distractorfield = $this->distractorfield($key);
             if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, $distractorfield)) {
                 return false;
@@ -337,8 +304,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * What data would need to be submitted to get this question correct.
-     * If there is more than one correct answer, this method should just
-     * return one possibility.
+     * If there is more than one correct answer, this method should just return one possibility.
      *
      * @return array parameter name => value.
      */
@@ -346,16 +312,11 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         $result = array();
 
         foreach ($this->order as $key => $rowid) {
-            $optionfield = $this->optionfield($key);
             $row = $this->rows[$rowid];
-
             if ($row->number == $this->correctrow) {
-                $result[$optionfield] = 1;
-            } else {
-                $result[$optionfield] = 0;
+                $result['option'] = $key;
             }
         }
-
         return $result;
     }
 
@@ -382,7 +343,6 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      *
      * @param array $response responses, as returned by
      *        {@link question_attempt_step::get_qt_data()}.
-     *
      * @return array (number, integer) the fraction, and the state.
      */
     public function grade_response(array $response) {
@@ -393,8 +353,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * What data may be included in the form submission when a student submits
-     * this question in its current state?
+     * What data may be included in the form submission when a student submits this question in its current state?
      *
      * This information is used in calls to optional_param. The parameter name
      * has {@link question_attempt::get_field_prefix()} automatically prepended.
@@ -406,17 +365,13 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     public function get_expected_data() {
         $result = array();
 
-        // Add the fields for distractors.
-        foreach ($this->order as $key => $notused) {
-            // Add the field 'option'.
-            $optionfield = $this->optionfield($key);
-            $result[$optionfield] = PARAM_INT;
-
-            $distractorfield = $this->distractorfield($key);
-            $result[$distractorfield] = PARAM_INT;
-        }
-
         $result["qtype_sc_changed_value"] = PARAM_INT;
+        $result['option'] = PARAM_INT;
+
+        foreach ($this->order as $key => $notused) {
+            $distractorfield = $this->distractorfield($key);
+            $result[$distractorfield] = PARAM_BOOL;
+        }
         return $result;
     }
 
@@ -424,7 +379,6 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * Makes HTML text (e.g. option or feedback texts) suitable for inline presentation in renderer.php.
      *
      * @param string html The HTML code.
-     *
      * @return string the purified HTML code without paragraph elements and line breaks.
      */
     public function make_html_inline($html) {
@@ -442,7 +396,6 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      *
      * @param string $text The HTML to reduce to plain text.
      * @param int $format the FORMAT_... constant.
-     *
      * @return string the equivalent plain text.
      */
     public function html_to_text($text, $format) {
@@ -473,6 +426,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     public function get_hint($hintnumber, question_attempt $qa) {
+
         $hint = parent::get_hint($hintnumber, $qa);
         if (is_null($hint)) {
             return $hint;
@@ -495,9 +449,8 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
             return true;
         } else if ($component == 'qtype_sc' && $filearea == 'feedbacktext') {
             return true;
-        } else if ($component == 'question' && in_array($filearea,
-                array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'
-                ))) {
+        } else if ($component == 'question'
+                    && in_array($filearea, array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
             if ($this->editedquestion == 1) {
                 return true;
             } else {

@@ -1,0 +1,43 @@
+.qtype-sc .item-md {
+    background-color: unset !important;
+}
+
+.qtype-sc .item-radio-checked {
+    background-color: unset !important;
+}
+
+.qtype-sc .checkbox-md .checkbox-checked .checkbox-inner {
+    top: unset;
+    border-width: unset;
+    border-top-width: unset;
+    border-left-width: unset;
+    border-style: unset;
+    border-color: unset;
+    -webkit-transform: unset;
+    transform: unset;
+    width: 5px;
+    height: 10px;
+    position: relative;
+}
+
+.qtype-sc .checkbox-md .checkbox-checked .checkbox-inner:after {
+    content: '';
+    height: 12px;
+    border-left: 2px solid #fff;
+    position: absolute;
+    transform: rotate(45deg);
+    left: 1px;
+}
+
+.qtype-sc .checkbox-md .checkbox-checked .checkbox-inner:before {
+    content: '';
+    height: 12px;
+    border-left: 2px solid #fff;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 1px;
+}
+
+.qtype-sc .scoringmethod {
+    cursor: pointer;
+}

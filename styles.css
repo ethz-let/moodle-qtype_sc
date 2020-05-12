@@ -18,8 +18,22 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     border-top: 1px solid rgb(222, 226, 230);
 }
 
+.que.sc table.sc tbody tr td > * {
+    vertical-align : middle;
+}
+
 .que.sc table.sc tbody tr td {
     border-top: 0px !important;
+}
+
+.que.sc table.sc thead tr th {
+    border-top: none;
+    border-bottom: none;
+}
+
+
+.que.sc table.sc .lastrow {
+    background: transparent !important;
 }
 
 .que.sc table.sc tbody td.scoptionbutton {
@@ -35,15 +49,6 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     width: 3em;
 }
 
-.que.sc table.sc thead tr th {
-    border-top: none;
-    border-bottom: none;
-}
-
-.que.sc table.sc tbody>tr>td.sccorrectness {
-    border-left: 1px solid #aaa;
-}
-
 .que.sc table.sc tbody>tr.highlight {
     background-color: #cff5cc;
 }
@@ -52,38 +57,17 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     background-color: #cff5cc;
 }
 
-.que.sc table.sc th {
-    border-width: 1px;
-}
-
-.que.sc table.sc td.c0 {
-    width: 1%;
-}
-
 .que.sc table.sc td.c1 {
     width: auto;
 }
-.que.sc table.sc td.c2 {
-    width: 10%;
+
+.que.sc table.sc tbody .c0 label {
+    color: initial;
+    font-weight: initial;
+    font-size: initial;
 }
 
-.que.sc table.sc td.c3 {
-    width: auto;
-}
-
-.que.sc table.sc tbody td.scoptionbutton.correctness input[type="radio"],
-input[type="checkbox"] {
-    margin-top: 5px;
-}
-
-.que.sc table.sc tbody td.scoptiontext {
-    min-width: 10em;
-    text-align: left;
-    padding-right: 2em;
-    vertical-align: inherit;
-}
-
-.que.sc table.sc tbody td.scoptiontext span.linethrough {
+.que.sc table.sc tbody label.linethrough {
     text-decoration: line-through;
     opacity: 0.3;
 }
@@ -137,11 +121,31 @@ input[type="checkbox"] {
     filter: alpha(opacity = 30);
 }
 
-input[type=radio].distractorcheckbox {
-    display:none;
+.que.sc table.sc tbody .c0 .scgreyingout .text-success,
+.que.sc table.sc tbody .c0 .scgreyingout .text-danger {
+    color: #898989 !important;
 }
 
-input[type=radio].distractorcheckbox + label {
+input[type=radio].optionradio + label {
+    margin: 5px;
+    cursor: not-allowed;
+}
+
+input[type=radio].optionradio.active + label {
+    margin: 5px;
+    cursor: pointer;
+}
+
+input[type=radio].optionradio.hidden {
+    display: unset;
+    opacity: 0;
+}
+
+input[type=checkbox].distractorcheckbox {
+    display: none;
+}
+
+input[type=checkbox].distractorcheckbox + label {
     background-image: url([[pix:qtype_sc|cross]]);
     background-size: cover;
     background-repeat: no-repeat;
@@ -153,16 +157,16 @@ input[type=radio].distractorcheckbox + label {
     vertical-align: inherit;
 }
 
-input[type=radio].distractorcheckbox + label:hover {
+input[type=checkbox].distractorcheckbox + label:hover {
     cursor: not-allowed;
 }
 
-input[type=radio].distractorcheckbox.active + label:hover {
+input[type=checkbox].distractorcheckbox.active + label:hover {
     background-color: #dedede;
     cursor: pointer;
 }
 
-input[type=radio][checked=checked].distractorcheckbox + label {
+input[type=checkbox].distractorcheckbox:checked + label {
     background-image: url([[pix:qtype_sc|cross-active]]);
     background-size: cover;
     background-repeat: no-repeat;

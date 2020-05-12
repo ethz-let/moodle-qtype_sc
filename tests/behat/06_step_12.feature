@@ -19,38 +19,26 @@ Feature: Step 12
       | Default for c1       | sc             | SC-Question-001  | question_one        |
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
-
+    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: TESTCASE 12
   # Change the correct answer
   # There should always be one answer selected 
 
-    And I output "[SC - TESTCASE 12 - begin]"
-    When I click on "Edit" "link" in the "SC-Question-001" "table_row"
+    When I choose "Edit question" action for "SC-Question-001" in the question bank
     And I click on "id_correctrow_1" "radio"
     And I press "id_updatebutton"
-    Then element with css "#id_correctrow_1[checked]" should exist
-    And element with css "#id_correctrow_2:not([checked])" should exist
-    And element with css "#id_correctrow_3:not([checked])" should exist
+    Then "#id_correctrow_1[checked]" "css_element" should exist
+    And "#id_correctrow_2:not([checked])" "css_element" should exist
+    And "#id_correctrow_3:not([checked])" "css_element" should exist
     When I click on "id_correctrow_2" "radio"
     And I press "id_updatebutton"
-    Then element with css "#id_correctrow_2[checked]" should exist
-    And element with css "#id_correctrow_1:not([checked])" should exist
-    And element with css "#id_correctrow_3:not([checked])" should exist
+    Then "#id_correctrow_2[checked]" "css_element" should exist
+    And "#id_correctrow_1:not([checked])" "css_element" should exist
+    And "#id_correctrow_3:not([checked])" "css_element" should exist
     When I click on "id_correctrow_3" "radio"
     And I press "id_updatebutton"
-    Then element with css "#id_correctrow_3[checked]" should exist
-    And element with css "#id_correctrow_1:not([checked])" should exist
-    And element with css "#id_correctrow_2:not([checked])" should exist
-    And I output "[SC - TESTCASE 12 - end]"
-    
-    
-   
-   
-
-  
-    
+    Then "#id_correctrow_3[checked]" "css_element" should exist
+    And "#id_correctrow_1:not([checked])" "css_element" should exist
+    And "#id_correctrow_2:not([checked])" "css_element" should exist

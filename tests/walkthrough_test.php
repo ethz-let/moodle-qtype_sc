@@ -36,10 +36,17 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  */
 class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
 
-    public function get_contains_sc_radio_expectation($index, $value, $enabled = null, $checked = null) {
+    protected function start_attempt_at_question($question, $preferredbehaviour,
+        $maxmark = null, $variant = 1) {
+        $this->quba->set_preferred_behaviour($preferredbehaviour);
+        $this->slot = $this->quba->add_question($question, $maxmark);
+        $this->quba->start_question($this->slot, $variant);
+    }
+
+    public function get_contains_sc_radio_expectation($index, $enabled = null, $checked = null) {
         return $this->get_contains_radio_expectation(array(
-            'name' => $this->quba->get_field_prefix($this->slot) . "option" . $index,
-            'value' => $value
+            'name' => $this->quba->get_field_prefix($this->slot) . "option",
+            'value' => $index,
         ), $enabled, $checked);
     }
 
@@ -91,27 +98,30 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
     }
 
     public function test_deferredfeedback_feedback_sc() {
+        $rightindex = 0;
+
         $sc = $this->make_a_sc_question();
         $this->start_attempt_at_question($sc, 'deferredfeedback', 1);
         $this->process_submission(
-            array("option0" => 1, "distractor0" => 0, "option1" => 0, "distractor1" => 0, "option2" => 0, "distractor2" => 0));
+            array("option" => $rightindex, "distractor1" => 0, "distractor2" => 0)
+        );
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
         $this->check_current_output(
-            $this->get_contains_sc_radio_expectation(0, 1, true, true),
-            $this->get_contains_sc_radio_expectation(1, 1, true, false),
-            $this->get_contains_sc_radio_expectation(2, 1, true, false),
+            $this->get_contains_sc_radio_expectation($rightindex, true, true),
+            $this->get_contains_sc_radio_expectation($rightindex + 1, true, false),
+            $this->get_contains_sc_radio_expectation($rightindex + 2, true, false),
             $this->get_does_not_contain_correctness_expectation(),
             $this->get_does_not_contain_feedback_expectation());
         $this->quba->finish_all_questions();
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(1);
         $this->check_current_output(
-            $this->get_contains_sc_radio_expectation(0, 1, false, true),
-            $this->get_contains_sc_radio_expectation(1, 1, false, false),
-            $this->get_contains_sc_radio_expectation(2, 1, false, false),
+            $this->get_contains_sc_radio_expectation($rightindex, false, true),
+            $this->get_contains_sc_radio_expectation($rightindex + 1, false, false),
+            $this->get_contains_sc_radio_expectation($rightindex + 2, false, false),
             $this->get_contains_correct_expectation(),
-            new question_pattern_expectation('/name=\".*1_option0\".*checked=\"checked\".*value=\"1\"/')
+            new question_pattern_expectation('/name=\".*1_option\".*checked=\"checked\".*value=\"0\"/')
         );
     }
 }

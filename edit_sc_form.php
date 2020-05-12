@@ -245,7 +245,6 @@ class qtype_sc_edit_form extends question_edit_form {
         $this->lastnumberofrows = $this->numberofrows;
 
         if ($this->can_preview()) {
-            $loadingurl = new moodle_url('/question/type/sc/loading.php');
             $previewurl = question_preview_url($this->question->id, null, null, null, null, $this->context);
         }
         $PAGE->requires->js_call_amd('qtype_sc/question_edit', 'init');

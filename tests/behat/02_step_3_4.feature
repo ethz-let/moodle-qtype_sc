@@ -20,32 +20,28 @@ Feature: Edit a question
       | Test questions   | sc     | SC-Question-1    | question_one |
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
-
+    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: Edit, Duplicate, Move and delete a SC question
   # Edit
-    And I output "[SC - TESTCASE: Edit - begin]"
-    When I click on "Edit" "link" in the "SC-Question-1" "table_row"
+    When I choose "Edit question" action for "SC-Question-1" in the question bank
     And I set the following fields to these values:
       | id_name | |
     And I press "id_submitbutton"
-    Then I should see "You must enter a task title."
+    Then I should see "You must supply a value here."
     When I set the following fields to these values:
       | id_name | Edited SC-Question-1 |
     And I press "id_submitbutton"
     Then I should see "Edited SC-Question-1"
 
   # Duplicate the question
-    When I click on "Duplicate" "link" in the "Edited SC-Question-1" "table_row"
+    When I choose "Duplicate" action for "Edited SC-Question-1" in the question bank
     And I press "id_submitbutton"
     Then I should see "Edited SC-Question-1 (copy)"
 
   # Move the question to another category
-    When I click on css "tr:contains('Edited SC-Question-1 (copy)') input[title='Select']"
+    When I click on "Edited SC-Question-1 (copy)" "checkbox" in the "Edited SC-Question-1 (copy)" "table_row"
     And I set the field "id_movetocategory" to "AnotherCat"
     And I press "Move to >>"
     Then I should see "Question bank"
@@ -53,8 +49,6 @@ Feature: Edit a question
     And I should see "Edited SC-Question-1 (copy)"
 
   # Delete the question
-    When I click on "Delete" "link" in the "Edited SC-Question-1 (copy)" "table_row"
+    When I choose "Delete" action for "Edited SC-Question-1 (copy)" in the question bank
     And I press "Delete"
     Then I should not see "Edited SC-Question-1 (copy)"
-
-    And I output "[SC - TESTCASE: Edit - end]"

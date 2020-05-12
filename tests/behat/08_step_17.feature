@@ -29,7 +29,6 @@ Feature: Step 17
       | SC-Question-2 | 1    |
       | SC-Question-3 | 2    |
       | SC-Question-4 | 3    |
- 
 
   @javascript
   Scenario: TESTCASE 17.
@@ -41,21 +40,17 @@ Feature: Step 17
   # 3. Navigate to next question having responded to all options.
   # -> Label "Answer saved" in green
 
-
   # See if the Review is shown if enabled
-    And I output "[SC - TESTCASE 17 - begin]"
     Given I log in as "teacher1"
     
   # Login as admin and set Question behavior to "Deferred feedback"
     When I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Edit settings" "link"
+    And I navigate to "Edit settings" in current page administration
     And I click on "Question behaviour" "link"
     And I set the field "How questions behave" to "Deferred feedback"
     And I press "Save and return to course"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Login as student and see if everything works
     And I log in as "student2"
@@ -66,14 +61,9 @@ Feature: Step 17
   
   # No option selected
     When I click on "quiznavbutton2" "link"
-    Then element with css "#quiznavbutton1[title='Not yet answered']" should exist
+    Then "#quiznavbutton1[title='Not yet answered']" "css_element" should exist
 
   #One option selected
-    When I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I click on "quiznavbutton1" "link"
-    Then element with css "#quiznavbutton2[title='Answer saved']" should exist
-    And I output "[SC - TESTCASE 17 - end]"
-
-
-
-
+    Then "#quiznavbutton2[title='Answer saved']" "css_element" should exist

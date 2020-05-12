@@ -27,10 +27,7 @@ Feature: Step 8 and Step 9 and Step 10
       | SC-Question-004  | 1    |
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
-
+    And I navigate to "Question bank" in current page administration
 
   @javascript @_switch_window
   Scenario: TESTCASE 8
@@ -39,19 +36,17 @@ Feature: Step 8 and Step 9 and Step 10
   # If one or more incorrect -> 0 Points
 
   # Set Scoring method to sconezero
-    And I output "[SC - TESTCASE 8 - begin]"
-    When I click on "Edit" "link" in the "SC-Question-004" "table_row"
+    When I choose "Edit question" action for "SC-Question-004" in the question bank
     And I click on "id_scoringmethod_sconezero" "radio"
     And I press "id_submitbutton"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
 
   # Test quiz with scoringmethod "sconezero" -> select correct answer 
-    When I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -60,32 +55,29 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "sconezero" -> select incorrect answer
-    When I click on css "tr:contains('Option Text 2') label[title='Click to choose as correct option.']"
+    When I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then I should see "Mark 0.00 out of 1.00"
-    And I output "[SC - TESTCASE 8 - end]"
- 
+
   @javascript @_switch_window
   Scenario: TESTCASE 9
   # Change scoring Method to Subpoints and test evaluation.
   # When wrong answers are crossed out as incorrect you receive points
 
-    And I output "[SC - TESTCASE 9 - begin]"
   # Set Scoring method to subpoints
-    When I click on "Edit" "link" in the "SC-Question-004" "table_row"
+    When I choose "Edit question" action for "SC-Question-004" in the question bank
     And I click on "id_scoringmethod_subpoints" "radio"
     And I press "id_submitbutton"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
 
   # Test quiz with scoringmethod "subpoints" -> select correct answer
-    When I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -94,8 +86,8 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "subpoints" -> cross out 2 incorrect options
-    And I click on css "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -104,9 +96,9 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "subpoints" -> cross out 3 incorrect options
-    And I click on css "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -115,33 +107,30 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "subpoints" -> cross out the correct option
-    And I click on css "tr:contains('Option Text 1') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then I should see "Mark 0.00 out of 1.00"
-    And I output "[SC - TESTCASE 9 - end]"
 
  @javascript @_switch_window
   Scenario: TESTCASE 10
   # Change scoring Method to Aprime and test evaluation.
   # When wrong answers are crossed out as incorrect you receive points
 
-    And I output "[SC - TESTCASE 10 - begin]"
   # Set Scoring method to Aprime
-    When I click on "Edit" "link" in the "SC-Question-004" "table_row"
+    When I choose "Edit question" action for "SC-Question-004" in the question bank
     And I click on "id_scoringmethod_aprime" "radio"
     And I press "id_submitbutton"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
 
   # Test quiz with scoringmethod "aprime" -> select correct answer
-    When I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -150,9 +139,9 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "aprime" -> cross out 3 (enough) incorrect options
-    And I click on css "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -161,8 +150,8 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "aprime" -> cross out 3 (not enough) incorrect options
-    And I click on css "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -171,11 +160,9 @@ Feature: Step 8 and Step 9 and Step 10
     And I press "Re-attempt quiz"
 
   # Test quiz with scoringmethod "aprime" -> cross out the correct option
-    And I click on css "tr:contains('Option Text 1') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then I should see "Mark 0.00 out of 1.00"
-    And I output "[SC - TESTCASE 10 - end]"
-

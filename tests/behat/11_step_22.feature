@@ -28,7 +28,6 @@ Feature: Step 22
       | question       | page |
       | SC-Question-3 | 1    |
 
-
   @javascript @_switch_window
   Scenario: TESTCASE 22.
   # Regrade: After a test was submitted by a student,
@@ -37,77 +36,66 @@ Feature: Step 22
   # The regrading should be successful.
   # Check that already manually graded questions won't be affected
 
-
   # Set Scoring Method to subpoints
-    And I output "[SC - TESTCASE 22 - begin]"
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Edit quiz" "link"
+    And I navigate to "Edit quiz" in current page administration
     And I click on "Edit question SC-Question-3" "link" in the "SC-Question-3" "list_item"
     And I click on "id_scoringmethod_subpoints" "radio"
     And I press "id_updatebutton"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Solving quiz as student1: 50% correct options
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Solving quiz as student2: 50% correct options
     When I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Login as teacher1 and grade student1 manually
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Responses" "link"
-    And I click on css "tr:contains('student1@moodle.com') a:contains('Review attempt')"
+    And I navigate to "Responses" in current page administration
+    And I click on "tr:contains('student1@moodle.com') a:contains('Review attempt')" "css_element"
     And I click on "Make comment or override mark" "link"
     And I switch to "commentquestion" window
     And I set the field "Mark" to "0.86"
     And I press "Save" and switch to main window
 
   # Set Scoring Method to SC1/0
-    And I click on "Actions menu" "link"
-    And I click on "Edit quiz" "link"
+    And I navigate to "Edit quiz" in current page administration
     And I click on "Edit question SC-Question-3" "link" in the "SC-Question-3" "list_item"
     And I click on "id_scoringmethod_sconezero" "radio"
     And I press "id_submitbutton"
 
   # Regrade
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Results" "link"
-    And I click on "Select all" "link"
+    And I navigate to "Results" in current page administration
+    And I click on "#mod-quiz-report-overview-report-selectall-attempts" "css_element"
     And I press "Regrade selected attempts"
     And I press "Continue"
 
   # Check if grades are correct
-    Then element with css ".gradedattempt:contains('student1@moodle.com'):contains('86.00')" should exist
-    And element with css ".gradedattempt:contains('student2@moodle.com'):contains('0.00')" should exist
-    And I output "[SC - TESTCASE 22 - end]"
-
+    Then ".gradedattempt:contains('student1@moodle.com'):contains('86.00')" "css_element" should exist
+    And ".gradedattempt:contains('student2@moodle.com'):contains('0.00')" "css_element" should exist

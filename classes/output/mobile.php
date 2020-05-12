@@ -25,42 +25,24 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace qtype_sc\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/question/type/sc/grading/qtype_sc_grading.class.php');
-
-class qtype_sc_grading_sconezero extends qtype_sc_grading {
-
-    const TYPE = 'sconezero';
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see qtype_sc_grading::get_name()
-     */
-    public function get_name() {
-        return self::TYPE;
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see qtype_sc_grading::get_title()
-     */
-    public function get_title() {
-        return get_string('scoring' . self::TYPE, 'qtype_sc');
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see qtype_sc_grading::grade_question()
-     */
-    public function grade_question(qtype_sc_question $question, array $response) {
-        if ($this->chose_correct_answer($question, $response)) {
-            return 1.0;
-        }
-
-        return 0.0;
+class mobile {
+    public static function sc_view() {
+        global $CFG;
+        // General notes:
+        // If you have worked on mobile activities, there is no cmid or courseid in $args here.
+        // This is not equivalent to mod/quiz/attempt.php?attempt=57&cmid=147, rather
+        // this is just a section of that page, with all the access checking already done for us.
+        // The full file path is required even though file_get_contents should work with relative paths.
+        return [
+            'templates' => [[
+                'id' => 'main',
+                'html' => file_get_contents($CFG->dirroot . '/question/type/sc/mobile/sc.html')
+            ]],
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/sc/mobile/sc.js')
+        ];
     }
 }

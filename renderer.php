@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/outputcomponents.php');
 
-
 /**
  * Subclass for generating the bits of output specific to sc questions.
  *
@@ -60,127 +59,9 @@ class qtype_sc_renderer extends qtype_renderer {
         $order = $question->get_order($qa);
         $response = $question->get_response($qa);
 
-        $isreadonly = $displayoptions->readonly;
-
-        $optionhighlighting = true;
-        if ($question->scoringmethod == 'sconezero') {
-            $optionhighlighting = false;
-        }
-
-        if (!$isreadonly) {
-            $PAGE->requires->js_call_amd('qtype_sc/question_behaviour', 'init', array($optionhighlighting, $question->id));
-        }
-
         $result = '';
-        $result .= html_writer::tag('div', $question->format_questiontext($qa),
-        array('class' => 'qtext'
-        ));
-
-        $table = new html_table();
-        $table->id = 'questiontable' . $question->id;
-        $table->attributes['class'] = 'generaltable sc';
-
-        // Add empty header for correctness if needed.
-        if ($displayoptions->correctness) {
-            $table->head[] = '';
-        }
-        // Add empty header for feedback if needed.
-        if ($displayoptions->feedback) {
-            $table->head[] = '';
-        }
-
-        $correctnessclass = '';
-        if ($displayoptions->correctness) {
-            $correctnessclass = ' correctness';
-        }
-
-        foreach ($order as $key => $rowid) {
-            $row = $question->rows[$rowid];
-
-            // Has a selection been made for this option?
-            $isselected = $question->is_row_selected($response, $key);
-
-            // Holds the data for one table row.
-            $rowdata = array();
-
-            // Add radio button for option choice.
-            $optionfield = $question->optionfield($key);
-            $optioninputname = $qa->get_field_prefix() . $optionfield;
-
-            $radio = $this->optioncheckbox($question->id, $optioninputname, $key, $isselected, $isreadonly, $optionhighlighting);
-
-            // Radio button: add correctness icon with radio button if needed.
-            if ($displayoptions->correctness) {
-                $radio .= $this->get_correctness_image($question, $key, $row, $response);
-            }
-
-            $cell = new html_table_cell($radio);
-            $cell->attributes['class'] = 'scoptionbutton' . $correctnessclass;
-            $rowdata[] = $cell;
-
-            // Pre-comput the distractorfield value.
-            $distractorfield = $question->distractorfield($key);
-            $distractorinputname = $qa->get_field_prefix() . $distractorfield;
-            $distractorischecked = false;
-            if (array_key_exists($distractorfield, $response) && $response[$distractorfield]) {
-                $distractorischecked = true;
-            }
-
-            // Add the formated option text to the table.
-            $rowtext = $question->make_html_inline(
-                    $this->number_in_style($key, $question->answernumbering) .
-                    $question->format_text($row->optiontext, $row->optiontextformat, $qa,
-                            'qtype_sc', 'optiontext', $row->id));
-
-            $optiontextclass = 'optiontext';
-            if ($distractorischecked) {
-                $optiontextclass = 'optiontext linethrough';
-            }
-            $cell = new html_table_cell('<span id="q' . $question->id . '_optiontext' . $key . '" class="' .
-                $optiontextclass . '">' . $rowtext . '</span>');
-            $cell->attributes['class'] = 'scoptiontext';
-            $rowdata[] = $cell;
-
-            // Add button for distractor choice.
-            $button = $this->distractorcheckbox($question->id, $distractorinputname, $key, $distractorischecked,
-                $isreadonly, $optionhighlighting);
-
-            $cell = new html_table_cell($button);
-            $cell->attributes['class'] = 'scdistractorbutton';
-            $rowdata[] = $cell;
-
-            // For correctness we have to grade the option...
-            if ($displayoptions->correctness) {
-                $feedbackimage = $this->get_answer_correctness_image($question, $key, $row, $response, $isselected,
-                    $distractorischecked);
-                $cell = new html_table_cell($feedbackimage);
-                $cell->attributes['class'] = 'sccorrectness';
-                $rowdata[] = $cell;
-            }
-
-            // Add the feedback to the table, if it is visible.
-            if ($displayoptions->feedback && empty($displayoptions->suppresschoicefeedback) &&
-                      trim($row->optionfeedback)) {
-                if ($isselected) {
-                    $cell = new html_table_cell(
-                            html_writer::tag('div',
-                                    $question->make_html_inline(
-                                            $question->format_text($row->optionfeedback,
-                                                    $row->optionfeedbackformat, $qa, 'qtype_sc',
-                                                    'feedbacktext', $rowid)),
-                                    array('class' => 'scspecificfeedback')));
-                } else {
-                    $cell = new html_table_cell();
-                }
-                $cell->attributes['class'] = 'scspecificfeedbackcell';
-                $rowdata[] = $cell;
-            }
-            $rowclass = 'optionrow' . $key;
-
-            $table->data[] = $rowdata;
-            $table->rowclasses[] = $rowclass;
-        }
-
+        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
+        $table = $this->createrows($question, $displayoptions, $qa, $response, $order);
         $result .= html_writer::table($table, true);
 
         if ($qa->get_state() == question_state::$invalid) {
@@ -199,12 +80,199 @@ class qtype_sc_renderer extends qtype_renderer {
             $result .= $this->showscoringmethod($question);
         }
 
+        if (!$displayoptions->readonly) {
+            $optionhighlighting = $question->scoringmethod == 'sconezero' ? false : true;
+            $PAGE->requires->js_call_amd('qtype_sc/question_behaviour', 'init', array($optionhighlighting, $question->id));
+        }
+
         return $result;
+    }
+
+    /**
+     * Returns the HTML representation of all question rows.
+     *
+     * @param unknown $question
+     * @param question_display_options $displayoptions
+     * @param question_attempt $qa
+     * @param array $order
+     *
+     * @return string
+     */
+    protected function createrows($question, $displayoptions, $qa, $response, $order) {
+        global $OUTPUT;
+
+        $table = new html_table();
+        $table->id = 'questiontable' . $question->id;
+        $table->attributes['class'] = 'generaltable sc';
+        $order['-1'] = '-1';
+
+        foreach ($order as $key => $rowid) {
+
+            $rowdata = [];
+
+            if ($key != '-1') {
+                $row = $question->rows[$rowid];
+
+                $option = [];
+                $option['inputid'] = 'q' . $question->id . '_option' . $key;
+                $option['selected'] = $question->is_option_selected($response, $key);
+                $option['inputname'] = $qa->get_field_prefix() . 'option';
+                $option['rowtext'] = $question->make_html_inline(
+                    $this->number_in_style(
+                        $key,
+                        $question->answernumbering) .
+                        $question->format_text(
+                            $row->optiontext,
+                            $row->optiontextformat,
+                            $qa,
+                            'qtype_sc',
+                            'optiontext',
+                            $row->id));
+
+                $distractor = [];
+                $distractor['inputid'] = 'q' . $question->id . '_distractor' . $key;
+                $distractor['selected'] = $question->is_distractor_selected($response, $key);
+                $distractor['name'] = $question->distractorfield($key);
+                $distractor['inputname'] = $qa->get_field_prefix() . $distractor['name'];
+
+                // Optionradio.
+                $output = '';
+                $label = '';
+                if ($displayoptions->readonly && $option['selected']) {
+                    $label = get_string('markedascorrect', 'qtype_sc');
+                }
+                if (!$displayoptions->readonly) {
+                    $label = get_string('markascorrect', 'qtype_sc');
+                }
+
+                $output .= '<input type ="radio" ' .
+                            'name="' . $option['inputname'] . '" ' .
+                            'id="' . $option['inputid'] . '" ' .
+                            'class="optionradio ' . ($displayoptions->readonly ? '' : 'active ') . '"' .
+                            'data-questionid="' . $question->id . '" '.
+                            'data-number="' . $key . '" ' .
+                            ($option['selected'] ? 'checked="checked"' : '') .
+                            ($displayoptions->readonly ? 'readonly="readonly" disabled="disabled"' : '') .
+                            'value="' . $key . '" />' .
+                            '<label for="' . $option['inputid'] . '" title="' . $label . '" ' .
+                            'class="' . ($distractor['selected'] ? 'linethrough' : '') . '">' .
+                            $option['rowtext'] .
+                            '</label>';
+
+                // Correctness image.
+                if ($displayoptions->correctness) {
+                    $output .= $this->get_correctness_image($question, $key, $row, $response);
+                }
+
+                $cell = new html_table_cell($output);
+                $cell->attributes['class'] = 'scoptionbutton' . ($displayoptions->correctness ? ' correctness' : '');
+                $rowdata[] = $cell;
+
+                // Distractorcheckbox.
+                $output = '';
+                $label = '';
+                if ($displayoptions->readonly && $distractor['selected']) {
+                    $label = get_string('markedasdistractor', 'qtype_sc');
+                }
+                if (!$displayoptions->readonly) {
+                    $label = get_string('markasdistractor', 'qtype_sc');
+                }
+
+                $output .= html_writer::empty_tag('input', array(
+                    'type' => 'hidden',
+                    'name' => $distractor['inputname'],
+                    'value' => 0,
+                ));
+
+                $output .= '<input type ="checkbox" ' .
+                            'name="' . $distractor['inputname'] . '" ' .
+                            'id="' . $distractor['inputid'] . '" ' .
+                            'class="distractorcheckbox ' . ($displayoptions->readonly ? '' : 'active') .'"' .
+                            'data-questionid="' . $question->id . '" '.
+                            'data-number="' . $key . '" ' .
+                            ($distractor['selected'] ? 'checked ' : '') .
+                            ($displayoptions->readonly ? 'readonly="readonly" disabled="disabled"' : '') .
+                            'value="1" />' .
+                            '<label for="' . $distractor['inputid'] . '" title="' . $label . '"></label>';
+
+                $cell = new html_table_cell($output);
+                $cell->attributes['class'] = 'scdistractorbutton';
+                $rowdata[] = $cell;
+
+                // For correctness we have to grade the option...
+                if ($displayoptions->correctness) {
+                    $feedbackimage = $this->get_answer_correctness_image($question, $key, $row, $response, $option['selected'],
+                    $distractor['selected']);
+                    $cell = new html_table_cell($feedbackimage);
+                    $cell->attributes['class'] = 'sccorrectness';
+                    $rowdata[] = $cell;
+                }
+
+                // Add the feedback to the table, if it is visible.
+                if ($displayoptions->feedback
+                    && empty($displayoptions->suppresschoicefeedback)
+                    && trim($row->optionfeedback)) {
+                    if ($option['selected']) {
+                        $cell = new html_table_cell(
+                                    html_writer::tag('div',
+                                        $question->make_html_inline(
+                                            $question->format_text(
+                                                $row->optionfeedback,
+                                                $row->optionfeedbackformat,
+                                                $qa,
+                                                'qtype_sc',
+                                                'feedbacktext',
+                                                $rowid)),
+                                        array('class' => 'scspecificfeedback')));
+                    } else {
+                        $cell = new html_table_cell();
+                    }
+                    $cell->attributes['class'] = 'scspecificfeedbackcell';
+                    $rowdata[] = $cell;
+                }
+            } else if ($key == '-1' && !$displayoptions->readonly) {
+                $option = [];
+                $option['inputid'] = 'q' . $question->id . '_option' . $key;
+                $option['selected'] = isset($response['option']) ? ($response['option'] == '-1' ? true : false) : true;
+                $option['inputname'] = $qa->get_field_prefix() . 'option';
+                $option['rowtext'] = get_string('clearchoice', 'qtype_sc');
+
+                // Optionradio.
+                $output = '';
+
+                $label = get_string('markascorrect', 'qtype_sc');
+                $output .= '<input type ="radio" ' .
+                            'name="' . $option['inputname'] . '" ' .
+                            'id="' . $option['inputid'] . '" ' .
+                            'class="optionradio ' . ($displayoptions->readonly ? '' : 'active') .
+                            ' hidden"' .
+                            'data-questionid="' . $question->id . '" '.
+                            'data-number="' . $key . '" ' .
+                            ($option['selected'] ? 'checked="checked"' : '') .
+                            ($displayoptions->readonly ? 'readonly="readonly" disabled="disabled"' : '') .
+                            'value="' . $key . '" />' .
+                            '<label class="btn btn-secondary" for="' . $option['inputid'] . '" title="' . $label . '">' .
+                            $option['rowtext'] .
+                            '</label>';
+
+                $cell = new html_table_cell($output);
+                $cell->attributes['class'] = 'scoptionbutton' . ($displayoptions->correctness ? ' correctness' : '');
+                $rowdata[] = $cell;
+
+                $cell = new html_table_cell();
+                $rowdata[] = $cell;
+            }
+
+            $table->data[] = $rowdata;
+            $table->rowclasses[] = 'optionrow' . $key;
+        }
+        return $table;
     }
 
     /**
      * Returns a string containing the rendererd question's scoring method.
      * Appends an info icon containing information about the scoring method.
+     *
      * @param qtype_sc_question $question
      * @return string
      */
@@ -220,22 +288,26 @@ class qtype_sc_renderer extends qtype_renderer {
         }
 
         if (get_string_manager()->string_exists('scoring' . $question->scoringmethod . '_help', 'qtype_sc')) {
+            $label = get_string('scoringmethod', 'qtype_sc') . ': <b>' . ucfirst($outputscoringmethod) . '</b>';
             $result .= html_writer::tag('div',
-                '<br>'. get_string('scoringmethod', 'qtype_sc'). ': <b>' . ucfirst($outputscoringmethod) . '</b>' .
-                $OUTPUT->help_icon('scoring' . $question->scoringmethod, 'qtype_sc'),
-                array('id' => 'scoringmethodinfo_q' . $question->id));
+                '<br>'. $label . $OUTPUT->help_icon('scoring' . $question->scoringmethod, 'qtype_sc'),
+                array('id' => 'scoringmethodinfo_q' . $question->id,
+                    'data-scoringmethodlabel' => $label,
+                    'data-scoringmethod' => $question->scoringmethod));
         }
         return $result;
     }
 
     /**
      * Returns the image shown in the first column indicating whether an option is correct or not.
+     *
      * @param qtype_sc_question $question
      * @param unknown $row
      * @param array $response
      * @return string
      */
-    private function get_correctness_image(qtype_sc_question $question, $key, $row, array $response) {
+    private function get_correctness_image($question, $key, $row, $response) {
+
         if ($question->scoringmethod == 'sconezero') {
             return $this->get_correctness_image_sconezero($question, $key, $row, $response);
         } else {
@@ -243,213 +315,87 @@ class qtype_sc_renderer extends qtype_renderer {
         }
     }
 
-    private function get_correctness_image_sconezero(qtype_sc_question $question, $key, $row, array $response) {
-        $optionfield = $question->optionfield($key);
-        if (array_key_exists($optionfield, $response) && $response[$optionfield] &&
-            $row->number == $question->correctrow) {
-                    return '<span class="scgreyingout">' . $this->feedback_image(0.5) . '</span>';
+    private function get_correctness_image_sconezero($question, $key, $row, $response) {
+
+        if ( $row->number == $question->correctrow) {
+            return '<span class="scgreyingout">' . $this->feedback_image(1.0) . '</span>';
+        } else if ($row->number != $question->correctrow
+                    && array_key_exists('option', $response) && $response['option'] == $key) {
+            return '<span class="scgreyingout">' . $this->feedback_image(0.0) . '</span>';
         }
         return '';
     }
 
+    private function get_correctness_image_aprime_subpoints($question, $key, $row, $response) {
 
-    private function get_correctness_image_aprime_subpoints(qtype_sc_question $question, $key, $row, array $response) {
-        $optionfield = $question->optionfield($key);
-        if ($row->number == $question->correctrow) {
-            return '<span class="scgreyingout">' . $this->feedback_image(0.5) . '</span>';
+        if ( $row->number == $question->correctrow) {
+            return '<span class="scgreyingout">' . $this->feedback_image(1.0) . '</span>';
+        } else if ($row->number != $question->correctrow
+                    && (array_key_exists('option', $response) && $response['option'] == $key)
+                    || (array_key_exists('distractor' . $key, $response) && $response['distractor' . $key] == 1)) {
+            return '<span class="scgreyingout">' . $this->feedback_image(0.0) . '</span>';
         }
         return '';
     }
 
     /**
      * Returns the image shown in the last column indicating the correctness of an answer given by the student.
+     *
      * @param qtype_sc_question $question
      * @param unknown $row
      * @param array $response
      * @return string
      */
-    private function get_answer_correctness_image(qtype_sc_question $question, $key, $row, array $response, $isselected,
-                                                  $distractorischecked) {
+    private function get_answer_correctness_image($question, $key, $row, $response, $isselected, $distractorischecked) {
+
         list($questiongrade, $state) = $question->grade_response($response);
+
         if ($question->scoringmethod == 'sconezero') {
-            return $this->get_answer_correctness_image_sconezero($question, $key, $row, $response, $questiongrade, $isselected);
+            return $this->get_answer_correctness_image_sconezero(
+                $question, $key, $row, $response, $questiongrade, $isselected
+            );
         } else {
-            return $this->get_answer_correctness_image_aprime_subpoints($question, $key, $row, $response, $questiongrade,
-                $isselected, $distractorischecked);
+            return $this->get_answer_correctness_image_aprime_subpoints(
+                $question, $key, $row, $response, $questiongrade, $isselected, $distractorischecked
+            );
         }
     }
 
-    private function get_answer_correctness_image_sconezero(qtype_sc_question $question, $key, $row, $response,
-                                                            $questiongrade, $isselected) {
+    private function get_answer_correctness_image_sconezero($question, $key, $row, $response, $questiongrade, $isselected) {
+
         if ($isselected) {
             return '<span class="scgreyingout">' . $this->feedback_image($questiongrade) . '</span>';
         }
         return '';
     }
 
+    private function get_answer_correctness_image_aprime_subpoints($question, $key, $row, $response, $questiongrade,
+        $isselected, $distractorischecked) {
 
-    private function get_answer_correctness_image_aprime_subpoints(qtype_sc_question $question, $key, $row, $response,
-                                                                   $questiongrade, $isselected, $distractorischecked) {
         if ($isselected) {
             return '<span class="scgreyingout">' . $this->feedback_image($questiongrade) . '</span>';
         }
-        // If no option was chosen but the distractors where all chosen correctly (grade > 0.0), then
-        // display the corresponding image.
-        $optionfield = $question->optionfield($key);
-        if (!array_key_exists($optionfield, $response) || !$response[$optionfield]) {
-            // If all distractors chosen correctly.
+
+        // No option was chosen but  distractors were  chosen correctly (grade > 0.0).
+        // Display the corresponding image.
+
+        if (!array_key_exists('option', $response) || $response['option'] == '-1') {
             if ($questiongrade > 0.0) {
                 if ($distractorischecked) {
-                    return '<span class="scgreyingout">' . $this->feedback_image(0.5) . '</span>';
+                    return '<span class="scgreyingout">' . $this->feedback_image(1.0) . '</span>';
                 }
             } else {
-                // Correct option was chosen as distractor.
-                if ($row->number == $question->correctrow) {
-                    return '<span class="scgreyingout">' . $this->feedback_image(0.0) . '</span>';
+                if ($distractorischecked) {
+                    if ($row->number == $question->correctrow) {
+                        return '<span class="scgreyingout">' . $this->feedback_image(0.0) . '</span>';
+                    } else if ($row->number != $question->correctrow) {
+                        return '<span class="scgreyingout">' . $this->feedback_image(1.0) . '</span>';
+                    }
                 }
             }
         }
         return '';
     }
-
-    /**
-     * Returns the HTML representation of a radio button with the given attributes.
-     *
-     * @param unknown $name
-     * @param unknown $value
-     * @param unknown $checked
-     * @param unknown $readonly
-     *
-     * @return string
-     */
-    protected static function optioncheckbox($questionid, $name, $value, $checked, $readonlybool, $optionhighlighting) {
-        $output = '';
-        $readonly = $readonlybool ? 'readonly="readonly" disabled="disabled"' : '';
-
-        if ($checked) {
-            $radio1checked = 'checked="checked"';
-            $radio2checked = '';
-        } else {
-            $radio1checked = '';
-            $radio2checked = 'checked="checked"';
-        }
-
-        $labeltitle = '';
-        if ($readonlybool) {
-            if ($checked) {
-                $labeltitle = get_string('markedascorrect', 'qtype_sc');
-            }
-        } else {
-            $labeltitle = get_string('markascorrect', 'qtype_sc');
-        }
-
-        $inputid = 'q' . $questionid . '_optionbutton' . $value;
-
-        if (!$readonlybool) {
-
-            $output .= '<input type ="radio" ' .
-                        'name="' . $name . '" ' .
-                        'id="' . $inputid . '_hid" ' .
-                        'class="optioncheckbox hidden active"' .
-                        'data-questionid="' . $questionid . '" '.
-                        'data-number="' . $value . '" ' .
-                        $radio2checked .
-                        'value="0" />';
-
-            $output .= '<label for="' . $inputid . '" title="' . $labeltitle . '"><input type ="radio" ' .
-                        'name="' . $name . '" ' .
-                        'id="' . $inputid . '" ' .
-                        'class="optioncheckbox active"' .
-                        'data-questionid="' . $questionid . '" '.
-                        'data-number="' . $value . '" ' .
-                        $radio1checked .
-                        'value="1" /></label>';
-        } else {
-
-            $output .= '<label for="' . $inputid . '" title="' . $labeltitle . '"><input type ="radio" ' .
-                        'name="' . $name . '" ' .
-                        'id="' . $inputid . '" ' .
-                        'class="optioncheckbox"' .
-                        'data-questionid="' . $questionid . '" '.
-                        'data-number="' . $value . '" ' .
-                        $radio1checked .
-                        $readonly .
-                        'value="1" /></label>';
-        }
-
-        return $output;
-    }
-
-    /**
-     * Returns the HTML representation of a radio button with the given attributes.
-     *
-     * @param unknown $name
-     * @param unknown $value
-     * @param unknown $checked
-     * @param unknown $readonly
-     *
-     * @return string
-     */
-    protected static function distractorcheckbox($questionid, $name, $value, $checked, $readonlybool, $optionhighlighting) {
-        global $OUTPUT;
-
-        $output = '';
-        $readonly = $readonlybool ? 'readonly="readonly" disabled="disabled"' : '';
-
-        if ($checked) {
-            $radio1checked = 'checked="checked"';
-            $radio2checked = '';
-        } else {
-            $radio1checked = '';
-            $radio2checked = 'checked="checked"';
-        }
-
-        $inputid = 'q' . $questionid . '_distractor' . $value;
-
-        if (!$readonlybool) {
-
-            $output .= '<input type ="radio" ' .
-                        'name="' . $name . '" ' .
-                        'id="' . $inputid . '_hid" ' .
-                        'class="distractorcheckbox hidden active"' .
-                        'data-questionid="' . $questionid . '" '.
-                        'data-number="' . $value . '" ' .
-                        $radio2checked .
-                        'value="0" />';
-
-            $output .= '<input type ="radio" ' .
-                        'name="' . $name . '" ' .
-                        'id="' . $inputid . '" ' .
-                        'class="distractorcheckbox xg active"' .
-                        'data-questionid="' . $questionid . '" '.
-                        'data-number="' . $value . '" ' .
-                        $radio1checked .
-                        'value="1" />';
-        } else {
-            $output .= '<input type ="radio" ' .
-            'name="' . $name . '" ' .
-            'id="' . $inputid . '" ' .
-            'class="distractorcheckbox"' .
-            'data-questionid="' . $questionid . '" '.
-            'data-number="' . $value . '" ' .
-            $radio1checked .
-            $readonly .
-            'value="1" />';
-        }
-
-        $labeltitle = '';
-        if ($readonlybool) {
-            if ($checked) {
-                $labeltitle = get_string('markedasdistractor', 'qtype_sc');
-            }
-        } else {
-            $labeltitle = get_string('markasdistractor', 'qtype_sc');
-        }
-        $output .= '<label for="' . $inputid . '" title="' . $labeltitle . '"></label>';
-
-        return $output;
-    }
-
 
     /**
      * The prompt for the user to answer a question.
@@ -478,16 +424,22 @@ class qtype_sc_renderer extends qtype_renderer {
 
             if ($row->number == $correctrow) {
                 $result[] = ' ' .
-                     $question->make_html_inline(
-                            $question->format_text($row->optiontext, $row->optiontextformat, $qa,
-                                    'qtype_sc', 'optiontext', $rowid)) .
-                                    ': ' . get_string('correct', 'qtype_sc');
+                    $question->make_html_inline(
+                        $question->format_text(
+                            $row->optiontext,
+                            $row->optiontextformat,
+                            $qa,
+                            'qtype_sc',
+                            'optiontext', $rowid)) . ': ' . get_string('correct', 'qtype_sc');
             } else {
                 $result[] = ' ' .
-                        $question->make_html_inline(
-                                $question->format_text($row->optiontext, $row->optiontextformat, $qa,
-                                        'qtype_sc', 'optiontext', $rowid)) .
-                                        ': ' . get_string('incorrect', 'qtype_sc');
+                    $question->make_html_inline(
+                        $question->format_text(
+                            $row->optiontext,
+                            $row->optiontextformat,
+                            $qa,
+                            'qtype_sc',
+                            'optiontext', $rowid)) . ': ' . get_string('incorrect', 'qtype_sc');
             }
         }
         if (!empty($result)) {
@@ -495,7 +447,6 @@ class qtype_sc_renderer extends qtype_renderer {
             $response .= implode('</li><li>', $result);
             $response .= '</li></ul>';
         }
-
         return $response;
     }
 
@@ -533,5 +484,4 @@ class qtype_sc_renderer extends qtype_renderer {
         }
         return $this->number_html($number);
     }
-
 }

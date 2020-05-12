@@ -28,7 +28,6 @@ Feature: Step 21
       | question          | page |
       | SC-Question-2 | 1    |
 
-
   @javascript
   Scenario: TESTCASE 21.
   # Click on "manual grading" and then on "also questions that have been
@@ -41,57 +40,49 @@ Feature: Step 21
   # manually
 
   # Solving quiz as student1: 50% correct options
-    And I output "[SC - TESTCASE 21 - begin]"
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Solving quiz as student2: 33.3% correct options
     When I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']"
-    And I click on css "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']"
+    And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
   
   # Regrade
   # Login as teacher1 and grade manually
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Manual grading" "link"
+    And I navigate to "Manual grading" in current page administration
     Then I should see "Nothing to display"
     When I click on "Also show questions that have been graded automatically" "link"
     And I click on "grade all" "link"
     Then I should see "Attempt number 1 for S1Firstname S1Lastname" 
     And I should see "Attempt number 1 for S2Firstname S2Lastname"
-    And element with css "input[value='0.5']" should exist
-    And element with css "input[value='0.3333333']" should exist
+    And "input[value='0.5']" "css_element" should exist
+    And "input[value='0.3333333']" "css_element" should exist
     And I set the field with xpath "//*[@value='0.5']" to "0.44"
     And I set the field with xpath "//*[@value='0.3333333']" to "0.22"
     And I press "Save and go to next page"
 
   # Check regraded attempts
-    When I click on css "nav a:contains('Quiz 1')"
-    And I click on "Actions menu" "link"
-    And I click on "Results" "link"
-    Then element with css "tr[class='gradedattempt']:contains('44.00')" should exist
-    And element with css "tr[class='gradedattempt']:contains('22.00')" should exist
-    
-    And I output "[SC - TESTCASE 21 - end]"
-
+    When I click on "nav a:contains('Quiz 1')" "css_element"
+    And I navigate to "Results" in current page administration
+    Then "tr[class='gradedattempt']:contains('44.00')" "css_element" should exist
+    And "tr[class='gradedattempt']:contains('22.00')" "css_element" should exist

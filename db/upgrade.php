@@ -38,25 +38,24 @@ function xmldb_qtype_sc_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2018030802) {
-
-        // Rename field shuffleoptions on table qtype_sc_options to shuffleanswers.
         $table = new xmldb_table('qtype_sc_options');
         $field = new xmldb_field('shuffleoptions', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '1', 'scoringmethod');
-
-        // Launch rename field shuffleoptions.
         $dbman->rename_field($table, $field, 'shuffleanswers');
-
-        // Sc savepoint reached.
         upgrade_plugin_savepoint(true, 2018030802, 'qtype', 'sc');
     }
 
     if ($oldversion < 2018032003) {
         require_once($CFG->dirroot . '/question/type/sc/db/upgradelib.php');
 
-        qtype_sc_convert_question_attempts();
-
-        // Sc savepoint reached.
+        qtype_sc_convert_question_attempts(2018032003);
         upgrade_plugin_savepoint(true, 2018032003, 'qtype', 'sc');
+    }
+
+    if ($oldversion < 2020051200) {
+        require_once($CFG->dirroot . '/question/type/sc/db/upgradelib.php');
+
+        qtype_sc_convert_question_attempts(2020051200);
+        upgrade_plugin_savepoint(true, 2020051200, 'qtype', 'sc');
     }
 
     return true;

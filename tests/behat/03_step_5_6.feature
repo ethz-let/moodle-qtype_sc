@@ -19,18 +19,15 @@ Feature: Step 5 and Step 6
       | Default for c1       | sc             | SC-Question-001 | question_one |
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
+    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: TESTCASE 5.
   # Add, change options within a SC question.
   # Option can be added and changed.
 
-    And I output "[SC - TESTCASE 5 - begin]"
   # Change SC options
-    When I click on "Edit" "link" in the "SC-Question-001" "table_row"
+    When I choose "Edit question" action for "SC-Question-001" in the question bank
     And I set the following fields to these values:
       | id_option_1          | New Option Text 1    |
       | id_option_2          | New Option Text 2    |
@@ -41,14 +38,14 @@ Feature: Step 5 and Step 6
       | id_correctrow_3      | checked              |
     And I press "id_submitbutton"
     Then I should see "SC-Question-001"
-    When I click on "Edit" "link" in the "SC-Question-001" "table_row"
+    When I choose "Edit question" action for "SC-Question-001" in the question bank
     Then I should see "New Option Text 1"
     And I should see "New Option Text 2"
     And I should see "questiontext 3"
     And I should see "New Feedbacktext 1"
     And I should see "feedback 2"
     And I should see "feedback 3"
-    And element with css "#id_correctrow_3:checked" should exist
+    And "#id_correctrow_3:checked" "css_element" should exist
 
   # Add SC options
     When I set the field "id_numberofrows" to "5"
@@ -58,21 +55,18 @@ Feature: Step 5 and Step 6
       | id_feedback_4        | Feedback Text 4 |
       | id_feedback_5        | Feedback Text 5 |
     And I press "id_submitbutton"
-    And I click on "Edit" "link" in the "SC-Question-001" "table_row"
+    When I choose "Edit question" action for "SC-Question-001" in the question bank
     Then I should see "Option Text 4"
     And I should see "Option Text 5"
     And I should see "Feedback Text 4"
     And I should see "Feedback Text 5"
 
-    And I output "[SC - TESTCASE 5 - end]"
-
   @javascript
   Scenario: TESTCASE 6.
   # Save with empty options
   # All options must be filled
-    
-    And I output "[SC - TESTCASE 6- begin]"
-    When I click on "Edit" "link" in the "SC-Question-001" "table_row"
+
+    When I choose "Edit question" action for "SC-Question-001" in the question bank
     And I set the following fields to these values:
       | id_option_1 | |
     And I press "id_submitbutton"
@@ -81,13 +75,3 @@ Feature: Step 5 and Step 6
       | id_option_1 | New Optiontext 1 |
     And I press "id_submitbutton"
     Then I should see "SC-Question-001"
-    And I output "[SC - TESTCASE 6 - end]"
-
-
-    
-
-
-    
-
-
-

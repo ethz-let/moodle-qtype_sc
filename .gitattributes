@@ -2,4 +2,5 @@
 *.php text eol=lf
 *.txt text eol=lf
 *.js text eol=lf
+*.feature text eol=lf
 

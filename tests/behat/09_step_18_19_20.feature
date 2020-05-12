@@ -24,23 +24,19 @@ Feature: Step 18 and 19 and 20
       | Default for c1   | sc    | SC-Question-2  | question_one   |
       | Default for c1   | sc    | SC-Question-3  | question_two   |
 
-
-
   @javascript
   Scenario: TESTCASE 18.
   # In the first Run feedback will be enabled. Check if fb and results are displayed
   # In the second Run feedback will be disabled. Check if fb and results are hidden
 
   # See if the Review is shown if enabled
-    And I output "[SC - TESTCASE 18 - begin]"
     Given I log in as "teacher1"
     And quiz "Quiz 1" contains the following questions:
       | question       | page |
       | SC-Question-2  | 1    |
     When I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Edit settings" "link"
+    And I navigate to "Edit settings" in current page administration
     And I set the following fields to these values:
       | id_attemptimmediately | 1 |
       | id_correctnessimmediately | 1 |
@@ -50,14 +46,13 @@ Feature: Step 18 and 19 and 20
       | id_rightanswerimmediately | 1 |
       | id_overallfeedbackimmediately | 1 |
     And I press "Save and return to course"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
     And I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
     When I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -65,32 +60,29 @@ Feature: Step 18 and 19 and 20
     And I should see "1.00/1.00"
     And I should see "100.00 out of 100.00"
     And I should see "Feedback Text 1"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # See if the Review is shown if disabled
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Edit settings" "link"
+    And I navigate to "Edit settings" in current page administration
     And I click on "Review options" "link"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_correctnessimmediately']"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_marksimmediately']"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_specificfeedbackimmediately']"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_generalfeedbackimmediately']"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_rightanswerimmediately']"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_overallfeedbackimmediately']"
-    And I click on css "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_attemptimmediately']"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_correctnessimmediately']" "css_element"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_marksimmediately']" "css_element"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_specificfeedbackimmediately']" "css_element"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_generalfeedbackimmediately']" "css_element"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_rightanswerimmediately']" "css_element"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_overallfeedbackimmediately']" "css_element"
+    And I click on "#id_reviewoptionshdr div:contains('Immediately after the attempt') input[id='id_attemptimmediately']" "css_element"
     And I press "Save and return to course"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
     And I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
     And I press "Re-attempt quiz"
-    And I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
@@ -98,9 +90,7 @@ Feature: Step 18 and 19 and 20
     And I should not see "1.00/1.00"
     And I should not see "100.00 out of 100.00"
     And I should not see "Feedback Text 1"
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
-    And I output "[SC - TESTCASE 18 - end]"
+    And I log out
 
   @javascript
   Scenario: TESTCASE 19 - Part 1.
@@ -110,7 +100,6 @@ Feature: Step 18 and 19 and 20
   # Scenario: Shuffling disabled
     
   # Create a response as student
-    And I output "[SC - TESTCASE 19 - Part 1 - begin]"
     Given I log in as "student2"
     And quiz "Quiz 1" contains the following questions:
       | question       | page |
@@ -119,13 +108,12 @@ Feature: Step 18 and 19 and 20
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then I should see "Finished" 
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Login as a teacher and see if everything works
     When I log in as "teacher1"
@@ -133,19 +121,17 @@ Feature: Step 18 and 19 and 20
     And I follow "Quiz 1"
 
   # Check Responses Page
-    And I click on "Actions menu" "link"
-    And I click on "Responses" "link"
-    Then element with xpath "[id='mod-quiz-report-responses-report_r0']" should exist
+    And I navigate to "Responses" in current page administration
+    Then "[id='mod-quiz-report-responses-report_r0']" "css_element" should exist
     And I should see "student2@moodle.com"
     And I should see "100.00"
 
   # Check Review Attempt Page
     And I click on "Review attempt" "link"
-    Then element with css "tr:contains('Option Text 1') label[title='This option was been chosen as correct.']" should exist
+    Then "tr:contains('Option Text 1') label[title='This option was been chosen as correct.']" "css_element" should exist
     And I should see "Option Text 1: Correct"
     And I should see "Option Text 2: Not correct"
     And I should see "Option Text 3: Not correct"
-    And I output "[SC - TESTCASE 19 - Part 1 - end]"
 
   @javascript
   Scenario: TESTCASE 19 - Part 2.
@@ -155,7 +141,6 @@ Feature: Step 18 and 19 and 20
   # Scenario: Shuffling enabled
     
   # Create a response as student
-    And I output "[SC - TESTCASE 19 - Part 2 - begin]"
     Given I log in as "student2"
     And quiz "Quiz 1" contains the following questions:
       | question       | page |
@@ -164,26 +149,23 @@ Feature: Step 18 and 19 and 20
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then I should see "Finished" 
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Login as a teacher and see if everything works
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I click on "Actions menu" "link"
-    And I click on "Responses" "link"
+    And I navigate to "Responses" in current page administration
     And I click on "Review attempt" "link"
-    Then element with css "tr:contains('Option Text 1') label[title='This option was been chosen as correct.']" should exist
+    Then "tr:contains('Option Text 1') label[title='This option was been chosen as correct.']" "css_element" should exist
     And I should see "Option Text 1: Correct"
     And I should see "Option Text 2: Not correct"
     And I should see "Option Text 3: Not correct"
-    And I output "[SC - TESTCASE 19 - Part 2 - end]"
 
   @javascript
   Scenario: TESTCASE 20.
@@ -191,7 +173,6 @@ Feature: Step 18 and 19 and 20
   # Check "review attempt, "responses", "statistics"
     
   # Create a response as student
-    And I output "[SC - TESTCASE 20 - begin]"
     Given I log in as "student2"
     And quiz "Quiz 1" contains the following questions:
       | question       | page |
@@ -200,13 +181,12 @@ Feature: Step 18 and 19 and 20
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
     And I press "Attempt quiz now"
-    And I click on css "tr:contains('Option Text 1') label[title='Click to choose as correct option.']"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then I should see "Finished" 
-    And I click on css ".usermenu"
-    And I click on "Log out" "link"
+    And I log out
 
   # Login as a teacher and see if everything works
     When I log in as "teacher1"
@@ -214,9 +194,8 @@ Feature: Step 18 and 19 and 20
     And I follow "Quiz 1"
 
   # Check Responses Page
-    And I click on "Actions menu" "link"
-    And I click on "Responses" "link"
-    Then element with xpath "[id='mod-quiz-report-responses-report_r0']" should exist
+    And I navigate to "Responses" in current page administration
+    Then "[id='mod-quiz-report-responses-report_r0']" "css_element" should exist
     And I should see "student2@moodle.com"
     And I should see "100.00"
 
@@ -224,28 +203,14 @@ Feature: Step 18 and 19 and 20
     When I click on "Review attempt" "link"
     Then I should see "100.00 out of 100.00"
     Then I should see "Mark 1.00 out of 1.00"
-    Then element with css "tr:contains('Option Text 1') label[title='This option was been chosen as correct.']" should exist
+    Then "tr:contains('Option Text 1') label[title='This option was been chosen as correct.']" "css_element" should exist
     And I should see "Option Text 1: Correct"
     And I should see "Option Text 2: Not correct"
     And I should see "Option Text 3: Not correct"
 
   # Check Responses Page - Delete Entry
-    And I click on "Actions menu" "link"
-    And I click on "Responses" "link"
-    And I click on "Select all" "link"
+    And I navigate to "Responses" in current page administration
+    And I click on "#mod-quiz-report-responses-report-selectall-attempts" "css_element"
     And I press "Delete selected attempts"
     And I click on "Yes" "button" in the "Confirmation" "dialogue"
     Then I should not see "student2@moodle.com"
-    And I output "[SC - TESTCASE 20 - end]"
-
-
-
-
-
-
-
-
-
-
-
-

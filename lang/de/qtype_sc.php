@@ -27,6 +27,7 @@
 
 $string['answernumbering'] = 'Nummerierung der Optionen';
 $string['checked'] = 'ausgewählt';
+$string['clearchoice'] = 'Meine Auswahl löschen.';
 $string['configintro'] = 'Administrationseinstellungen für den Fragentyp Single Choice.';
 $string['correct'] = 'Richtig';
 $string['correctvaluereset'] = 'Der Wert für die korrekte Wahlantwort wurde zurückgesetzt. Wahlantwort 1 wurde provisorisch als korrekte Antwort markiert.';
@@ -64,7 +65,7 @@ $string['pluginnameediting'] = 'Einfachwahlaufgabe („Typ A") bearbeiten';
 $string['pluginnameediting_help'] = 'Zur Beantwortung einer Fragestellung muss eine von mehreren Wahlantworten als die einzig richtige oder die beste ausgewählt werden.';
 $string['pluginnamesummary'] = 'In Einfachwahlaufgaben („Typ A") muss eine von mehreren Wahlantworten als die einzig richtige oder die beste ausgewählt werden. Studenten können Wahlantworten, die sie als falsch erachten, als Distraktoren markieren und erhalten, je nach Bewertungsmethode, Teilpunkte.';
 $string['preview'] = 'Vorschau';
-$string['privacy:metadata'] = 'Das Plugin für den Fragetyp "MTF" speichert keine persönlichen Daten.';
+$string['privacy:metadata'] = 'Das Plugin für den Fragetyp "SC" speichert keine persönlichen Daten.';
 $string['scoringaprime'] = 'Aprim';
 $string['scoringaprime_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde, die Hälfte der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.';
 $string['scoringsconezero'] = 'SC1/0';

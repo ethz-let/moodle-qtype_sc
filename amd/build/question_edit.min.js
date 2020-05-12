@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'qtype_sc/jquery.form'], function($) {
+define(['jquery'], function($) {
     // Setting up an Event listener.
     $('select[id="id_numberofrows"]').change(function () {
         numberofrowschanged();

@@ -58,7 +58,7 @@ class qtype_sc_grading_aprime extends qtype_sc_grading {
      */
     public function grade_question(qtype_sc_question $question, array $response) {
         if ($this->marked_wrong_distractor($question, $response) ||
-                $this->chose_wrong_answer($question, $response)) {
+            $this->chose_wrong_answer($question, $response)) {
             return 0.0;
         }
 

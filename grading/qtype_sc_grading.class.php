@@ -75,8 +75,7 @@ abstract class qtype_sc_grading {
      */
     protected function chose_wrong_answer(qtype_sc_question $question, array $response) {
         foreach ($question->order as $key => $rowid) {
-            $optionfield = $question->optionfield($key);
-            if (array_key_exists($optionfield, $response) && $response[$optionfield]) {
+            if (array_key_exists('option', $response) && $response['option'] == $key) {
                 $row = $question->rows[$rowid];
                 if ($row->number != $question->correctrow) {
                     return true;
@@ -93,10 +92,8 @@ abstract class qtype_sc_grading {
      * @return boolean
      */
     protected function chose_correct_answer(qtype_sc_question $question, array $response) {
-        // If the correct option was chosen, return the full score 1.0.
         foreach ($question->order as $key => $rowid) {
-            $optionfield = $question->optionfield($key);
-            if (array_key_exists($optionfield, $response) && $response[$optionfield]) {
+            if (array_key_exists('option', $response) && $response['option'] == $key) {
                 $selectedrow = $question->rows[$rowid];
                 if ($selectedrow->number == $question->correctrow) {
                     return true;
@@ -105,5 +102,4 @@ abstract class qtype_sc_grading {
         }
         return false;
     }
-
 }

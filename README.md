@@ -23,6 +23,93 @@ Aprime is a new scoring method designed to find a solution for a fairer scoring 
 1. Rename the extracted folder to `sc`.
 1. Start the Moodle upgrade procedure.
 
+## Migration Scripts:
+
+#### qtype_multichoice to qtype_sc
+##### Description:
+The Script bin/mig_multichoice_to_sc.php migrates questions of the type 
+qtype_multichoice to the questiontype qtype_sc. No questions will 
+be overwritten or deleted, the script will solely create new questions.
+
+##### Required Parameters (choose 1):
+ - courseid (values: a valid course ID)
+ - categoryid (values: a valid category ID)
+ - all (values: 1)
+
+##### Conditional Parameters (choose 0-n):
+ - dryrun (values: 0,1)
+ - includesubcategories (values: 0,1)
+
+    The Dryrun Option is enabled (1) by default.
+    With Dryrun enabled no changes will be made to the database.
+    Use Dryrun to receive information about possible issues before 
+    migrating.
+
+    includesubcategories wird in Kombination mit Migration by 
+    "categoryid" verwendet.
+    Falls aktiviert (1) werden Unterkategorien mit migriert.
+
+##### Examples
+
+ - Migrate Multichoice Questions in a specific course:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_multichoice_to_sc.php?courseid=55
+   ```
+ - Migrate Multichoice Questions in a specific category:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_multichoice_to_sc.php?categoryid=1
+   ```
+ - Migrate all Multichoice Questions:
+    ```
+   MOODLE_URL/question/type/sc/bin/mig_multichoice_to_sc.php?all=1
+   ```
+ - Disable Dryrun:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_multichoice_to_sc.php?all=1&dryrun=0
+   ```
+   
+#### qtype_sc to qtype_multichoice
+##### Description:
+The Script bin/mig_sc_to_multichoice.php migrates questions of the type 
+qtype_sc to the questiontype qtype_multichoice. No questions will be overwritten 
+or deleted, the script will solely create new questions.
+
+##### Required Parameters (choose 1):
+ - courseid (values: a valid course ID)
+ - categoryid (values: a valid category ID)
+ - all (values: 1)
+
+##### Conditional Parameters (choose 0-n):
+ - dryrun (values: 0,1)
+ - includesubcategories (values: 0,1)
+
+    The Dryrun Option is enabled (1) by default.
+    With Dryrun enabled no changes will be made to the database.
+    Use Dryrun to receive information about possible issues before 
+    migrating.
+
+    includesubcategories is used in combination with migration by categoryid.
+    If enabled all subcategories will be migrated as well.
+
+##### Examples
+
+ - Migrate SC Questions in a specific course:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_sc_to_multichoice.php?courseid=55
+   ```
+ - Migrate SC Questions in a specific category:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_sc_to_multichoice.php?categoryid=1
+   ```
+ - Migrate all SC Questions:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_sc_to_multichoice.php?all=1
+   ```
+ - Disable Dryrun:
+   ```
+   MOODLE_URL/question/type/sc/bin/mig_sc_to_multichoice.php?all=1&dryrun=0
+   ```
+
 ## Further information:
 ### Behat- and Unit tests:
 Behat tests are included but scenarios are designed explicitly for ETH Zürich testcases.

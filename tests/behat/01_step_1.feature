@@ -13,18 +13,11 @@ Feature: Step 1
       | teacher1 | c1     | editingteacher |
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
+    And I navigate to "Question bank" in current page administration
 
- @javascript
   Scenario: TESTCASE 1.
 
-    And I output "[SC - TESTCASE 1 - begin]"
-    When I press "Create a new question ..."
-    And I click on "item_qtype_sc" "radio"
-    And I press "Add"
-    And I set the following fields to these values:
+    When I add a "Single Choice (ETH)" question filling the form with:
       | id_name               | SC-Question-001          |
       | id_defaultmark        | 1                        |
       | id_questiontext       | This is the questiontext |
@@ -36,8 +29,4 @@ Feature: Step 1
       | id_option_3           | Question Text 3          |
       | id_feedback_3         | Feedback Text 3          |
       | id_correctrow_1       | checked                  |
-  And I press "id_submitbutton"
   Then I should see "SC-Question-001"
-  And I output "[SC - TESTCASE 1 - end]"
- 
-    

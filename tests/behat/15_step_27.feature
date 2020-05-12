@@ -16,8 +16,6 @@ Feature: Step 27
       | quiz     | Quiz 1 | Quiz 1 for testing | c1     | quiz1    |
     And quiz "Quiz 1" contains the following questions:
       | SC-Question-001 | 1 |
-    
-    
 
   @javascript
   Scenario: TESTCASE 27.
@@ -25,19 +23,16 @@ Feature: Step 27
   # Backup and restore works (Images etc. are also backuped and restored)
 
   # Upload images
-    And I output "[SC - TESTCASE 27 - begin]"
     Given I log in as "admin"
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
-    And I click on "Edit" "link" in the "SC-Question-001" "table_row"
+    And I navigate to "Question bank" in current page administration
+    And I choose "Edit question" action for "SC-Question-001" in the question bank
 
   # Add image to question stem
     And I click on "Insert or edit image" "button" in the "#id_generalheader" "css_element"
     And I press "Browse repositories..."
     And I click on "URL downloader" "link" in the ".fp-repo-area" "css_element"
-    And I set the field "fileurl" to "http://127.0.0.1/question/type/sc/tests/media/testimage1.png"
+    And I set the field "fileurl" to "http://localhost/moodle-3-8-1+/question/type/sc/tests/fixtures/testimage1.png"
     And I press "Download"
     And I click on "testimage1.png" "link"
     And I press "Select this file"
@@ -49,7 +44,7 @@ Feature: Step 27
     And I click on "Insert or edit image" "button" in the ".optiontext" "css_element"
     And I press "Browse repositories..."
     And I click on "URL downloader" "link" in the ".fp-repo-area" "css_element"
-    And I set the field "fileurl" to "http://127.0.0.1/question/type/sc/tests/media/testimage2.png"
+    And I set the field "fileurl" to "http://localhost/moodle-3-8-1+/question/type/sc/tests/fixtures/testimage2.png"
     And I press "Download"
     And I click on "testimage2.png" "link"
     And I press "Select this file"
@@ -59,8 +54,7 @@ Feature: Step 27
 
   # Backup SC Question
     And I am on "Course 1" course homepage
-    And I click on "Actions menu" "link"
-    And I click on "Backup" "link"
+    And I navigate to "Backup" in current page administration
     And I press "Next"
     And I press "Next"
     And I set the field "Filename" to "test_backup.mbz"
@@ -72,10 +66,8 @@ Feature: Step 27
     When I click on "Restore" "link"
     And I restore "test_backup.mbz" backup into a new course using this options:
       | Schema | Course name | Course 2 |
-    And I click on "Actions menu" "link"
-    And I click on "More..." "link"
-    And I click on "Question bank" "link"
-    And I click on "Edit" "link" in the "SC-Question-001" "table_row"
+    And I navigate to "Question bank" in current page administration
+    And I choose "Edit question" action for "SC-Question-001" in the question bank
 
   # Check
     Then the following fields match these values:
@@ -84,11 +76,10 @@ Feature: Step 27
       | id_option_2          | Option Text 2               |
       | id_feedback_1        | Feedback Text 1             |
       | id_feedback_2        | Feedback Text 2             |
-    And element with css "#id_correctrow_1[checked]" should exist
+    And "#id_correctrow_1[checked]" "css_element" should exist
     And I should see "Questiontext for Question 1"
     And I should see "This feedback is general"
-    And element with xpath "[alt='testimage1AltDescription']" should exist
+    And "[alt='testimage1AltDescription']" "css_element" should exist
     And I should not see "testimage1AltDescription"
-    And element with xpath "[alt='testimage2AltDescription']" should exist
+    And "[alt='testimage2AltDescription']" "css_element" should exist
     And I should not see "testimage2AltDescription"
-    And I output "[SC - TESTCASE 27 - end]"

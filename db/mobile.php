@@ -25,8 +25,23 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../../config.php');
-
-echo '<div id="wrapper" style="width:100%; text-align:center">' .
-    '<img src="' . $CFG->wwwroot . '/question/type/sc/pix/loading.gif" alt="' . get_string('loading', 'moodle') . '"/>' .
-    '</div>';
+defined('MOODLE_INTERNAL') || die();
+$addons = [
+    'qtype_sc' => [
+        'handlers' => [
+            'sc' => [
+                'displaydata' => [
+                    'title' => 'sc question',
+                    'icon' => $CFG->wwwroot . '/mod/sc/pix/icon.svg',
+                    'class' => '',
+                ],
+                'delegate' => 'CoreQuestionDelegate',
+                'method' => 'sc_view',
+                'styles' => [
+                    'url' => '/question/type/sc/mobile/styles_app.css',
+                    'version' => '1.00'
+                ]
+            ]
+        ]
+    ]
+];

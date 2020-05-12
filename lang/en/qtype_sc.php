@@ -27,6 +27,7 @@
 
 $string['answernumbering'] = 'Number the options?';
 $string['checked'] = 'chosen';
+$string['clearchoice'] = 'Clear my choice';
 $string['configintro'] = 'Administration settings for the single choice question type.';
 $string['correct'] = 'Correct';
 $string['correctvaluereset'] = 'The value for the correct answer has been reseted to option 1. Option 1 was marked as correct provisionally.';
@@ -64,7 +65,7 @@ $string['pluginnameediting'] = 'Editing a Single Choice ("Type A") question';
 $string['pluginnameediting_help'] = 'In response to a question prompt the candidates must identify one answer as the only correct answer or the best answer.';
 $string['pluginnamesummary'] = 'In Single Choice ("Type A") questions the one option which is the only correct or best option has to be identified. The students can also mark options they consider as wrong to receive a fraction of the points depending on the grading method.';
 $string['preview'] = 'Preview';
-$string['privacy:metadata'] = 'The MTF question type plugin does not store any personal data.';
+$string['privacy:metadata'] = 'The SC question type plugin does not store any personal data.';
 $string['scoringaprime'] = 'Aprime';
 $string['scoringaprime_help'] = 'Full points are awarded for selecting the correct or best option, half of total points, if all distractors except for one are crossed out, and zero points otherwise.';
 $string['scoringsconezero'] = 'SC1/0';

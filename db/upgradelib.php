@@ -27,7 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function qtype_sc_convert_question_attempts() {
+function qtype_sc_convert_question_attempts($version) {
     global $DB;
 
     $questionids = $DB->get_fieldset_select('question', 'id', "qtype = 'sc'");
@@ -37,45 +37,51 @@ function qtype_sc_convert_question_attempts() {
 
     list($qsql, $params) = $DB->get_in_or_equal($questionids, SQL_PARAMS_NAMED, 'qid');
     $attemptsql = "SELECT id
-                     FROM {question_attempts} qa
+                    FROM {question_attempts} qa
                     WHERE qa.questionid " . $qsql;
 
     $attemptids = $DB->get_fieldset_sql($attemptsql, $params);
 
     foreach ($attemptids as $attemptid) {
-        $transaction = $DB->start_delegated_transaction();
 
         $attempt = $DB->get_record('question_attempts', array('id' => $attemptid));
         $numberofrows = $DB->get_field('qtype_sc_options', 'numberofrows', array('questionid' => $attempt->questionid));
-
         $steps = $DB->get_records('question_attempt_steps', array('questionattemptid' => $attemptid));
 
-        foreach ($steps as $step) {
-            $stepdatarows = $DB->get_records('question_attempt_step_data', array('attemptstepid' => $step->id));
-
-            if (qtype_sc_is_order_or_finish_step($stepdatarows)) {
-                continue;
+        if ($version == 2018032003) {
+            $transaction = $DB->start_delegated_transaction();
+            foreach ($steps as $step) {
+                qtype_sc_convert_attempt_step_data_2018032003($numberofrows, $step->id);
             }
-            qtype_sc_convert_attempt_step_data($numberofrows, $stepdatarows, $step->id);
+            $transaction->allow_commit();
         }
-        $transaction->allow_commit();
+
+        if ($version == 2020051200) {
+            $transaction = $DB->start_delegated_transaction();
+            foreach ($steps as $step) {
+                qtype_sc_convert_attempt_step_data_2020051200($step->id);
+            }
+            $transaction->allow_commit();
+        }
     }
 }
 
 function qtype_sc_is_order_or_finish_step(array $stepdatarows) {
     foreach ($stepdatarows as $stepdata) {
-        if ($stepdata->name == '_order') {
-            return true;
-        }
-        if ($stepdata->name == '-finish') {
+        if ($stepdata->name == '_order' || $stepdata->name == '-finish') {
             return true;
         }
     }
     return false;
 }
 
-function qtype_sc_convert_attempt_step_data($numberofrows, array $stepdatarows, $attemptstepid) {
+function qtype_sc_convert_attempt_step_data_2018032003($numberofrows, $attemptstepid) {
     global $DB;
+
+    $stepdatarows = $DB->get_records('question_attempt_step_data', array('attemptstepid' => $attemptstepid));
+    if (qtype_sc_is_order_or_finish_step($stepdatarows)) {
+        return;
+    }
 
     $chosenoption = -1;
     $chosendistractors = array();
@@ -109,6 +115,51 @@ function qtype_sc_convert_attempt_step_data($numberofrows, array $stepdatarows, 
         if (array_key_exists($i, $chosendistractors)) {
             $newdistdata->value = 1;
         }
+        $DB->insert_record('question_attempt_step_data', $newdistdata);
+    }
+}
+
+function qtype_sc_convert_attempt_step_data_2020051200($attemptstepid) {
+    global $DB;
+
+    @set_time_limit(0);
+    @ini_set('memory_limit', '3072M');
+
+    $stepdatarows = $DB->get_records('question_attempt_step_data', array('attemptstepid' => $attemptstepid));
+    if (qtype_sc_is_order_or_finish_step($stepdatarows)) {
+        return;
+    }
+
+    $optionrow = $selected = null;
+    $isconverted = false;
+
+    foreach ($stepdatarows as $stepdata) {
+
+        if ($stepdata->name == 'option') {
+            $isconverted = true;
+            continue;
+        }
+
+        $optionrow = &preg_split("/option/", $stepdata->name)[1];
+        if (!isset($optionrow)) {
+            continue;
+        }
+
+        if ($stepdata->value == 1 && isset($optionrow)) {
+            $selected = $optionrow;
+        }
+        $DB->delete_records('question_attempt_step_data', array('id' => $stepdata->id));
+    }
+
+    if (!$isconverted) {
+        if (!isset($selected)) {
+            $selected = -1;
+        }
+
+        $newdistdata = new stdClass();
+        $newdistdata->attemptstepid = $attemptstepid;
+        $newdistdata->name = 'option';
+        $newdistdata->value = $selected;
         $DB->insert_record('question_attempt_step_data', $newdistdata);
     }
 }
