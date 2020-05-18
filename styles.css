@@ -106,12 +106,6 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     display: table-cell;
 }
 
-.que.sc .formulation {
-    background-color: #dee2e6;
-    border-color: #ffffff;
-    color: #000000;
-}
-
 .scgreyingout i {
     vertical-align: inherit;
 }
