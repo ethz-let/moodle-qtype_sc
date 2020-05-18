@@ -105,9 +105,9 @@ class qtype_sc_question_test extends advanced_testcase {
         $this->assertEquals(
             array(
                 'option' => PARAM_INT,
-                'distractor0' => PARAM_INT,
-                'distractor1' => PARAM_INT,
-                'distractor2' => PARAM_INT,
+                'distractor0' => PARAM_BOOL,
+                'distractor1' => PARAM_BOOL,
+                'distractor2' => PARAM_BOOL,
                 'qtype_sc_changed_value' => PARAM_INT),
             $question->get_expected_data());
     }
