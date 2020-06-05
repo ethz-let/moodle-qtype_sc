@@ -171,8 +171,11 @@ foreach ($questions as $question) {
 
     // Create a new sc question in the same category.
     unset($question->id);
+    $question->parent = 0;
     $question->qtype = 'sc';
     $question->name = $question->name . ' (SC)';
+    $question->stamp = make_unique_id_code();
+    $question->version = make_unique_id_code();
     $question->timecreated = time();
     $question->timemodified = time();
     $question->modifiedby = $USER->id;
