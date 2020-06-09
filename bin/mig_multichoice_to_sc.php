@@ -137,8 +137,7 @@ foreach ($questions as $question) {
     $oldquestionid = $question->id;
 
     // Retrieve the answers.
-    $answers = $DB->get_records('question_answers', array('question' => $oldquestionid));
-    sort($answers);
+    $answers = $DB->get_records('question_answers', array('question' => $oldquestionid), ' id ASC ');
 
     if ($dryrun) {
         echo '--------------------------------------------------------------------------------' .
@@ -222,7 +221,7 @@ foreach ($questions as $question) {
         $scrow = new stdClass();
         $scrow->questionid = $question->id;
         $scrow->number = $rowcount++;
-        $scrow->optiontext = $answer->answer;
+        $scrow->optiontext = trim($answer->answer);
         $scrow->optiontextformat = $answer->answerformat;
         $scrow->optionfeedback = $answer->feedback;
         $scrow->optionfeedbackformat = $answer->feedbackformat;
@@ -230,7 +229,7 @@ foreach ($questions as $question) {
         $rows[] = $scrow;
 
         // Copy images in the answer text.
-        $filenames = mig_sc_get_image_filenames($answer->answer);
+        $filenames = mig_sc_get_image_filenames(trim($answer->answer));
         foreach ($filenames as $filename) {
             $file = $fs->get_file($contextid, 'question', 'answer', $answer->id, '/', $filename);
             if ($file) {

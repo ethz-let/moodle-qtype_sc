@@ -133,7 +133,7 @@ foreach ($questions as $question) {
     $oldquestionid = $question->id;
 
     // Retrieve the answers.
-    $rows = $DB->get_records('qtype_sc_rows', array('questionid' => $oldquestionid));
+    $rows = $DB->get_records('qtype_sc_rows', array('questionid' => $oldquestionid), ' id ASC ');
 
     if ($dryrun) {
         echo '--------------------------------------------------------------------------------' .
@@ -200,7 +200,7 @@ foreach ($questions as $question) {
         // Create a new MC answer.
         $answer = new stdClass();
         $answer->question = $question->id;
-        $answer->answer = $row->optiontext;
+        $answer->answer = trim($row->optiontext);
         $answer->answerformat = $row->optiontextformat;
         $answer->feedback = $row->optionfeedback;
         $answer->feedbackformat = $row->optionfeedbackformat;
@@ -213,7 +213,7 @@ foreach ($questions as $question) {
         $answer->id = $DB->insert_record('question_answers', $answer);
         $answers[] = $answer;
         // Copy images in the optiontext to the new answer.
-        $filenames = mig_sc_get_image_filenames($row->optiontext);
+        $filenames = mig_sc_get_image_filenames(trim($row->optiontext));
         foreach ($filenames as $filename) {
             $file = $fs->get_file($contextid, 'qtype_sc', 'optiontext', $row->id, '/', $filename);
             if ($file) {
