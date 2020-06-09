@@ -41,3 +41,9 @@
 .qtype-sc .scoringmethod {
     cursor: pointer;
 }
+
+.qtype-sc .scspecificfeedback {
+    background: #FFF3BF !important;
+    color: #64450a;
+    display: inline;
+}

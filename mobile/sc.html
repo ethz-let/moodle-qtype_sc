@@ -38,9 +38,9 @@
                                         [text]="row.optiontext"
                                         [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
                                     </core-format-text>
-                                    <p *ngIf="row.feedback" class="core-question-feedback-container">
+                                    <div *ngIf="row.feedback" class="scspecificfeedback ng-star-inserted">
                                         <core-format-text [text]="row.feedback"></core-format-text>
-                                    </p>
+                                    </div>
                                 </ion-label>
                             </ion-item>
                         </ion-col>
