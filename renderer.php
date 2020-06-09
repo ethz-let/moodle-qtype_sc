@@ -145,6 +145,8 @@ class qtype_sc_renderer extends qtype_renderer {
                     $label = get_string('markascorrect', 'qtype_sc');
                 }
 
+                $feedbackimage = $displayoptions->correctness ? $this->get_correctness_image($question, $key, $row, $response) : '';
+
                 $output .= '<input type ="radio" ' .
                             'name="' . $option['inputname'] . '" ' .
                             'id="' . $option['inputid'] . '" ' .
@@ -156,16 +158,11 @@ class qtype_sc_renderer extends qtype_renderer {
                             'value="' . $key . '" />' .
                             '<label for="' . $option['inputid'] . '" title="' . $label . '" ' .
                             'class="' . ($distractor['selected'] ? 'linethrough' : '') . '">' .
-                            $option['rowtext'] .
+                            $feedbackimage . $option['rowtext'] .
                             '</label>';
 
-                // Correctness image.
-                if ($displayoptions->correctness) {
-                    $output .= $this->get_correctness_image($question, $key, $row, $response);
-                }
-
                 $cell = new html_table_cell($output);
-                $cell->attributes['class'] = 'scoptionbutton' . ($displayoptions->correctness ? ' correctness' : '');
+                $cell->attributes['class'] = 'scoptionbutton';
                 $rowdata[] = $cell;
 
                 // Distractorcheckbox.
@@ -256,7 +253,7 @@ class qtype_sc_renderer extends qtype_renderer {
                             '</label>';
 
                 $cell = new html_table_cell($output);
-                $cell->attributes['class'] = 'scoptionbutton' . ($displayoptions->correctness ? ' correctness' : '');
+                $cell->attributes['class'] = 'scoptionbutton';
                 $rowdata[] = $cell;
 
                 $cell = new html_table_cell();
@@ -317,10 +314,9 @@ class qtype_sc_renderer extends qtype_renderer {
 
     private function get_correctness_image_sconezero($question, $key, $row, $response) {
 
-        if ( $row->number == $question->correctrow) {
+        if ($row->number == $question->correctrow) {
             return '<span class="scgreyingout">' . $this->feedback_image(1.0) . '</span>';
-        } else if ($row->number != $question->correctrow
-                    && array_key_exists('option', $response) && $response['option'] == $key) {
+        } else if ($row->number != $question->correctrow) {
             return '<span class="scgreyingout">' . $this->feedback_image(0.0) . '</span>';
         }
         return '';
@@ -328,11 +324,9 @@ class qtype_sc_renderer extends qtype_renderer {
 
     private function get_correctness_image_aprime_subpoints($question, $key, $row, $response) {
 
-        if ( $row->number == $question->correctrow) {
+        if ($row->number == $question->correctrow) {
             return '<span class="scgreyingout">' . $this->feedback_image(1.0) . '</span>';
-        } else if ($row->number != $question->correctrow
-                    && (array_key_exists('option', $response) && $response['option'] == $key)
-                    || (array_key_exists('distractor' . $key, $response) && $response['distractor' . $key] == 1)) {
+        } else if ($row->number != $question->correctrow) {
             return '<span class="scgreyingout">' . $this->feedback_image(0.0) . '</span>';
         }
         return '';
@@ -457,7 +451,7 @@ class qtype_sc_renderer extends qtype_renderer {
     /**
      * @param int $num The number, starting at 0.
      * @param string $style The style to render the number in. One of the
-     * options returned by {@link qtype_multichoice:;get_numbering_styles()}.
+     * options returned by {@link qtype_sc:;get_numbering_styles()}.
      * @return string the number $num in the requested style.
      */
     protected function number_in_style($num, $style) {
