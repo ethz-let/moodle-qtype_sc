@@ -325,6 +325,25 @@ foreach ($questions as $question) {
             $mcoptions->shownumcorrect = 0;
             $mcoptions->id = $DB->insert_record('qtype_multichoice_options', $mcoptions);
 
+            // Copy tags.
+            $tags = $DB->get_records_sql(
+                "SELECT * FROM {tag_instance} WHERE itemid = :itemid",
+                array('itemid' => $oldquestionid));
+
+            foreach ($tags as $tag) {
+                $entry = new stdClass();
+                $entry->tagid = $tag->tagid;
+                $entry->component = $tag->component;
+                $entry->itemtype = $tag->itemtype;
+                $entry->itemid = $question->id;
+                $entry->contextid = $tag->contextid;
+                $entry->tiuserid = $tag->tiuserid;
+                $entry->ordering = $tag->ordering;
+                $entry->timecreated = $tag->timecreated;
+                $entry->timemodified = $tag->timemodified;
+                $DB->insert_record('tag_instance', $entry);
+            }
+
             $transaction->allow_commit();
         } catch (Exception $e) {
             $transaction->rollback($e);
