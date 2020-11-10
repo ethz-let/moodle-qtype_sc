@@ -158,6 +158,10 @@ class qtype_sc_edit_form extends question_edit_form {
         $mform->setType('generalfeedback', PARAM_RAW);
         $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_sc');
 
+        $mform->addElement('text', 'idnumber', get_string('idnumber', 'question'), 'maxlength="100"  size="10"');
+        $mform->addHelpButton('idnumber', 'idnumber', 'question');
+        $mform->setType('idnumber', PARAM_RAW);
+
         // Any questiontype specific fields.
         $this->definition_inner($mform);
 
@@ -386,6 +390,8 @@ class qtype_sc_edit_form extends question_edit_form {
      * @see question_edit_form::validation()
      */
     public function validation($data, $files) {
+        global $DB;
+
         $errors = parent::validation($data, $files);
 
         // If the questionname is empty.
@@ -430,7 +436,30 @@ class qtype_sc_edit_form extends question_edit_form {
             }
         }
 
-        // Finally return errors, in case there are any errors.
+        // Can only have one idnumber per category.
+        if (strpos($data['category'], ',') !== false) {
+            list($category, $categorycontextid) = explode(',', $data['category']);
+        } else {
+            $category = $data['category'];
+        }
+        if (isset($data['idnumber']) && ((string) $data['idnumber'] !== '')) {
+            if (empty($data['usecurrentcat']) && !empty($data['categorymoveto'])) {
+                $categoryinfo = $data['categorymoveto'];
+            } else {
+                $categoryinfo = $data['category'];
+            }
+            list($categoryid, $notused) = explode(',', $categoryinfo);
+            $conditions = 'category = ? AND idnumber = ?';
+            $params = [$categoryid, $data['idnumber']];
+            if (!empty($this->question->id)) {
+                $conditions .= ' AND id <> ?';
+                $params[] = $this->question->id;
+            }
+            if ($DB->record_exists_select('question', $conditions, $params)) {
+                $errors['idnumber'] = get_string('idnumbertaken', 'error');
+            }
+        }
+
         return $errors;
     }
 }
