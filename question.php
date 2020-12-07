@@ -383,6 +383,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      */
     public function make_html_inline($html) {
         $html = preg_replace('~\s*<p>\s*~u', '', $html);
+        $html = preg_replace('/<p\b[^>]*>/', '', $html);
         $html = preg_replace('~\s*</p>\s*~u', '<br />', $html);
         $html = preg_replace('~(<br\s*/?>)+$~u', '', $html);
 
