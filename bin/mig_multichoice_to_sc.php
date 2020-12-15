@@ -415,6 +415,12 @@ function get_image_filenames($text) {
 function copy_files($fs, $contextid, $oldid, $newid, $text, $type, $component, $filearea) {
     $filenames = get_image_filenames($text);
     foreach ($filenames as $filename) {
+
+        $parsed_filename_url = parse_url($filename)["path"];
+        if (isset($parsed_filename_url)) {
+            $filename = $parsed_filename_url;
+        }
+
         $file = $fs->get_file($contextid, 'question', $type, $oldid, '/', $filename);
         if ($file) {
             $newfile = new stdClass();
@@ -436,6 +442,12 @@ function test_files($fs, $contextid, $oldid, $text, $type, $olcdomponent) {
 
     $filenames = get_image_filenames($text);
     foreach ($filenames as $filename) {
+
+        $parsed_filename_url = parse_url($filename)["path"];
+        if (isset($parsed_filename_url)) {
+            $filename = $parsed_filename_url;
+        }
+
         $file = $fs->get_file($contextid, $olcdomponent, $type, $oldid, '/', $filename);
         if (!$file) {
             $success = 0;
