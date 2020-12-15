@@ -83,6 +83,8 @@ class qtype_sc_renderer extends qtype_renderer {
         if (!$displayoptions->readonly) {
             $optionhighlighting = $question->scoringmethod == 'sconezero' ? false : true;
             $PAGE->requires->js_call_amd('qtype_sc/question_behaviour', 'init', array($optionhighlighting, $question->id));
+        } else {
+            $PAGE->requires->js_call_amd('qtype_sc/question_behaviour', 'initReadonly', array($question->id));
         }
 
         return $result;
@@ -156,7 +158,7 @@ class qtype_sc_renderer extends qtype_renderer {
                             ($option['selected'] ? 'checked="checked"' : '') .
                             ($displayoptions->readonly ? 'readonly="readonly" disabled="disabled"' : '') .
                             'value="' . $key . '" />' .
-                            '<label for="' . $option['inputid'] . '" title="' . $label . '" ' .
+                            '<label class="w-100" for="' . $option['inputid'] . '" title="' . $label . '" ' .
                             'class="' . ($distractor['selected'] ? 'linethrough' : '') . '">' .
                             $feedbackimage . $option['rowtext'] .
                             '</label>';

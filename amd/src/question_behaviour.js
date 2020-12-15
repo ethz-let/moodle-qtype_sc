@@ -165,6 +165,9 @@ define(['jquery'], function($) {
             linethroughrows(questionid);
             highlightrows(questionid, optionHighlighting);
             toggleclearselection(questionid);
+        },
+        initReadonly: function(questionid) {
+            linethroughrows(questionid);
         }
     };
 });

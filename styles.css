@@ -38,6 +38,8 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
 
 .que.sc table.sc tbody td.scoptionbutton {
     text-align: left;
+    display: flex;
+    align-items: flex-start;
 }
 
 .que.sc table.sc tbody td.scoptionbutton.correctness {
@@ -119,13 +121,21 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     border-left: 1px solid rgba(0, 0, 0, 0.41)
 }
 
+
+input[type=radio].optionradio {
+    margin: .3rem .5rem;
+    width: 14px;
+}
+
 input[type=radio].optionradio + label {
-    margin: 5px;
+    cursor: not-allowed;
+}
+
+input[type=radio].optionradio + label {
     cursor: not-allowed;
 }
 
 input[type=radio].optionradio.active + label {
-    margin: 5px;
     cursor: pointer;
 }
 
@@ -377,8 +387,4 @@ body#page-question-type-sc .optionbox,
 
 #page-question-type-sc label {
     white-space: nowrap!important;
-}
-
-#page-mod-quiz-attempt .que.sc .scoptionbutton label {
-    padding: 10px;
 }
