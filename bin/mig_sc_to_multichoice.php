@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../../../config.php');
 require_once($CFG->dirroot . '/lib/moodlelib.php');
 require_once($CFG->dirroot . '/lib/questionlib.php');
 require_once($CFG->dirroot . '/question/type/sc/lib.php');
-require_once('migration_lib.php');
 
 $courseid = optional_param('courseid', 0, PARAM_INT);
 $categoryid = optional_param('categoryid', 0, PARAM_INT);
@@ -150,7 +149,15 @@ foreach ($questions as $question) {
     // Retrieve the answers.
     $rows = $DB->get_records('qtype_sc_rows', array('questionid' => $oldquestionid), ' id ASC ');
 
-    // Pretesting files
+    // Get contextid from question category.
+    $contextid = $DB->get_field('question_categories', 'contextid', array('id' => $question->category));
+
+    if (!isset($contextid) || $contextid == false) {
+        echo "<br/>[<font color='red'>ERR</font>] No context id found for this question.";
+        continue;
+    }
+
+    // Pretesting files.
 
     $success = 1;
     $status = "";
@@ -221,7 +228,7 @@ foreach ($questions as $question) {
             unset($question->id);
             $question->parent = 0;
             $question->qtype = 'multichoice';
-            $question->name = $question->name . ' (MC)';
+            $question->name = substr($question->name . " (MC)", 0, 255);
             $question->stamp = make_unique_id_code();
             $question->version = make_unique_id_code();
             $question->timecreated = time();
@@ -411,9 +418,9 @@ function copy_files($fs, $contextid, $oldid, $newid, $text, $type, $olcdomponent
     $filenames = get_image_filenames($text);
     foreach ($filenames as $filename) {
 
-        $parsed_filename_url = parse_url($filename)["path"];
-        if (isset($parsed_filename_url)) {
-            $filename = $parsed_filename_url;
+        $parsedfilenameurl = parse_url($filename)["path"];
+        if (isset($parsedfilenameurl)) {
+            $filename = $parsedfilenameurl;
         }
 
         $file = $fs->get_file($contextid, $olcdomponent, $type, $oldid, '/', $filename);
@@ -429,7 +436,7 @@ function copy_files($fs, $contextid, $oldid, $newid, $text, $type, $olcdomponent
     }
 }
 
-// Testing files
+// Testing files.
 function test_files($fs, $contextid, $oldid, $text, $type, $olcdomponent) {
 
     $success = 1;
@@ -438,9 +445,9 @@ function test_files($fs, $contextid, $oldid, $text, $type, $olcdomponent) {
     $filenames = get_image_filenames($text);
     foreach ($filenames as $filename) {
 
-        $parsed_filename_url = parse_url($filename)["path"];
-        if (isset($parsed_filename_url)) {
-            $filename = $parsed_filename_url;
+        $parsedfilenameurl = parse_url($filename)["path"];
+        if (isset($parsedfilenameurl)) {
+            $filename = $parsedfilenameurl;
         }
 
         $file = $fs->get_file($contextid, $olcdomponent, $type, $oldid, '/', $filename);
