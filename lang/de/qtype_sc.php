@@ -28,7 +28,7 @@
 $string['answernumbering'] = 'Nummerierung der Optionen';
 $string['checked'] = 'ausgewählt';
 $string['clearchoice'] = 'Meine Auswahl löschen.';
-$string['configintro'] = 'Administrationseinstellungen für den Fragentyp Single Choice.';
+$string['configintro'] = 'Administrationseinstellungen für den Fragentyp Single Choice (ETH).';
 $string['correct'] = 'Richtig';
 $string['correctvaluereset'] = 'Der Wert für die korrekte Wahlantwort wurde zurückgesetzt. Wahlantwort 1 wurde provisorisch als korrekte Antwort markiert.';
 $string['deletedchoice'] = 'Diese Antwort wurde gelöscht, nachdem der Test gestartet worden ist.';
@@ -67,18 +67,18 @@ $string['pluginnamesummary'] = 'In Einfachwahlaufgaben („Typ A") muss eine von
 $string['preview'] = 'Vorschau';
 $string['privacy:metadata'] = 'Das Plugin für den Fragetyp "SC" speichert keine persönlichen Daten.';
 $string['scoringaprime'] = 'Aprim';
-$string['scoringaprime_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde, die Hälfte der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.';
+$string['scoringaprime_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige Wahlantwort ausgewählt wurde oder wenn alle Distraktoren korrekt gewählt sind. Die Hälfte der Punktzahl wird vergeben, wenn alle korrekten Distraktoren bis auf einem richtig angewählt sind, sonst null Punkte';
 $string['scoringsconezero'] = 'SC1/0';
-$string['scoringsconezero_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde, sonst null Punkte.';
+$string['scoringsconezero_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige Wahlantwort ausgewählt wurde, sonst null Punkte.';
 $string['scoringsubpoints'] = 'Teilpunkte';
-$string['scoringsubpoints_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige oder beste Wahlantwort ausgewählt wurde. Für jeden richtig durchgestrichenen Distraktor werden Teilpunkte verteilt, bis zu maximal 50% der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.';
+$string['scoringsubpoints_help'] = 'Die volle Punktzahl wird vergeben, wenn die richtige Wahlantwort ausgewählt wurde oder wenn alle Distraktoren korrekt gewählt sind. Die Hälfte der Punktzahl wird vergeben, wenn alle korrekten Distraktoren bis auf einem richtig angewählt sind, sonst Teilpunkte';
 $string['showscoringmethod'] = 'Bewertungsmethode anzeigen';
 $string['showscoringmethod_help'] = 'Wenn diese Option aktiviert ist, wird Studenten die Bewertungsmethode in Tests angezeigt.';
 $string['scoringmethod'] = 'Bewertungsmethode';
 $string['scoringmethod_help'] = 'Es gibt es drei alternative Bewertungsmethoden:
-<br/><strong>SC1/0</strong> (empfohlen): Bei der Auswahl „SC1/0“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige oder beste Wahlantwort ausgewählt wurde, sonst null Punkte.
-<br/><strong>Aprim</strong>: Bei der Auswahl „Aprim“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige oder beste Wahlantwort ausgewählt wurde, die Hälfte der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden und sonst null Punkte.
-<br/><strong>Teilpunkte</strong>: Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige oder beste Wahlantwort ausgewählt wurde. Für jeden richtig durchgestrichenen Distraktor erhalten Kandidat/innen Teilpunkte, bis zu maximal 50% der Punktzahl, wenn alle Distraktoren ausser einem durchgestrichen wurden. Sonst erhalten sie null Punkte.';
+<br/><strong>SC1/0</strong> (empfohlen): Bei der Auswahl „SC1/0“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige Wahlantwort ausgewählt wurde, sonst null Punkte.
+<br/><strong>Aprim</strong>: Bei der Auswahl „Aprim“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige Wahlantwort ausgewählt wurde oder wenn alle Distraktoren korrekt gewählt sind. Die Hälfte der Punktzahl wird vergeben, wenn alle korrekten Distraktoren bis auf einem richtig angewählt sind, sonst null Punkte.
+<br/><strong>Teilpunkte</strong>: Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen die volle Punktzahl, wenn die richtige Wahlantwort ausgewählt wurde oder wenn alle Distraktoren korrekt gewählt sind. Die Hälfte der Punktzahl wird vergeben, wenn alle korrekten Distraktoren bis auf einem richtig angewählt sind, sonst Teilpunkte';
 $string['selectone'] = 'Wählen Sie eine Wahlantwort aus:';
 $string['shuffleanswers'] = 'Wahlantworten mischen';
 $string['shuffleanswers_help'] = 'Wenn aktiviert, ist die Reihenfolge der Wahlantworten bei jedem Versuch zufällig, sofern die Option "In Fragen zufällig mischen" aktiviert ist.';

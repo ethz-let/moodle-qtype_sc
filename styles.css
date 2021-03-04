@@ -31,7 +31,6 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     border-bottom: none;
 }
 
-
 .que.sc table.sc .lastrow {
     background: transparent !important;
 }
@@ -122,33 +121,33 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
 }
 
 
-input[type=radio].optionradio {
+.que.sc input[type=radio].optionradio {
     margin: .3rem .5rem;
     width: 14px;
 }
 
-input[type=radio].optionradio + label {
+.que.sc input[type=radio].optionradio + label {
     cursor: not-allowed;
 }
 
-input[type=radio].optionradio + label {
+.que.sc input[type=radio].optionradio + label {
     cursor: not-allowed;
 }
 
-input[type=radio].optionradio.active + label {
+.que.sc input[type=radio].optionradio.active + label {
     cursor: pointer;
 }
 
-input[type=radio].optionradio.hidden {
+.que.sc input[type=radio].optionradio.hidden {
     display: unset;
     opacity: 0;
 }
 
-input[type=checkbox].distractorcheckbox {
+.que.sc input[type=checkbox].distractorcheckbox {
     display: none;
 }
 
-input[type=checkbox].distractorcheckbox + label {
+.que.sc input[type=checkbox].distractorcheckbox + label {
     background-image: url([[pix:qtype_sc|cross]]);
     background-size: cover;
     background-repeat: no-repeat;
@@ -160,16 +159,16 @@ input[type=checkbox].distractorcheckbox + label {
     vertical-align: inherit;
 }
 
-input[type=checkbox].distractorcheckbox + label:hover {
+.que.sc input[type=checkbox].distractorcheckbox + label:hover {
     cursor: not-allowed;
 }
 
-input[type=checkbox].distractorcheckbox.active + label:hover {
+.que.sc input[type=checkbox].distractorcheckbox.active + label:hover {
     background-color: #dedede;
     cursor: pointer;
 }
 
-input[type=checkbox].distractorcheckbox:checked + label {
+.que.sc input[type=checkbox].distractorcheckbox:checked + label {
     background-image: url([[pix:qtype_sc|cross-active]]);
     background-size: cover;
     background-repeat: no-repeat;

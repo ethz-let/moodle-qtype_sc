@@ -92,7 +92,6 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
         return $questioncreated;
     }
 
-
     /**
      * Process the qtype/sc/rows/row element.
      */

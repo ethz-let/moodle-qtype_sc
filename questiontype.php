@@ -522,7 +522,7 @@ class qtype_sc extends question_type {
         $expout .= '    <shuffleanswers>' . $format->get_single($question->options->shuffleanswers) .
                  "</shuffleanswers>\n";
         $expout .= '    <answernumbering>' . $format->writetext($question->options->answernumbering) .
-            "</answernumbering>\n";
+                "</answernumbering>\n";
         $expout .= '    <numberofrows>' . $question->options->numberofrows . "</numberofrows>\n";
         $expout .= '    <correctrow>' . $question->options->correctrow . "</correctrow>\n";
 
@@ -573,37 +573,29 @@ class qtype_sc extends question_type {
         $question->scoringmethod = $format->getpath($data,
             array('#', 'scoringmethod', 0, '#', 'text', 0, '#'), 'sc');
         $question->shuffleanswers = $format->trans_single(
-        $format->getpath($data, array('#', 'shuffleanswers', 0, '#'
-        ), 1));
+            $format->getpath($data, array('#', 'shuffleanswers', 0, '#'), 1));
         $question->answernumbering = $format->getpath($data,
             array('#', 'answernumbering', 0, '#', 'text', 0, '#'), 'sc');
         $question->numberofrows = $format->getpath($data,
-        array('#', 'numberofrows', 0, '#'
-        ), QTYPE_SC_NUMBER_OF_OPTIONS);
-
+            array('#', 'numberofrows', 0, '#'), QTYPE_SC_NUMBER_OF_OPTIONS);
         $question->correctrow = $format->getpath($data,
-        array('#', 'correctrow', 0, '#'
-        ), 0);
+            array('#', 'correctrow', 0, '#'), 0);
 
         $rows = $data['#']['row'];
         $i = 1;
         foreach ($rows as $row) {
-            $number = $format->getpath($row, array('@', 'number'
-            ), $i++);
+            $number = $format->getpath($row, array('@', 'number'), $i++);
 
             $question->{'option_' . $number} = array();
             $question->{'option_' . $number}['text'] = $format->getpath($row,
-            array('#', 'optiontext', 0, '#', 'text', 0, '#'
-            ), '', true);
+                array('#', 'optiontext', 0, '#', 'text', 0, '#'), '', true);
             $question->{'option_' . $number}['format'] = $format->trans_format(
-            $format->getpath($row, array('#', 'optiontext', 0, '@', 'format'
-            ), FORMAT_HTML));
+                $format->getpath($row, array('#', 'optiontext', 0, '@', 'format'), FORMAT_HTML));
 
             $question->{'option_' . $number}['files'] = array();
 
             // Restore files in options (rows).
-            $files = $format->getpath($row, array('#', 'optiontext', 0, '#', 'file'
-            ), array(), false);
+            $files = $format->getpath($row, array('#', 'optiontext', 0, '#', 'file'), array(), false);
             foreach ($files as $file) {
                 $filesdata = new stdclass();
                 $filesdata->content = $file['#'];
@@ -613,18 +605,14 @@ class qtype_sc extends question_type {
             }
 
             $question->{'feedback_' . $number} = array();
-            $question->{'feedback_' . $number}['text'] = $format->getpath($row,
-            array('#', 'feedbacktext', 0, '#', 'text', 0, '#'
-            ), '', true);
+            $question->{'feedback_' . $number}['text'] = $format->getpath(
+                $row, array('#', 'feedbacktext', 0, '#', 'text', 0, '#'), '', true);
             $question->{'feedback_' . $number}['format'] = $format->trans_format(
-            $format->getpath($row, array('#', 'feedbacktext', 0, '@', 'format'
-            ), FORMAT_HTML));
+                $format->getpath($row, array('#', 'feedbacktext', 0, '@', 'format'), FORMAT_HTML));
 
             // Restore files in option feedback.
             $question->{'feedback_' . $number}['files'] = array();
-            $files = $format->getpath($row,
-            array('#', 'feedbacktext', 0, '#', 'file'
-            ), array(), false);
+            $files = $format->getpath($row, array('#', 'feedbacktext', 0, '#', 'file'), array(), false);
 
             foreach ($files as $file) {
                 $filesdata = new stdclass();

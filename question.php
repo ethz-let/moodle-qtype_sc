@@ -49,6 +49,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_definition::start_attempt()
      */
     public function start_attempt(question_attempt_step $step, $variant) {
+
         $this->order = array_keys($this->rows);
         if ($this->shuffleanswers) {
             shuffle($this->order);
@@ -62,6 +63,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_definition::apply_attempt_state()
      */
     public function apply_attempt_state(question_attempt_step $step) {
+
         $this->order = explode(',', $step->get_qt_var('_order'));
 
         for ($i = 0; $i < count($this->order); $i++) {
@@ -88,6 +90,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return array
      */
     public function get_order(question_attempt $qa) {
+
         $this->init_order($qa);
         return $this->order;
     }
@@ -98,6 +101,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @param question_attempt $qa
      */
     protected function init_order(question_attempt $qa) {
+
         if (is_null($this->order)) {
             $this->order = explode(',', $qa->get_step(0)->get_qt_var('_order'));
         }
@@ -110,6 +114,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return string
      */
     public function distractorfield($key) {
+
         return 'distractor' . $key;
     }
 
@@ -119,6 +124,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return bool
      */
     public function is_option_selected($response, $key) {
+
         return array_key_exists('option', $response) && $response['option'] == $key;
     }
 
@@ -128,6 +134,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return bool
      */
     public function is_distractor_selected($response, $key) {
+
         $distractorfield = $this->distractorfield($key);
         return array_key_exists($distractorfield, $response) && $response[$distractorfield];
     }
@@ -138,6 +145,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return array|mixed
      */
     public function get_response(question_attempt $qa) {
+
         return $qa->get_last_qt_data();
     }
 
@@ -148,6 +156,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return bool
      */
     public function is_complete_response(array $response) {
+
         return array_key_exists('option', $response) && $response['option'] !== '-1';
     }
 
@@ -309,6 +318,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return array parameter name => value.
      */
     public function get_correct_response() {
+
         $result = array();
 
         foreach ($this->order as $key => $rowid) {
@@ -326,6 +336,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return The grading object.
      */
     public function grading() {
+
         global $CFG;
 
         $type = $this->scoringmethod;
@@ -346,6 +357,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return array (number, integer) the fraction, and the state.
      */
     public function grade_response(array $response) {
+
         $grade = $this->grading()->grade_question($this, $response);
         $state = question_state::graded_state_for_fraction($grade);
 
@@ -363,6 +375,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      *         meaning take all the raw submitted data belonging to this question.
      */
     public function get_expected_data() {
+
         $result = array();
 
         $result["qtype_sc_changed_value"] = PARAM_INT;
@@ -382,6 +395,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return string the purified HTML code without paragraph elements and line breaks.
      */
     public function make_html_inline($html) {
+
         $html = preg_replace('~\s*<p>\s*~u', '', $html);
         $html = preg_replace('/<p\b[^>]*>/', '', $html);
         $html = preg_replace('~\s*</p>\s*~u', '<br />', $html);
@@ -401,6 +415,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return string the equivalent plain text.
      */
     public function html_to_text($text, $format) {
+
         return question_utils::to_plain_text($text, $format);
     }
 
@@ -411,6 +426,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @param int $totaltries Not needed
      */
     public function compute_final_grade($responses, $totaltries) {
+
         $lastresponse = count($responses) - 1;
         $numpoints = isset($responses[$lastresponse]) ? $this->grading()->grade_question($this, $responses[$lastresponse]) : 0;
         return max(0, $numpoints - max(0, $lastresponse) * $this->penalty);
@@ -424,6 +440,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @param question_hint_with_parts $hint a hint.
      */
     protected function disable_hint_settings_when_too_many_selected(question_hint_with_parts $hint) {
+
         $hint->clearwrong = false;
     }
 
@@ -447,6 +464,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @see question_definition::check_file_access()
      */
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
+
         if ($component == 'qtype_sc' && $filearea == 'optiontext') {
             return true;
         } else if ($component == 'qtype_sc' && $filearea == 'feedbacktext') {
@@ -461,8 +479,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         } else if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
         } else {
-            return parent::check_file_access($qa, $options, $component, $filearea, $args,
-                    $forcedownload);
+            return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
         }
     }
 }

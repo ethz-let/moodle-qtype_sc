@@ -78,53 +78,43 @@ class qtype_sc_edit_form extends question_edit_form {
 
             // Adding question.
             $mform->addElement('questioncategory', 'category', get_string('category', 'question'),
-                    array('contexts' => $contexts
-                    ));
-        } else if (!($this->question->formoptions->canmove ||
-                 $this->question->formoptions->cansaveasnew)) {
+                array('contexts' => $contexts));
+        } else if (!($this->question->formoptions->canmove || $this->question->formoptions->cansaveasnew)) {
+
             // Editing question with no permission to move from category.
             $mform->addElement('questioncategory', 'category', get_string('category', 'question'),
-                    array('contexts' => array($this->categorycontext
-                    )
-                    ));
+                array('contexts' => array($this->categorycontext)));
             $mform->addElement('hidden', 'usecurrentcat', 1);
             $mform->setType('usecurrentcat', PARAM_BOOL);
             $mform->setConstant('usecurrentcat', 1);
         } else if (isset($this->question->formoptions->movecontext)) {
+
             // Moving question to another context.
-            $mform->addElement('questioncategory', 'categorymoveto',
-                    get_string('category', 'question'),
-                    array('contexts' => $this->contexts->having_cap('moodle/question:add')
-                    ));
+            $mform->addElement('questioncategory', 'categorymoveto', get_string('category', 'question'),
+                array('contexts' => $this->contexts->having_cap('moodle/question:add')));
             $mform->addElement('hidden', 'usecurrentcat', 1);
             $mform->setType('usecurrentcat', PARAM_BOOL);
             $mform->setConstant('usecurrentcat', 1);
         } else {
+
             // Editing question with permission to move from category or save as new q.
             $currentgrp = array();
-            $currentgrp[0] = $mform->createElement('questioncategory', 'category',
-                    get_string('categorycurrent', 'question'),
-                    array('contexts' => array($this->categorycontext
-                    )
-                    ));
+            $currentgrp[0] = $mform->createElement('questioncategory', 'category', get_string('categorycurrent', 'question'),
+                array('contexts' => array($this->categorycontext)));
+
             if ($this->question->formoptions->canedit || $this->question->formoptions->cansaveasnew) {
                 // Not move only form.
                 $currentgrp[1] = $mform->createElement('checkbox', 'usecurrentcat', '',
-                        get_string('categorycurrentuse', 'question'));
+                    get_string('categorycurrentuse', 'question'));
                 $mform->setDefault('usecurrentcat', 1);
             }
             $currentgrp[0]->freeze();
             $currentgrp[0]->setPersistantFreeze(false);
-            $mform->addGroup($currentgrp, 'currentgrp', get_string('categorycurrent', 'question'),
-                    null, false);
+            $mform->addGroup($currentgrp, 'currentgrp', get_string('categorycurrent', 'question'), null, false);
+            $mform->addElement('questioncategory', 'categorymoveto', get_string('categorymoveto', 'question'),
+                array('contexts' => array($this->categorycontext)));
 
-            $mform->addElement('questioncategory', 'categorymoveto',
-                    get_string('categorymoveto', 'question'),
-                    array('contexts' => array($this->categorycontext
-                    )
-                    ));
             if ($this->question->formoptions->canedit || $this->question->formoptions->cansaveasnew) {
-                // Not move only form.
                 $mform->disabledIf('categorymoveto', 'usecurrentcat', 'checked');
             }
         }
@@ -136,25 +126,18 @@ class qtype_sc_edit_form extends question_edit_form {
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $mform->addElement('text', 'defaultmark', get_string('maxpoints', 'qtype_sc'),
-                array('size' => 7
-                ));
+        $mform->addElement('text', 'defaultmark', get_string('maxpoints', 'qtype_sc'), array('size' => 7));
         $mform->setType('defaultmark', PARAM_FLOAT);
         $mform->setDefault('defaultmark', 1);
         $mform->addRule('defaultmark', null, 'required', null, 'client');
 
-        $mform->addElement('editor', 'questiontext', get_string('stem', 'qtype_sc'),
-                array('rows' => 15
-                ), $this->editoroptions);
+        $mform->addElement('editor', 'questiontext', get_string('stem', 'qtype_sc'), array('rows' => 15), $this->editoroptions);
         $mform->setType('questiontext', PARAM_RAW);
         $mform->addRule('questiontext', null, 'required', null, 'client');
-        $mform->setDefault('questiontext',
-                array('text' => get_string('enterstemhere', 'qtype_sc')
-                ));
+        $mform->setDefault('questiontext', array('text' => get_string('enterstemhere', 'qtype_sc')));
 
         $mform->addElement('editor', 'generalfeedback', get_string('generalfeedback', 'question'),
-                array('rows' => 10
-                ), $this->editoroptions);
+            array('rows' => 10), $this->editoroptions);
         $mform->setType('generalfeedback', PARAM_RAW);
         $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_sc');
 
@@ -171,8 +154,7 @@ class qtype_sc_edit_form extends question_edit_form {
             if (core_tag_tag::is_enabled('core_question', 'question')) {
                 $mform->addElement('header', 'tagshdr', get_string('tags', 'tag'));
                 $mform->addElement('tags', 'tags', get_string('tags'),
-                        array('itemtype' => 'question', 'component' => 'core_question'
-                        ));
+                    array('itemtype' => 'question', 'component' => 'core_question'));
             }
         }
         if (!empty($this->question->id)) {
@@ -181,10 +163,7 @@ class qtype_sc_edit_form extends question_edit_form {
             $a = new stdClass();
             if (!empty($this->question->createdby)) {
                 $a->time = userdate($this->question->timecreated);
-                $a->user = fullname(
-                        $DB->get_record('user',
-                                array('id' => $this->question->createdby
-                                )));
+                $a->user = fullname($DB->get_record('user', array('id' => $this->question->createdby)));
             } else {
                 $a->time = get_string('unknown', 'question');
                 $a->user = get_string('unknown', 'question');
@@ -289,30 +268,30 @@ class qtype_sc_edit_form extends question_edit_form {
         // Add an option text editor, response radio buttons and a feedback editor for each option.
         for ($i = 1; $i <= 5; ++$i) {
             // Add the option editor.
-            $mform->addElement('html', '<div class="optionbox" id="optionbox_response_' . $i . '">'); // Open div.optionbox.
-            $mform->addElement('html', '<div class="optionandresponses">'); // Open div.optionbox.
-            $mform->addElement('html', '<div class="optiontext">'); // Open div.optiontext.
+            $mform->addElement('html', '<div class="optionbox" id="optionbox_response_' . $i . '">');
+            $mform->addElement('html', '<div class="optionandresponses">');
+            $mform->addElement('html', '<div class="optiontext">');
             $mform->addElement('html', '<label class="optiontitle">' . get_string('optionno', 'qtype_sc', $i) . '</label>');
             $mform->addElement('editor', 'option_' . $i, '', array('rows' => 2.5), $this->editoroptions);
             $mform->setDefault('option_' . $i, array('text' => get_string('enteroptionhere', 'qtype_sc')));
             $mform->setType('option_' . $i, PARAM_RAW);
-            $mform->addElement('html', '</div>'); // Close div.optiontext.
+            $mform->addElement('html', '</div>');
 
             // Add the radio for correctness.
-            $mform->addElement('html', '<div class="responses">'); // Open div.responses.
+            $mform->addElement('html', '<div class="responses">');
             $mform->addElement('radio', 'correctrow', '', get_string('correct', 'qtype_sc'), $i, $attributes);
             $mform->setDefault('correctrow', 0);
-            $mform->addElement('html', '</div>'); // Close div.responses.
-            $mform->addElement('html', '</div>'); // Close div.optionsandresponses.
-            $mform->addElement('html', '<br /><br />'); // Close div.optionsandresponses.
+            $mform->addElement('html', '</div>');
+            $mform->addElement('html', '</div>');
+            $mform->addElement('html', '<br /><br />');
 
             // Add the feedback text editor in a new line.
-            $mform->addElement('html', '<div class="feedbacktext">'); // Open div.feedbacktext.
+            $mform->addElement('html', '<div class="feedbacktext">');
             $mform->addElement('html', '<label class="feedbacktitle">' . get_string('feedbackforoption', 'qtype_sc') . '</label>');
             $mform->addElement('editor', 'feedback_' . $i, '', array('rows' => 1.5, 'placeholder' => ''), $this->editoroptions);
             $mform->setType('feedback_' . $i, PARAM_RAW);
-            $mform->addElement('html', '</div>'); // Close div.feedbacktext.
-            $mform->addElement('html', '</div>'); // Close div.optionbox.
+            $mform->addElement('html', '</div>');
+            $mform->addElement('html', '</div>');
         }
     }
 

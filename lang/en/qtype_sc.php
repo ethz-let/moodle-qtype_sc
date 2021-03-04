@@ -28,7 +28,7 @@
 $string['answernumbering'] = 'Number the options?';
 $string['checked'] = 'chosen';
 $string['clearchoice'] = 'Clear my choice';
-$string['configintro'] = 'Administration settings for the single choice question type.';
+$string['configintro'] = 'Administration settings for the single choice (ETH) question type.';
 $string['correct'] = 'Correct';
 $string['correctvaluereset'] = 'The value for the correct answer has been reseted to option 1. Option 1 was marked as correct provisionally.';
 $string['deletedchoice'] = 'This choice was deleted after the attempt was started.';
@@ -46,7 +46,7 @@ $string['markedascorrect'] = 'This option was been chosen as correct.';
 $string['markedasdistractor'] = 'This option was been marked as incorrect.';
 $string['maxpoints'] = 'Max. points';
 $string['mustchoosecorrectoption'] = 'You must mark one option as correct.';
-$string['mustdeleteextrarows'] = 'Max allowed options in Single Choice are 5 options. {$a} option(s) will be deleted. If you cancel editing without saving, the surplus options will remain.';
+$string['mustdeleteextrarows'] = 'Max allowed options are 5 options. {$a} option(s) will be deleted. If you cancel editing without saving, the surplus options will remain.';
 $string['mustsupplyname'] = 'You must enter a task title.';
 $string['mustsupplyvalue'] = 'You must enter an option text.';
 $string['mustsupplyvalidvalue'] = 'The selected value must be in a range between 2 and 5.';
@@ -67,22 +67,21 @@ $string['pluginnamesummary'] = 'In Single Choice ("Type A") questions the one op
 $string['preview'] = 'Preview';
 $string['privacy:metadata'] = 'The SC question type plugin does not store any personal data.';
 $string['scoringaprime'] = 'Aprime';
-$string['scoringaprime_help'] = 'Full points are awarded for selecting the correct or best option, half of total points, if all distractors except for one are crossed out, and zero points otherwise.';
+$string['scoringaprime_help'] = 'Full points are awarded for selecting the correct answer or for selecting all distractors correctly, half of the points if one correct distractor remains sunchecked and zero points otherwise.';
 $string['scoringsconezero'] = 'SC1/0';
-$string['scoringsconezero_help'] = 'Full points are awarded for selecting the correct or best option, and zero points otherwise.';
+$string['scoringsconezero_help'] = 'Full points are awarded for selecting the correct answer, and zero points otherwise.';
 $string['scoringsubpoints'] = 'Subpoints';
-$string['scoringsubpoints_help'] = 'Full points are awarded for selecting the correct or best option, subpoints for each correctly crossed out distractor up to half of total points for crossing out all expect for one distractor, and zero points otherwise.';
+$string['scoringsubpoints_help'] = 'Full points are awarded for selecting the correct answer or for selecting all distractors correctly, half of the points if one correct distractor remains unchecked and a fraction of points otherwise.';
 $string['showscoringmethod'] = 'Show scoring method';
 $string['showscoringmethod_help'] = 'If this setting is enabled, students will see the scoring method in quizes';
 $string['scoringmethod'] = 'Scoring method';
 $string['scoringmethod_help'] = 'There are three alternative scoring methods:
-<br/><strong>SC1/0</strong> (recommended): The student receives full points if the only correct or best answer is identified, and zero points otherwise.
-<br/><strong>Aprime</strong>: The student receives full points for selecting the correct or best option, half of total points, if all distractors save one are crossed out, and zero points otherwise.
-<br/><strong>Subpoints</strong>: The student is awarded full points for selecting the correct or best option, subpoints for each correctly crossed out distractor up to half of total points for crossing out all save one distractor, and zero points otherwise.';
+<br/><strong>SC1/0</strong> (recommended): The student receives full points if the only correct answer is identified, and zero points otherwise.
+<br/><strong>Aprime</strong>: The student receives full points for selecting the correct answer or for selecting all distractors correctly, half of the points if one correct distractor remains unchecked and zero points otherwise.
+<br/><strong>Subpoints</strong>: The student receives full points for selecting the correct answer or for selecting all distractors correctly, half of the points if one correct distractor remains unchecked and a fraction of points otherwise.';
 $string['selectone'] = 'Select one option:';
 $string['shuffleanswers'] = 'Shuffle options';
-$string['shuffleanswers_help'] = 'If enabled, the order of the options is randomly shuffled for each attempt,
-         provided that "Shuffle within questions" in the activity settings is also enabled.';
+$string['shuffleanswers_help'] = 'If enabled, the order of the options is randomly shuffled for each attempt, provided that "Shuffle within questions" in the activity settings is also enabled.';
 $string['stem'] = 'Stem';
 $string['tasktitle'] = 'Task title';
 $string['unchecked'] = 'not chosen';

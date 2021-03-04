@@ -48,8 +48,8 @@ define('QTYPE_SC_MAX_NUMBER_OF_OPTIONS', 5);
  *
  * @return bool
  */
-function qtype_sc_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload,
-        array $options = array()) {
+function qtype_sc_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+
     global $CFG;
     require_once($CFG->libdir.'/questionlib.php');
     question_pluginfile($course, $context, 'qtype_sc', $filearea, $args, $forcedownload,
