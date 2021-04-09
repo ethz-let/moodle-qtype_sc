@@ -121,7 +121,7 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
             $this->get_contains_sc_radio_expectation($rightindex + 1, false, false),
             $this->get_contains_sc_radio_expectation($rightindex + 2, false, false),
             $this->get_contains_correct_expectation(),
-            new question_pattern_expectation('/name=\".*1_option\".*checked=\"checked\".*value=\"0\"/')
+            new question_pattern_expectation('/name=\".*1_option\".*value=\"0\".*checked=\"checked\"/')
         );
     }
 }

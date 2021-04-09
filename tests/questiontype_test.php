@@ -39,11 +39,11 @@ class qtype_sc_test extends advanced_testcase {
 
     protected $qtype;
 
-    protected function setUp() {
+    protected function setUp(): void {
         $this->qtype = new qtype_sc();
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         $this->qtype = null;
     }
 
@@ -119,19 +119,19 @@ class qtype_sc_test extends advanced_testcase {
 
     public function test_get_random_guess_score_sc() {
         $question = $this->get_test_question_data();
-        $this->assertEquals(0.33333333333333331, $this->qtype->get_random_guess_score($question), '', 0.0000001);
+        $this->assertEqualsWithDelta(0.33333333333333331, $this->qtype->get_random_guess_score($question), 0.0000001);
     }
 
     public function test_get_random_guess_score_sconzero() {
         $question = $this->get_test_question_data();
         $question->options->scoringmethod = "sconezero";
-        $this->assertEquals(0.33333333333333331, $this->qtype->get_random_guess_score($question), '', 0.0000001);
+        $this->assertEqualsWithDelta(0.33333333333333331, $this->qtype->get_random_guess_score($question), 0.0000001);
     }
 
     public function test_get_random_guess_score_aprime() {
         $question = $this->get_test_question_data();
         $question->options->scoringmethod = "aprime";
-        $this->assertEquals(0.33333333333333331, $this->qtype->get_random_guess_score($question), '', 0.0000001);
+        $this->assertEqualsWithDelta(0.33333333333333331, $this->qtype->get_random_guess_score($question), 0.0000001);
     }
 
     public function test_get_possible_responses() {
@@ -172,19 +172,19 @@ class qtype_sc_test extends advanced_testcase {
 
         foreach ($questiondata as $property => $value) {
             if (!in_array($property, array('id', 'version', 'timemodified', 'timecreated', 'options', 'hints', 'stamp'))) {
-                $this->assertAttributeEquals($value, $property, $actualquestiondata);
+                $this->assertEquals($value, $actualquestiondata->$property);
             }
         }
         foreach ($questiondata->options as $optionname => $value) {
             if ($optionname != 'questionid' && $optionname != 'rows') {
-                $this->assertAttributeEquals($value, $optionname, $actualquestiondata->options);
+                $this->assertEquals($value, $actualquestiondata->options->$optionname);
             }
         }
         foreach ($questiondata->hints as $hint) {
             $actualhint = array_shift($actualquestiondata->hints);
             foreach ($hint as $property => $value) {
                 if (!in_array($property, array('id', 'questionid', 'options'))) {
-                    $this->assertAttributeEquals($value, $property, $actualhint);
+                    $this->assertEquals($value, $actualhint->$property);
                 }
             }
         }
@@ -192,7 +192,7 @@ class qtype_sc_test extends advanced_testcase {
             $actualrow = array_shift($actualquestiondata->options->rows);
             foreach ($row as $rowproperty => $rowvalue) {
                 if (!in_array($rowproperty, array('id', 'questionid'))) {
-                    $this->assertAttributeEquals($rowvalue, $rowproperty, $actualrow);
+                    $this->assertEquals($rowvalue, $actualrow->$rowproperty);
                 }
             }
         }
