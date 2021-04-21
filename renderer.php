@@ -199,7 +199,7 @@ class qtype_sc_renderer extends qtype_renderer {
                 $labelattributes = [];
                 $labelattributes['title'] = $label;
 
-                $output .= html_writer::label('', $distractor['inputid'], true, $labelattributes);
+                $output .= html_writer::label('S', $distractor['inputid'], true, $labelattributes);
 
                 $cell = new html_table_cell($output);
                 $cell->attributes['class'] = 'scdistractorbutton';
