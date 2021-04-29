@@ -127,7 +127,7 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
     }
 
     public function recode_response($questionid, $sequencenumber, array $response) {
-        if (array_key_exists('_order', $response)) {
+        if (property_exists((object) $response, '_order')) {
             $response['_order'] = $this->recode_option_order($response['_order']);
         }
         return $response;

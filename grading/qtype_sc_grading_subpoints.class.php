@@ -70,7 +70,7 @@ class qtype_sc_grading_subpoints extends qtype_sc_grading {
         $correctdistractors = 0.0;
         foreach ($question->order as $key => $rowid) {
             $distractorfield = $question->distractorfield($key);
-            if (array_key_exists($distractorfield, $response) && ($response[$distractorfield])) {
+            if (property_exists((object) $response, $distractorfield) && ($response[$distractorfield])) {
                 $row = $question->rows[$rowid];
                 if ($row->number != $question->correctrow) {
                     $correctdistractors = $correctdistractors + 1.0;

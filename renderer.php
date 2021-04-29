@@ -366,7 +366,7 @@ class qtype_sc_renderer extends qtype_renderer {
             return html_writer::span($this->feedback_image($questiongrade), 'scgreyingout');
         }
 
-        if (!array_key_exists('option', $response) || $response['option'] == '-1') {
+        if (!property_exists((object) $response, 'option') || $response['option'] == '-1') {
             if ($questiongrade > 0.0) {
                 if ($distractorischecked) {
                     return html_writer::span($this->feedback_image(1.0), 'scgreyingout');

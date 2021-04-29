@@ -112,7 +112,7 @@ function qtype_sc_convert_attempt_step_data_2018032003($numberofrows, $attemptst
         $newdistdata->attemptstepid = $attemptstepid;
         $newdistdata->name = 'distractor' . $i;
         $newdistdata->value = 0;
-        if (array_key_exists($i, $chosendistractors)) {
+        if (property_exists((object) $chosendistractors, $i)) {
             $newdistdata->value = 1;
         }
         $DB->insert_record('question_attempt_step_data', $newdistdata);

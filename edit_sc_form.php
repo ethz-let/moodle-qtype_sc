@@ -375,7 +375,7 @@ class qtype_sc_edit_form extends question_edit_form {
 
         // If the questionname is empty.
         // or if the variable is missing.
-        if (!array_key_exists('name', $data)
+        if (!property_exists((object) $data, 'name')
             || empty($data['name'])) {
             $errors['name'] = get_string('mustsupplyname', 'qtype_sc');
         }
@@ -383,7 +383,7 @@ class qtype_sc_edit_form extends question_edit_form {
         // If the variable numberofrows does not exist.
         // If the variable is empty or if the value of.
         // the variable exceeds 5 or is smaller than 2.
-        if (!array_key_exists('numberofrows', $data)
+        if (!property_exists((object) $data, 'numberofrows')
             || empty($data['numberofrows'])
             || $data['numberofrows'] > 5
             || $data['numberofrows'] < 2) {
@@ -391,10 +391,10 @@ class qtype_sc_edit_form extends question_edit_form {
         }
 
         // If one of the optiontexts if empty.
-        if (array_key_exists('numberofrows', $data)
+        if (property_exists((object) $data, 'numberofrows')
             || !empty($data['numberofrows'])) {
             for ($i = 1; $i <= $data['numberofrows']; ++$i) {
-                if (array_key_exists('option_' . $i, $data)) {
+                if (property_exists((object) $data, 'option_' . $i)) {
                     $optiontext = $this->clean_option_text($data['option_' . $i]['text']);
                     if (empty($optiontext)) {
                         $errors['option_' . $i] = get_string('mustsupplyvalue', 'qtype_sc');
@@ -406,9 +406,9 @@ class qtype_sc_edit_form extends question_edit_form {
         // If the correctrow value is missing.
         // or if the correctrow is greater than.
         // the number of rows (out of range).
-        if (array_key_exists('numberofrows', $data)
+        if (property_exists((object) $data, 'numberofrows')
         || !empty($data['numberofrows'])) {
-            if (!array_key_exists('correctrow', $data)
+            if (!property_exists((object) $data, 'correctrow')
             || !$data['correctrow']
             || $data['correctrow'] > $data['numberofrows']) {
                 $errors['correctrow'] = get_string('mustchoosecorrectoption', 'qtype_sc');

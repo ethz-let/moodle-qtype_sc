@@ -57,7 +57,7 @@ abstract class qtype_sc_grading {
 
         foreach ($question->order as $key => $rowid) {
             $distractorfield = $question->distractorfield($key);
-            if (array_key_exists($distractorfield, $response) && $response[$distractorfield] == 1) {
+            if (property_exists((object) $response, $distractorfield) && $response[$distractorfield] == 1) {
                 $row = $question->rows[$rowid];
                 if ($row->number == $question->correctrow) {
                     return true;
@@ -75,7 +75,7 @@ abstract class qtype_sc_grading {
      */
     protected function chose_wrong_answer(qtype_sc_question $question, array $response) {
         foreach ($question->order as $key => $rowid) {
-            if (array_key_exists('option', $response) && $response['option'] == $key) {
+            if (property_exists((object) $response, 'option') && $response['option'] == $key) {
                 $row = $question->rows[$rowid];
                 if ($row->number != $question->correctrow) {
                     return true;
@@ -93,7 +93,7 @@ abstract class qtype_sc_grading {
      */
     protected function chose_correct_answer(qtype_sc_question $question, array $response) {
         foreach ($question->order as $key => $rowid) {
-            if (array_key_exists('option', $response) && $response['option'] == $key) {
+            if (property_exists((object) $response, 'option') && $response['option'] == $key) {
                 $selectedrow = $question->rows[$rowid];
                 if ($selectedrow->number == $question->correctrow) {
                     return true;

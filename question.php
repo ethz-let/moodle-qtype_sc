@@ -125,7 +125,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      */
     public function is_option_selected($response, $key) {
 
-        return array_key_exists('option', $response) && $response['option'] == $key;
+        return property_exists((object) $response, 'option') && $response['option'] == $key;
     }
 
     /**
@@ -136,7 +136,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     public function is_distractor_selected($response, $key) {
 
         $distractorfield = $this->distractorfield($key);
-        return array_key_exists($distractorfield, $response) && $response[$distractorfield];
+        return property_exists((object) $response, $distractorfield) && $response[$distractorfield];
     }
 
     /**
@@ -156,8 +156,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return bool
      */
     public function is_complete_response(array $response) {
-
-        return array_key_exists('option', $response) && $response['option'] !== '-1';
+        return property_exists((object) $response, 'option') && $response['option'] !== '-1';
     }
 
     /**
@@ -219,14 +218,14 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         $result = array();
 
         foreach ($this->order as $key => $rowid) {
-            if (array_key_exists('option', $response) && $response['option'] == $key) {
+            if (property_exists((object) $response, 'option') && $response['option'] == $key) {
                 $row = $this->rows[$rowid];
                 $result[] = $this->html_to_text($row->optiontext, $row->optiontextformat);
             }
         }
         foreach ($this->order as $key => $rowid) {
             $field = $this->distractorfield($key);
-            if (array_key_exists($field, $response) && $response[$field]) {
+            if (property_exists((object) $response, $field) && $response[$field]) {
                 $row = $this->rows[$rowid];
                 $result[] = $this->html_to_text($row->optiontext, $row->optiontextformat) . ' ' .
                     get_string('iscrossedout', 'qtype_sc');
@@ -246,7 +245,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
         foreach ($this->order as $key => $rowid) {
             $field = $this->distractorfield($key);
-            if (array_key_exists($field, $response) && $response[$field] == 1) {
+            if (property_exists((object) $response, $field) && $response[$field] == 1) {
                 return true;
             }
         }
@@ -268,7 +267,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         list($partialcredit, $state) = $this->grade_response($response);
 
         foreach ($this->order as $key => $rowid) {
-            if (array_key_exists('option', $response) && ($response['option'] == $key)) {
+            if (property_exists((object) $response, 'option') && ($response['option'] == $key)) {
 
                 $row = $this->rows[$rowid];
                 if ($row->number == $this->correctrow) {
