@@ -1,0 +1,84 @@
+<section *ngIf="question.text || question.text === ''" class="qtype-sc">
+    <ion-item class="ion-text-wrap">
+        <ion-label>
+            <p>
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.text">
+                </core-format-text>
+            </p>
+            <p *ngIf="question.prompt">
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt">
+                </core-format-text>
+            </p>
+        </ion-label>
+    </ion-item>
+    <ion-radio-group [name]="question.optiongroupname" [(ngModel)]="question.optionselected">
+        <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
+        <input type="hidden" [ngModel]="question.optionselected" [attr.name]="question.optiongroupname">
+        <ng-container *ngFor="let row of question.rows">
+            <ion-grid
+                [ngClass]="row.qclass"
+                [attr.number]="row.optionvalue"
+                [hidden]="(row.optionvalue == -1 && question.optionselected == -1) || row.optionvalue == null"
+                [style.background]="togglehighlightrows(row.optionvalue) ? 'rgba(0, 255, 7, 0.21)' : 'transparent'">
+                <ion-row>
+                    <ion-col size="10">
+                        <ion-item class="ion-text-wrap">
+                            <ion-radio
+                                [id]="row.optionid"
+                                [name]="question.optiongroupname"
+                                [attr.number]="row.optionvalue"
+                                [value]="row.optionvalue"
+                                [disabled]="row.disabled"
+                                (click)="clickoptionbutton(row.optionvalue)"
+                                slot="start">
+                            </ion-radio>
+                            <ion-label>
+                                <core-format-text
+                                    [component]="component"
+                                    [componentId]="row.optionid + 'label'"
+                                    [text]="row.optiontext"
+                                    [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
+                                </core-format-text>
+                                <div *ngIf="row.feedback" class="scspecificfeedback ng-star-inserted">
+                                    <core-format-text [text]="row.feedback"></core-format-text>
+                                </div>
+                            </ion-label>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-item lines="none" class="ion-no-padding">
+                            <ion-checkbox
+                                *ngIf="row.optionvalue != -1"
+                                [(ngModel)]="row.distractorselected"
+                                [id]="row.distractorid"
+                                [name]="row.distractorname"
+                                [attr.number]="row.optionvalue"
+                                [value]="1"
+                                [disabled]="row.disabled"
+                                (ionChange)="clickdistractor(row.distractorselected, row.optionvalue);">
+                            </ion-checkbox>
+                            <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
+                            <input type="hidden" [ngModel]="row.distractorselected" [attr.name]="row.distractorname">
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ng-container>
+    </ion-radio-group>
+    <div *ngIf="question.scoringmethodlabel && question.scoringmethodhelp" class="scoringmethod">
+        <hr>
+        <ion-item (click)="scoringmethodhelp=!scoringmethodhelp" class="ion-text-wrap">
+            <ion-icon name="far-question-circle" aria-hidden="true" slot="start"></ion-icon>
+            <ion-label>
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.scoringmethodlabel">
+                </core-format-text>
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="scoringmethodhelp" class="ion-text-wrap">
+            <ion-label>
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.scoringmethodhelp">
+                </core-format-text>
+            </ion-label>
+        </ion-item>
+    </div>
+</section>

@@ -30,8 +30,12 @@ namespace qtype_sc\output;
 defined('MOODLE_INTERNAL') || die();
 
 class mobile {
-    public static function sc_view() {
+    public static function sc_view($args) {
         global $CFG;
+
+        $args = (object) $args;
+        $versionname = $args->appversioncode >= 3950 ? 'latest' : 'ionic3';
+
         // General notes:
         // If you have worked on mobile activities, there is no cmid or courseid in $args here.
         // This is not equivalent to mod/quiz/attempt.php?attempt=57&cmid=147, rather
@@ -40,7 +44,7 @@ class mobile {
         return [
             'templates' => [[
                 'id' => 'main',
-                'html' => file_get_contents($CFG->dirroot . '/question/type/sc/mobile/sc.html')
+                'html' => file_get_contents($CFG->dirroot . "/question/type/sc/mobile/sc_$versionname.html")
             ]],
             'javascript' => file_get_contents($CFG->dirroot . '/question/type/sc/mobile/sc.js')
         ];
