@@ -42,6 +42,7 @@ class mobile {
 
     /**
      * Returns a test view.
+     * @param object $args
      * @return array HTML, javascript and otherdata
      */
     public static function sc_view($args) {
