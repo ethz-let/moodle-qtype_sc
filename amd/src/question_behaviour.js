@@ -26,8 +26,11 @@
 
 define(['jquery'], function($) {
 
-    /*
+    /**
      * Manages checking and unchecking of option radio buttons.
+     * @param {Object} clickedRadio The clicked radio.
+     * @param {int} questionid The question id.
+     * @param {boolean} highlighting questionhighlighting.
      */
     function clickoption(clickedRadio, questionid, highlighting) {
 
@@ -45,8 +48,11 @@ define(['jquery'], function($) {
         toggleclearselection(questionid);
     }
 
-    /*
+    /**
      * Manages checking and unchecking of distractor radio buttons.
+     * @param {Object} clickedDistractor The clicked distractor.
+     * @param {int} questionid The question id.
+     * @param {boolean} highlighting questionhighlighting.
      */
     function clickDistractorButton(clickedDistractor, questionid, highlighting) {
 
@@ -69,17 +75,27 @@ define(['jquery'], function($) {
         toggleclearselection(questionid);
     }
 
+    /**
+     * Checks wether more than 0 options are selected.
+     * @param {int} questionid The question id.
+     * @returns {boolean}
+     */
     function isOptionSelected(questionid) {
 
         var numHiddenOptionRadio = $('table#questiontable' + questionid)
             .find('#q' + questionid + '_option-1:checked').length;
 
         var numOptionRadios = $('table#questiontable' + questionid)
-            .find('[id^="q' + questionid + '_option"]:checked').length
+            .find('[id^="q' + questionid + '_option"]:checked').length;
 
         return numOptionRadios == 1 && numHiddenOptionRadio == 0;
     }
 
+    /**
+     * Returns the number of selected distractors.
+     * @param {int} questionid The question id.
+     * @returns {int}
+     */
     function numberDistractorsChosen(questionid) {
 
         var numDistractors = $('table#questiontable' + questionid)
@@ -88,6 +104,10 @@ define(['jquery'], function($) {
         return numDistractors;
     }
 
+    /**
+     * Strikes out options which active distractor.
+     * @param {int} questionid The question id.
+     */
     function linethroughrows(questionid) {
 
         var optionlabels = $('table#questiontable' + questionid)
@@ -100,13 +120,18 @@ define(['jquery'], function($) {
         var chosenDistractors = $('table#questiontable' + questionid)
             .find('input.distractorcheckbox:checked');
 
-        for (var i = 0; i < chosenDistractors.length; i++) {
+        for (var j = 0; j < chosenDistractors.length; j++) {
             var optionlabel = $('table#questiontable' + questionid)
-                .find('label[for="q' + questionid + '_option' + $(chosenDistractors[i]).data('number') + '"]')[0];
+                .find('label[for="q' + questionid + '_option' + $(chosenDistractors[j]).data('number') + '"]')[0];
             $(optionlabel).addClass('linethrough');
         }
     }
 
+    /**
+     * Highlights options which have been selected and are not marked as distractors.
+     * @param {int} questionid The question id.
+     * @param {boolean} highlighting questionhighlighting.
+     */
     function highlightrows(questionid, highlighting) {
         if (highlighting) {
 
@@ -121,15 +146,19 @@ define(['jquery'], function($) {
                 var notChosenDistractors = $('table#questiontable' + questionid)
                     .find('input.distractorcheckbox:not(:checked)');
 
-                for (var i = 0; i < notChosenDistractors.length; i++) {
+                for (var j = 0; j < notChosenDistractors.length; j++) {
                     var row = $('table#questiontable' + questionid)
-                        .find('tr[class*="optionrow' + $(notChosenDistractors[i]).data('number') + '"]');
+                        .find('tr[class*="optionrow' + $(notChosenDistractors[j]).data('number') + '"]');
                     row.addClass('highlight');
                 }
             }
         }
     }
 
+    /**
+     * Clears selection.
+     * @param {int} questionid The question id.
+     */
     function toggleclearselection(questionid) {
 
         var clearselectionrow = $('table#questiontable' + questionid + ' .optionrow-1')[0];
@@ -149,15 +178,15 @@ define(['jquery'], function($) {
             var distractors = $('table#questiontable' + questionid + ' input.distractorcheckbox');
 
             for (var i = 0; i < distractors.length; i++) {
-                $(distractors[i]).change(function () {
+                $(distractors[i]).change(function() {
                     clickDistractorButton($(this), questionid, optionHighlighting);
                 });
             }
 
             var options = $('table#questiontable' + questionid + ' input.optionradio');
 
-            for (var i = 0; i < options.length; i++) {
-                $(options[i]).change(function () {
+            for (var j = 0; j < options.length; j++) {
+                $(options[j]).change(function() {
                     clickoption($(this), questionid, optionHighlighting);
                 });
             }

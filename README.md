@@ -1,5 +1,7 @@
 # Single Choice (ETH)
 
+![](https://github.com/ethz-let/moodle-qtype_sc/actions/workflows/moodle-ci.yml/badge.svg)
+
 ## What it is:
 Single Choice (ETH) is a Moodle questiontype, it can most likely be compared to Multichoice but with a difference. In contrary to Multichoice students do not only have the choice to give the right answer by selecting the correct option row but also by marking incorrect option rows (distractors) as wrong. Therefore Single Choice (ETH) comes with three different grading methods which make more or less use of the distractor mechanics. While SC 1/0 is almost identical to Multichoice in terms of question mechanics the other two grading methods also include distractors but handle results slightly different.
 

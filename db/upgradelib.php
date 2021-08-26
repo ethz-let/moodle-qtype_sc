@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * qtype_sc upgradelib code.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -27,6 +29,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Searches existing attempts and calls specific conversion function.
+ * @param int $version
+ */
 function qtype_sc_convert_question_attempts($version) {
     global $DB;
 
@@ -66,6 +72,13 @@ function qtype_sc_convert_question_attempts($version) {
     }
 }
 
+/**
+ * _order or -finish stepdata are not part of the coversion and need to be skipped
+ * This function checks wther the current stepdata contains one of these values and
+ * returns true or false, depending on the result.
+ * @param array $stepdatarows
+ * @return bool
+ */
 function qtype_sc_is_order_or_finish_step(array $stepdatarows) {
     foreach ($stepdatarows as $stepdata) {
         if ($stepdata->name == '_order' || $stepdata->name == '-finish') {
@@ -75,6 +88,11 @@ function qtype_sc_is_order_or_finish_step(array $stepdatarows) {
     return false;
 }
 
+/**
+ * This function conerts all step_data older than 2018032003
+ * @param int $numberofrows
+ * @param int $attemptstepid
+ */
 function qtype_sc_convert_attempt_step_data_2018032003($numberofrows, $attemptstepid) {
     global $DB;
 
@@ -119,6 +137,10 @@ function qtype_sc_convert_attempt_step_data_2018032003($numberofrows, $attemptst
     }
 }
 
+/**
+ * This function conerts all step_data older than 2020051200
+ * @param int $attemptstepid
+ */
 function qtype_sc_convert_attempt_step_data_2020051200($attemptstepid) {
     global $DB;
 

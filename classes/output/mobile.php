@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Mock class for get_content.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -29,7 +31,19 @@ namespace qtype_sc\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Mock class for get_content.
+ *
+ * @package qtype_sc
+ * @copyright 2016 ETHZ {@link http://ethz.ch/}
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mobile {
+
+    /**
+     * Returns a test view.
+     * @return array HTML, javascript and otherdata
+     */
     public static function sc_view($args) {
         global $CFG;
 

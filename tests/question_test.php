@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Unit tests for qtype_sc definition class.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -30,10 +32,18 @@ global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 /**
- * @group qtype_sc
+ * Unit tests for qtype_sc question definition class.
+ *
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @group       qtype_sc
  */
 class qtype_sc_question_test extends advanced_testcase {
 
+    /**
+     * Makes a qtype_sc question.
+     * @return qtype_sc
+     */
     public function make_a_sc_question() {
         question_bank::load_question_definition_classes('sc');
         $sc = new qtype_sc_question();
@@ -99,6 +109,9 @@ class qtype_sc_question_test extends advanced_testcase {
         return $sc;
     }
 
+    /**
+     * Test get_expected_data
+     */
     public function test_get_expected_data() {
         $question = $this->make_a_sc_question();
         $question->order = array_keys($question->rows);
@@ -112,6 +125,9 @@ class qtype_sc_question_test extends advanced_testcase {
             $question->get_expected_data());
     }
 
+    /**
+     * Test is_complete_response
+     */
     public function test_is_complete_response() {
         $question = $this->make_a_sc_question();
         $question->order = array_keys($question->rows);
@@ -145,6 +161,9 @@ class qtype_sc_question_test extends advanced_testcase {
         );
     }
 
+    /**
+     * Test is_gradable_response (sconezero)
+     */
     public function test_is_gradable_response_sconezero() {
         // Sconezero.
         $question = $this->make_a_sc_question();
@@ -178,6 +197,9 @@ class qtype_sc_question_test extends advanced_testcase {
         );
     }
 
+    /**
+     * Test is_gradable_response (aprime)
+     */
     public function test_is_gradable_response_aprime() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'aprime';
@@ -211,6 +233,9 @@ class qtype_sc_question_test extends advanced_testcase {
         );
     }
 
+    /**
+     * Test is_gradable_response (subpoints)
+     */
     public function test_is_gradable_response_subpoints() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'subpoints';
@@ -244,6 +269,9 @@ class qtype_sc_question_test extends advanced_testcase {
         );
     }
 
+    /**
+     * Test get_order
+     */
     public function test_get_order() {
         $question = $this->make_a_sc_question();
         $question->shuffleanswers = 1;
@@ -255,6 +283,9 @@ class qtype_sc_question_test extends advanced_testcase {
         $this->assertEquals( array(0 => 1, 1 => 2, 2 => 3), $question->get_order(test_question_maker::get_a_qa($question)));
     }
 
+    /**
+     * Test is_same_response
+     */
     public function test_is_same_response() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -284,6 +315,9 @@ class qtype_sc_question_test extends advanced_testcase {
             array('option' => '0', 'distractor2' => '1')));
     }
 
+    /**
+     * Test grading
+     */
     public function test_grading() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -291,6 +325,9 @@ class qtype_sc_question_test extends advanced_testcase {
             $question->get_correct_response());
     }
 
+    /**
+     * Test summarise_response
+     */
     public function test_summarise_response() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -299,6 +336,9 @@ class qtype_sc_question_test extends advanced_testcase {
         $this->assertEquals('option text 1', $summary);
     }
 
+    /**
+     * Test classify_response
+     */
     public function test_classify_response() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -319,6 +359,9 @@ class qtype_sc_question_test extends advanced_testcase {
             $question->classify_response(array('option' => '-1')));
     }
 
+    /**
+     * Test make_html_inline
+     */
     public function test_make_html_inline() {
         $question = $this->make_a_sc_question();
         $this->assertEquals('Frog', $question->make_html_inline('<p>Frog</p>'));
@@ -331,6 +374,9 @@ class qtype_sc_question_test extends advanced_testcase {
         $this->assertEquals('Frog<br />†', $question->make_html_inline('<p>Frog</p><p>†</p>'));
     }
 
+    /**
+     * Test get_hint
+     */
     public function test_get_hint() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -338,6 +384,9 @@ class qtype_sc_question_test extends advanced_testcase {
         $this->assertEquals('This is the 2nd hint', $question->get_hint(1, test_question_maker::get_a_qa($question))->hint);
     }
 
+    /**
+     * Test compute_final_grade (szonezero)
+     */
     public function test_compute_final_grade_sconezero() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -368,6 +417,9 @@ class qtype_sc_question_test extends advanced_testcase {
             1));
     }
 
+    /**
+     * Test compute_final_grade_mtfonezero (aprime)
+     */
     public function test_compute_final_grade_aprime() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'aprime';
@@ -401,6 +453,9 @@ class qtype_sc_question_test extends advanced_testcase {
             1));
     }
 
+    /**
+     * Test compute_final_grade_mtfonezero (subpoints)
+     */
     public function test_compute_final_grade_subpoints() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'subpoints';
@@ -434,6 +489,9 @@ class qtype_sc_question_test extends advanced_testcase {
             1));
     }
 
+    /**
+     * Test grade_response (sconezero)
+     */
     public function test_grade_response_sconezero() {
         $question = $this->make_a_sc_question();
         $question->start_attempt(new question_attempt_step(), 1);
@@ -447,6 +505,9 @@ class qtype_sc_question_test extends advanced_testcase {
             "0.0", $question->grade_response(array('option' => '-1'))[0]);
     }
 
+    /**
+     * Test grade_response (aprime)
+     */
     public function test_grade_response_aprime() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'aprime';
@@ -469,6 +530,9 @@ class qtype_sc_question_test extends advanced_testcase {
             "1.0", $question->grade_response(array('option' => '0', 'distractor1' => '1', 'distractor2' => '1'))[0]);
     }
 
+    /**
+     * Test grade_response (subpoints)
+     */
     public function test_grade_response_subpoints() {
         $question = $this->make_a_sc_question();
         $question->scoringmethod = 'subpoints';

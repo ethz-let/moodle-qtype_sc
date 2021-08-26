@@ -1,7 +1,8 @@
+/* stylelint-disable declaration-no-important  */
 /* The SC question rendering table */
 .que.sc table.sc {
-    border-top: 0px;
-    border-bottom: 0px;
+    border-top: 0;
+    border-bottom: 0;
     border-collapse: collapse;
 }
 
@@ -23,7 +24,7 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
 }
 
 .que.sc table.sc tbody tr td {
-    border-top: 0px !important;
+    border-top: 0 !important;
 }
 
 .que.sc table.sc thead tr th {
@@ -48,11 +49,11 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     margin-top: 0.1em;
 }
 
-.que.sc table.sc tbody>tr.highlight {
+.que.sc table.sc tbody > tr.highlight {
     background-color: #cff5cc;
 }
 
-.que.sc table.sc tbody>tr.highlight>td {
+.que.sc table.sc tbody > tr.highlight > td {
     background-color: #cff5cc;
 }
 
@@ -91,13 +92,13 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
 }
 
 .que.sc table.sc tbody .scspecificfeedback {
-    background: #FFF3BF !important;
+    background: #fff3bf !important;
     text-align: left !important;
     display: inline;
 }
 
 .que.sc table.sc tbody td.scoptionbutton.correctness {
-    padding: 0px 0px 0px 8px;
+    padding: 0 0 0 8px;
     margin: unset;
     display: table-cell;
 }
@@ -106,9 +107,8 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
     vertical-align: inherit;
 }
 .scgreyingout .fa-check-square {
-    color: #000000;
+    color: #000;
     opacity: 0.3;
-    filter: alpha(opacity = 30);
 }
 
 .que.sc table.sc tbody .c0 .scgreyingout .text-success,
@@ -117,7 +117,7 @@ cells or <li>s, which screws up the intended layout. This fixes it again. */
 }
 
 .que.sc table.sc tbody .c2 {
-    border-left: 1px solid rgba(0, 0, 0, 0.41)
+    border-left: 1px solid rgba(0, 0, 0, 0.41);
 }
 
 
@@ -190,7 +190,7 @@ body#page-question-type-sc div#fitem_id_responsetext_2 div.fitemtitle {
 body#page-question-type-sc div.optionbox {
     display: block;
     padding-left: 20px;
-    background: #EEE;
+    background: #eee;
     margin-top: 0;
     margin-bottom: 5px;
     padding-bottom: 5px;
@@ -199,7 +199,7 @@ body#page-question-type-sc div.optionbox {
 
 body#page-question-type-sc div.optionbox label.optiontitle {
     font-weight: bold;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /* Try to fix the default width of the editors (especially in the case of no JavaScript) */
@@ -235,18 +235,18 @@ body#page-question-type-sc div.responses {
     position: relative;
 }
 
-@media ( max-width : 986px) {
+@media (max-width: 986px) {
     body#page-question-type-sc div.responses {
-        padding-top: 0px;
+        padding-top: 0;
         float: left;
     }
 }
 
 body#page-question-type-sc div.responses fieldset.fgroup span {
-    border: 1px solid #CCCCCC;
+    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 10px 10px 5px;
-    margin: 0px 0px 8px 2px;
+    margin: 0 0 8px 2px;
     background-color: white;
     vertical-align: middle;
     display: inline-block;
@@ -271,23 +271,23 @@ body#page-question-type-sc div.responses div.fitem_fgroup {
 
 @media (min-width: 1200px) {
     body#page-question-type-sc div.responses div.fitem.fradio {
-        margin-left: 0px !important;
+        margin-left: 0 !important;
     }
     body#page-question-type-sc div.responses .fradio {
-        margin-left: 0px !important;
+        margin-left: 0 !important;
     }
 }
 
 body#page-question-type-sc div.responses div.fitem_fradio div.fitemtitle {
     text-align: left;
     float: right;
-    width: 0px;
+    width: 0;
 }
 
 body#page-question-type-sc div.optiontext div.fitemtitle {
     width: auto;
-    padding-left: 0px;
-    padding-top: 0px;
+    padding-left: 0;
+    padding-top: 0;
 }
 
 body#page-question-type-sc div.feedbacktext {
@@ -301,30 +301,30 @@ body#page-question-type-sc div.optionbox label.feedbacktitle {
 
 body#page-question-type-sc div.feedbacktext div.fitemtitle {
     width: auto;
-    padding-left: 0px;
-    padding-top: 0px;
+    padding-left: 0;
+    padding-top: 0;
 }
 
 body#page-question-type-sc div.optiontext div.feditor {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 body#page-question-type-sc div.feedbacktext div.feditor {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 body#page-question-type-sc div[id^=fitem_id_][id*=feedback_] {
-    background: #EEE;
+    background: #eee;
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 5px;
     padding-top: 5px;
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-bottom: 0;
 }
 
 body#page-question-type-sc div[id^=fitem_id_][id*=option_] {
-    background: #EEE;
+    background: #eee;
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 5px;
@@ -336,35 +336,35 @@ body#page-question-type-sc div[id^=fitem_id_][id*=option_] .fitemtitle {
 }
 
 body#page-question-type-sc div[id^=fitem_id_] .fitemtitle {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 0;
+    margin-right: 0;
     padding-left: 6px;
-    padding-right: 0px;
+    padding-right: 0;
 }
 
 body.dir-rtl#page-question-type-sc div[id^=fitem_id_] .fitemtitle {
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-left: 0px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
     padding-right: 6px;
 }
 
 body#page-question-type-sc div[id^=fgroup_id_][id*=responses_] {
-    background: #EEE;
+    background: #eee;
     margin-bottom: 2em;
     margin-top: 0;
     padding-bottom: 5px;
     padding-top: 5px;
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-top: 0;
 }
 
 body#page-question-type-sc div[id^=fgroup_id_weightsarray] {
-    background: #EEE;
+    background: #eee;
     margin-top: 0;
     padding-bottom: 5px;
     padding-top: 5px;
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-top: 0;
 }
 
@@ -388,5 +388,6 @@ body#page-question-type-sc .optionbox,
 }
 
 #page-question-type-sc label {
-    white-space: nowrap!important;
+    white-space: nowrap !important;
 }
+/* stylelint-enable declaration-no-important  */

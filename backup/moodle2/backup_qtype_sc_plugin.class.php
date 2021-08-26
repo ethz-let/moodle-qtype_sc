@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Backup code for the qtype_sc plugin.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -29,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Provides the backup for sc questions.
+ * Provides the backup for qtype_sc questions.
  */
 class backup_qtype_sc_plugin extends backup_qtype_plugin {
 
@@ -48,12 +50,12 @@ class backup_qtype_sc_plugin extends backup_qtype_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Now create the qtype own structures.
-        $sc = new backup_nested_element('sc', array('id'
-        ), array('scoringmethod', 'shuffleanswers', 'answernumbering', 'numberofrows', 'correctrow'));
+        $sc = new backup_nested_element('sc', array('id'),
+                array('scoringmethod', 'shuffleanswers', 'answernumbering', 'numberofrows', 'correctrow'));
 
         $rows = new backup_nested_element('rows');
-        $row = new backup_nested_element('row', array('id'
-        ), array('number', 'optiontext', 'optiontextformat', 'optionfeedback', 'optionfeedbackformat'));
+        $row = new backup_nested_element('row', array('id'),
+                array('number', 'optiontext', 'optiontextformat', 'optionfeedback', 'optionfeedbackformat'));
 
         // Now the qtype tree.
         $rows->add_child($row);
@@ -63,18 +65,16 @@ class backup_qtype_sc_plugin extends backup_qtype_plugin {
         // Set sources to populate the data.
         $sc->set_source_table('qtype_sc_options', array('questionid' => backup::VAR_PARENTID));
         $row->set_source_table('qtype_sc_rows', array('questionid' => backup::VAR_PARENTID));
-        // We don't need to annotate ids nor files.
+
         return $plugin;
     }
 
     /**
      * Returns one array with filearea => mappingname elements for the qtype.
-     *
-     * Used by {@link get_components_and_fileareas} to know about all the qtype
+     * Used by {@see get_components_and_fileareas} to know about all the qtype
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
-        return array('optiontext' => 'qtype_sc_rows', 'feedbacktext' => 'qtype_sc_rows'
-        );
+        return array('optiontext' => 'qtype_sc_rows', 'feedbacktext' => 'qtype_sc_rows');
     }
 }

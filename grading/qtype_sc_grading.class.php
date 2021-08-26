@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * qtype_sc question grading class.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -27,31 +29,40 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Provides grading functionality
+ *
+ * @package     qtype_sc
+ * @copyright   2016 ETHZ {@link http://ethz.ch/}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 abstract class qtype_sc_grading {
 
     /**
-     * Returns the name of the grading method.
+     * Returns the scoringmethod name.
+     * @return string
      */
     abstract public function get_name();
 
     /**
-     * Returns the title of the grading method.
+     * Returns the gradingmethod title..
+     * @return string
      */
     abstract public function get_title();
 
     /**
-     * Returns the question's grade for a given response.
-     *
-     * @param unknown $question the question object
-     * @param unknown $response the response given.
+     * Returns the question's grade for a given response..
+     * @param qtype_sc_question $question
+     * @param array $response
+     * @return int
      */
     abstract public function grade_question(qtype_sc_question $question, array $response);
 
     /**
-     * returns true if the student has marked the correct answer as a distractor, false otherwise.
+     * Returns true if the student has marked the correct answer as a distractor, false otherwise.
      * @param qtype_sc_question $question
      * @param array $response
-     * @return boolean
+     * @return bool
      */
     protected function marked_wrong_distractor(qtype_sc_question $question, array $response) {
 
@@ -68,10 +79,10 @@ abstract class qtype_sc_grading {
     }
 
     /**
-     * returns true if the student has actively chosen a wrong option via an option checkbox, false otherwise.
+     * Returns true if the student has actively chosen a wrong option via an option checkbox, false otherwise.
      * @param qtype_sc_question $question
      * @param array $response
-     * @return boolean
+     * @return bool
      */
     protected function chose_wrong_answer(qtype_sc_question $question, array $response) {
         foreach ($question->order as $key => $rowid) {
@@ -86,10 +97,10 @@ abstract class qtype_sc_grading {
     }
 
     /**
-     * returns true if the student has actively chosen the correct option via its option checkbox, false otherwise.
+     * Returns true if the student has actively chosen the correct option via its option checkbox, false otherwise.
      * @param qtype_sc_question $question
      * @param array $response
-     * @return boolean
+     * @return bool
      */
     protected function chose_correct_answer(qtype_sc_question $question, array $response) {
         foreach ($question->order as $key => $rowid) {

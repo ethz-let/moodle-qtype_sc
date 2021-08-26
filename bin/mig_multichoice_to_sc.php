@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Migration script for migration to qtype_sc
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -391,7 +393,11 @@ foreach ($notmigrated as $question) {
 }
 die();
 
-// Getting the subcategories of a certain category.
+/**
+ * Getting all subcategories of a given category.
+ * @param int $categoryid
+ * @return array $subcategories
+ */
 function get_subcategories($categoryid) {
     global $DB;
 
@@ -404,6 +410,11 @@ function get_subcategories($categoryid) {
     return $subcategories;
 }
 
+/**
+ * Extract the image filenames out of a certain text, e.g questiontext and returning the results
+ * @param string $text
+ * @return array
+ */
 function get_image_filenames($text) {
     $result = array();
     $strings = preg_split("/<img|<source/i", $text);
@@ -418,7 +429,17 @@ function get_image_filenames($text) {
     return $result;
 }
 
-// Copying files from one question to another.
+/**
+ * Copy files from one question to another.
+ * @param object $fs
+ * @param int $contextid
+ * @param int $oldid
+ * @param int $newid
+ * @param string $text
+ * @param string $type
+ * @param string $component
+ * @param string $filearea
+ */
 function copy_files($fs, $contextid, $oldid, $newid, $text, $type, $component, $filearea) {
     $filenames = get_image_filenames($text);
     foreach ($filenames as $filename) {
@@ -441,7 +462,16 @@ function copy_files($fs, $contextid, $oldid, $newid, $text, $type, $component, $
     }
 }
 
-// Testing files.
+/**
+ * Check if files are actually existent
+ * @param object $fs
+ * @param int $contextid
+ * @param int $oldid
+ * @param string $text
+ * @param string $type
+ * @param string $olcdomponent
+ * @return array
+ */
 function test_files($fs, $contextid, $oldid, $text, $type, $olcdomponent) {
 
     $success = 1;

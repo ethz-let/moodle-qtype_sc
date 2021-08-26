@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * qtype_sc grading class for subpoints scoringmethod
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -29,32 +31,39 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/sc/grading/qtype_sc_grading.class.php');
 
+/**
+ * Provides grading functionality for subpoints scoring metod
+ *
+ * @package     qtype_sc
+ * @copyright   2016 ETHZ {@link http://ethz.ch/}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class qtype_sc_grading_subpoints extends qtype_sc_grading {
 
+    /** @var string TYPE */
     const TYPE = 'subpoints';
 
     /**
-     *
-     * {@inheritDoc}
-     * @see qtype_sc_grading::get_name()
+     * Returns the scoringmethod name.
+     * @return string
      */
     public function get_name() {
         return self::TYPE;
     }
 
     /**
-     *
-     * {@inheritDoc}
-     * @see qtype_sc_grading::get_title()
+     * Returns the scoringmethod title.
+     * @return string
      */
     public function get_title() {
         return get_string('scoring' . self::TYPE, 'qtype_sc');
     }
 
     /**
-     *
-     * {@inheritDoc}
-     * @see qtype_sc_grading::grade_question()
+     * Returns the question's grade for a given response.
+     * @param qtype_sc_question $question
+     * @param array $response
+     * @return float
      */
     public function grade_question(qtype_sc_question $question, array $response) {
         if ($this->marked_wrong_distractor($question, $response) ||

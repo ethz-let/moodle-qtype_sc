@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * qtype_sc lib.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -35,9 +37,7 @@ define('QTYPE_SC_MAX_NUMBER_OF_OPTIONS', 5);
 
 /**
  * Checks file/image access for sc questions.
- *
  * @category files
- *
  * @param stdClass $course        course object
  * @param stdClass $cm            course module object
  * @param stdClass $context       context object
@@ -45,13 +45,11 @@ define('QTYPE_SC_MAX_NUMBER_OF_OPTIONS', 5);
  * @param array    $args          extra arguments
  * @param bool     $forcedownload whether or not force download
  * @param array    $options       additional options affecting the file serving
- *
  * @return bool
  */
 function qtype_sc_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
 
     global $CFG;
     require_once($CFG->libdir.'/questionlib.php');
-    question_pluginfile($course, $context, 'qtype_sc', $filearea, $args, $forcedownload,
-    $options);
+    question_pluginfile($course, $context, 'qtype_sc', $filearea, $args, $forcedownload, $options);
 }

@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Unit tests for qtype_sc question definition class.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -32,17 +34,34 @@ require_once($CFG->dirroot . '/question/type/sc/tests/helper.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 /**
- * @group qtype_sc
+ * Unit tests for qtype_sc question definition class.
+ *
+ * @copyright   2018 ETHZ {@link http://ethz.ch/}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @group       qtype_sc
  */
 class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
 
-    protected function start_attempt_at_question($question, $preferredbehaviour,
-        $maxmark = null, $variant = 1) {
+    /**
+     * Starts attempt at given question
+     * @param object $question
+     * @param string $preferredbehaviour
+     * @param int $maxmark
+     * @param int $variant
+     */
+    protected function start_attempt_at_question($question, $preferredbehaviour, $maxmark = null, $variant = 1) {
         $this->quba->set_preferred_behaviour($preferredbehaviour);
         $this->slot = $this->quba->add_question($question, $maxmark);
         $this->quba->start_question($this->slot, $variant);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @param int $index
+     * @param bool $enabled
+     * @param bool $checked
+     * @return array
+     */
     public function get_contains_sc_radio_expectation($index, $enabled = null, $checked = null) {
         return $this->get_contains_radio_expectation(array(
             'name' => $this->quba->get_field_prefix($this->slot) . "option",
@@ -50,6 +69,10 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
         ), $enabled, $checked);
     }
 
+    /**
+     * Makes a qtype_sc question.
+     * @return qtype_sc
+     */
     public function make_a_sc_question() {
         question_bank::load_question_definition_classes('sc');
         $sc = new qtype_sc_question();
@@ -97,6 +120,9 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
         return $sc;
     }
 
+    /**
+     * Test deferredfeedback_feedback_sc
+     */
     public function test_deferredfeedback_feedback_sc() {
         $rightindex = 0;
 

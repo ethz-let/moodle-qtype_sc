@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Restore code for the qtype_sc plugin.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -29,8 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Restore plugin class that provides the necessary information
- * needed to restore one sc qtype plugin.
+ * Restore plugin class that provides the necessary information needed to restore one type_sc plugin.
  */
 class restore_qtype_sc_plugin extends restore_qtype_plugin {
 
@@ -55,6 +56,7 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
 
     /**
      * Process the qtype/sc element.
+     * @param array $data
      */
     public function process_sc($data) {
         global $DB;
@@ -82,7 +84,6 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
 
     /**
      * Detect if the question is created or mapped.
-     *
      * @return bool
      */
     protected function is_question_created() {
@@ -94,6 +95,7 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
 
     /**
      * Process the qtype/sc/rows/row element.
+     * @param array $data
      */
     public function process_row($data) {
         global $DB;
@@ -126,6 +128,13 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
         }
     }
 
+    /**
+     * Recode the respones data for a particular step of an attempt at at particular question.
+     * @param int $questionid
+     * @param int $sequencenumber
+     * @param array $response
+     * @return array $response
+     */
     public function recode_response($questionid, $sequencenumber, array $response) {
         if (property_exists((object) $response, '_order')) {
             $response['_order'] = $this->recode_option_order($response['_order']);
@@ -135,9 +144,7 @@ class restore_qtype_sc_plugin extends restore_qtype_plugin {
 
     /**
      * Recode the option order as stored in the response.
-     *
      * @param string $order the original order.
-     *
      * @return string the recoded order.
      */
     protected function recode_option_order($order) {

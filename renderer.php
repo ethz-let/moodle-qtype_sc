@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * qtype_sc renderer classes.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -30,20 +32,19 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/outputcomponents.php');
 
 /**
- * Subclass for generating the bits of output specific to sc questions.
+ * Subclass for generating the bits of output specific to qtype_sc questions.
  *
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright   2016 ETHZ {@link http://ethz.ch/}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_sc_renderer extends qtype_renderer {
 
     /**
      * Generate the display of the formulation part of the question.
-     * This is the area that contains the question text (stem), and the
-     * controls for students to input their answers.
-     *
+     * This is the area that contains the question text (stem), and the controls for students to
+     * input their answers.
      * @param question_attempt $qa the question attempt to display.
-     * @param question_display_options $options controls what should and should not be displayed.
-     *
+     * @param question_display_options $displayoptions controls what should and should not be displayed.
      * @return string HTML fragment.
      */
     public function formulation_and_controls(question_attempt $qa, question_display_options $displayoptions) {
@@ -84,12 +85,11 @@ class qtype_sc_renderer extends qtype_renderer {
 
     /**
      * Returns the HTML representation of all question rows.
-     *
-     * @param unknown $question
+     * @param object $question
      * @param question_display_options $displayoptions
      * @param question_attempt $qa
+     * @param array $response
      * @param array $order
-     *
      * @return string
      */
     protected function createrows($question, $displayoptions, $qa, $response, $order) {
@@ -139,13 +139,13 @@ class qtype_sc_renderer extends qtype_renderer {
                     $label = get_string('markascorrect', 'qtype_sc');
                 }
 
-                $feedbackimage = $displayoptions->correctness ? $this->get_correctness_image($question, $key, $row, $response) : '';
+                $feedbackimage = $displayoptions->correctness ? $this->get_correctness_image($question, $row, $response) : '';
 
                 $inputattributes = [];
                 $inputattributes['type'] = 'radio';
                 $inputattributes['name'] = $option['inputname'];
                 $inputattributes['id'] = $option['inputid'];
-                $inputattributes['class'] = 'optionradio ' . ($displayoptions->readonly ? '' : 'active ');
+                $inputattributes['class'] = 'optionradio' . ($displayoptions->readonly ? '' : ' active ');
                 $inputattributes['data-questionid'] = $question->id;
                 $inputattributes['data-number'] = $key;
                 $inputattributes['value'] = $key;
@@ -186,7 +186,7 @@ class qtype_sc_renderer extends qtype_renderer {
                 $inputattributes['type'] = 'checkbox';
                 $inputattributes['name'] = $distractor['inputname'];
                 $inputattributes['id'] = $distractor['inputid'];
-                $inputattributes['class'] = 'distractorcheckbox ' . ($displayoptions->readonly ? '' : 'active');
+                $inputattributes['class'] = 'distractorcheckbox' . ($displayoptions->readonly ? '' : ' active');
                 $inputattributes['data-questionid'] = $question->id;
                 $inputattributes['data-number'] = $key;
                 $inputattributes['value'] = 1;
@@ -252,7 +252,7 @@ class qtype_sc_renderer extends qtype_renderer {
                 $inputattributes['type'] = 'radio';
                 $inputattributes['name'] = $option['inputname'];
                 $inputattributes['id'] = $option['inputid'];
-                $inputattributes['class'] = 'optionradio hidden ' . ($displayoptions->readonly ? '' : 'active');
+                $inputattributes['class'] = 'optionradio hidden' . ($displayoptions->readonly ? '' : ' active');
                 $inputattributes['data-questionid'] = $question->id;
                 $inputattributes['data-number'] = $key;
                 $inputattributes['value'] = $key;
@@ -285,8 +285,7 @@ class qtype_sc_renderer extends qtype_renderer {
     /**
      * Returns a string containing the rendererd question's scoring method.
      * Appends an info icon containing information about the scoring method.
-     *
-     * @param qtype_sc_question $question
+     * @param qtype_mtf_question $question
      * @return string
      */
     private function showscoringmethod($question) {
@@ -312,13 +311,12 @@ class qtype_sc_renderer extends qtype_renderer {
 
     /**
      * Returns the image shown in the first column indicating whether an option is correct or not.
-     *
      * @param qtype_sc_question $question
-     * @param unknown $row
+     * @param object $row
      * @param array $response
      * @return string
      */
-    private function get_correctness_image($question, $key, $row, $response) {
+    private function get_correctness_image($question, $row, $response) {
 
         if ($row->number == $question->correctrow) {
             return html_writer::span($this->feedback_image(1.0), 'scgreyingout');
@@ -330,10 +328,12 @@ class qtype_sc_renderer extends qtype_renderer {
 
     /**
      * Returns the image shown in the last column indicating the correctness of an answer given by the student.
-     *
      * @param qtype_sc_question $question
-     * @param unknown $row
+     * @param int $key
+     * @param object $row
      * @param array $response
+     * @param bool $isselected
+     * @param bool $distractorischecked
      * @return string
      */
     private function get_answer_correctness_image($question, $key, $row, $response, $isselected, $distractorischecked) {
@@ -351,6 +351,16 @@ class qtype_sc_renderer extends qtype_renderer {
         }
     }
 
+    /**
+     * Returns the image shown in the last column indicating the correctness of an answer (szonezero) given by the student.
+     * @param qtype_sc_question $question
+     * @param int $key
+     * @param object $row
+     * @param array $response
+     * @param bool $questiongrade
+     * @param bool $isselected
+     * @return string
+     */
     private function get_answer_correctness_image_sconezero($question, $key, $row, $response, $questiongrade, $isselected) {
 
         if ($isselected) {
@@ -359,6 +369,17 @@ class qtype_sc_renderer extends qtype_renderer {
         return '';
     }
 
+    /**
+     * Returns the image shown in the last column indicating the correctness of an answer (subpoints) given by the student.
+     * @param qtype_sc_question $question
+     * @param int $key
+     * @param object $row
+     * @param array $response
+     * @param bool $questiongrade
+     * @param bool $isselected
+     * @param bool $distractorischecked
+     * @return string
+     */
     private function get_answer_correctness_image_aprime_subpoints($question, $key, $row, $response, $questiongrade,
         $isselected, $distractorischecked) {
 
@@ -386,7 +407,6 @@ class qtype_sc_renderer extends qtype_renderer {
 
     /**
      * The prompt for the user to answer a question.
-     *
      * @return Ambigous <string, lang_string, unknown, mixed>
      */
     protected function prompt() {
@@ -395,8 +415,9 @@ class qtype_sc_renderer extends qtype_renderer {
 
     /**
      * (non-PHPdoc).
-     *
      * @see qtype_renderer::correct_response()
+     * @param question_attempt $qa
+     * @return string
      */
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
@@ -437,14 +458,20 @@ class qtype_sc_renderer extends qtype_renderer {
         return $response;
     }
 
+    /**
+     * Returns Questionnumber html
+     * @param string $qnum
+     * @return string
+     */
     protected function number_html($qnum) {
         return '<span class="answernumber">' . $qnum . '.</span>';
     }
 
     /**
+     * Returns the number in the requested style.
      * @param int $num The number, starting at 0.
      * @param string $style The style to render the number in. One of the
-     * options returned by {@link qtype_sc:;get_numbering_styles()}.
+     *      options returned by {@see qtype_mtf:get_numbering_styles()}.
      * @return string the number $num in the requested style.
      */
     protected function number_in_style($num, $style) {

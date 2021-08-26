@@ -25,64 +25,68 @@
  */
 
 define(['jquery'], function($) {
+
     // Setting up an Event listener.
-    $('select[id="id_numberofrows"]').change(function () {
+    $('select[id="id_numberofrows"]').change(function() {
         numberofrowschanged();
     });
 
+    /**
+     * Events handles when number of rows is changed.
+     */
     function numberofrowschanged() {
-        // Setting up some variables.
-        var numberofrows_cur = parseInt($('select[id="id_numberofrows"]').val());
-        var numberofrows_pre = parseInt($('input[name="lastnumberofrows"]').val());
-        var numberofrows_max = 5;
+
+        /* eslint-disable no-alert */
+        var numberofrowsCur = parseInt($('select[id="id_numberofrows"]').val());
+        var numberofrowsPre = parseInt($('input[name="lastnumberofrows"]').val());
+        var numberofrowsMax = 5;
         var permission = true;
-        // Check if the number of rows has decreased.
-        // If true: Show prompts.
-        if (numberofrows_pre > numberofrows_cur) {
-            var differenceinrows = numberofrows_pre - numberofrows_cur;
+
+        // Step1: Check if the number of rows has decreased. If true: Show prompts.
+        if (numberofrowsPre > numberofrowsCur) {
+            var differenceinrows = numberofrowsPre - numberofrowsCur;
+
             if (confirm(M.util.get_string('deleterawswarning', 'qtype_sc', differenceinrows))) {
                 permission = true;
             } else {
                 permission = false;
-                if (numberofrows_pre > numberofrows_max) {
-                    numberofrows_pre = numberofrows_max;
+                if (numberofrowsPre > numberofrowsMax) {
+
+                    numberofrowsPre = numberofrowsMax;
                     alert(M.util.get_string('mustdeleteextrarows', 'qtype_sc', differenceinrows));
                 }
-                $('select[id="id_numberofrows"]').val(numberofrows_pre);
+                $('select[id="id_numberofrows"]').val(numberofrowsPre);
             }
         }
-        // Proceed with updating the DOM by.
-        // Adding or deleting the defined amount of optionboxes.
+
+        // Step2: Update the DOM by adding or deleting the defined amount of optionboxes.
         if (permission) {
-            // Backup the current numberofrows value.
-            $('input[name="lastnumberofrows"]').val(numberofrows_cur);
-            // Update the visibility of all optionboxes.
+            $('input[name="lastnumberofrows"]').val(numberofrowsCur);
             $('[id^="optionbox_response_"]').hide();
-            var numberofrows_rendered = numberofrows_cur < numberofrows_max ? numberofrows_cur : numberofrows_max;
-            for (var i = 1; i <= numberofrows_rendered; i++) {
+
+            var numberofrowsRendered = numberofrowsCur < numberofrowsMax ? numberofrowsCur : numberofrowsMax;
+
+            for (var i = 1; i <= numberofrowsRendered; i++) {
                 $('#optionbox_response_' + i).show();
             }
-            // Reset the correctness radio button if the.
-            // previously ticked button is out of range now.
-            // This will also be checked serverside but improves.
-            // usability.
-            if (numberofrows_pre > numberofrows_cur) {
+
+            if (numberofrowsPre > numberofrowsCur) {
                 var corretrow = 1;
-                for (var i = 0; i <= numberofrows_max; i++) {
-                    if ($('#id_correctrow_' + i).is(':checked')) {
-                        corretrow = i;
+                for (var j = 0; j <= numberofrowsMax; j++) {
+                    if ($('#id_correctrow_' + j).is(':checked')) {
+                        corretrow = j;
                     }
                 }
-                if (corretrow > numberofrows_cur) {
+                if (corretrow > numberofrowsCur) {
                     alert(M.util.get_string('correctvaluereset', 'qtype_sc'));
-                    $('#id_correctrow_1').prop('checked',true);
+                    $('#id_correctrow_1').prop('checked', true);
                 }
             }
         }
+        /* eslint-enable */
     }
     return {
         init: function() {
-            // Initial setup.
             numberofrowschanged();
         }
     };

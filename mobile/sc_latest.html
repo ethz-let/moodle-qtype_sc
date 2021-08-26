@@ -48,6 +48,7 @@
                     <ion-col size="2">
                         <ion-item lines="none" class="ion-no-padding">
                             <ion-checkbox
+                                part="container"
                                 *ngIf="row.optionvalue != -1"
                                 [(ngModel)]="row.distractorselected"
                                 [id]="row.distractorid"

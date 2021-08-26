@@ -1,3 +1,4 @@
+/* stylelint-disable declaration-no-important  */
 .qtype-sc .item-md {
     background-color: unset !important;
 }
@@ -23,17 +24,17 @@
     width: min-content;
     height: min-content;
     position: relative;
-    left: 0px;
-    padding: 0px 5px;
+    left: 0;
+    padding: 0 5px;
 }
 
 .qtype-sc .checkbox .checkbox-checked .checkbox-inner {
-    left: 0px;  
+    left: 0;
 }
 
 .qtype-sc .checkbox .checkbox-icon .checkbox-inner:after {
     position: relative;
-    left: 0px;
+    left: 0;
     content: "S";
     text-decoration: line-through;
     color: #fff;
@@ -49,7 +50,8 @@
 }
 
 .qtype-sc .scspecificfeedback {
-    background: #FFF3BF !important;
+    background: #fff3bf !important;
     color: #64450a;
     display: inline;
 }
+/* stylelint-enable declaration-no-important  */

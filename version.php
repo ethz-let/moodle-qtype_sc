@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Version information for qtype_sc.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -28,7 +30,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_sc';
-$plugin->version = 2021042900;
+$plugin->version = 2021061403;
 $plugin->requires = 2017051501; // Moodle >= 3.3.
 
 $plugin->maturity = MATURITY_STABLE;

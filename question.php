@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * qtype_sc question definition class.
+ *
  * @package     qtype_sc
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -27,29 +29,36 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Represents a qtype_sc question.
+ *
+ * @copyright   2016 ETHZ {@link http://ethz.ch/}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class qtype_sc_question extends question_graded_automatically_with_countback {
 
+    /** @var array rows */
     public $rows;
-
+    /** @var string scoringmethod */
     public $scoringmethod;
-
+    /** @var bool shuffleanswers */
     public $shuffleanswers;
-
+    /** @var int numberofrows */
     public $numberofrows;
-
+    /** @var array order */
     public $order = null;
-
+    /** @var bool editedquestion */
     public $editedquestion;
-
+    /** @var int correctrow */
     public $correctrow;
 
     /**
      * (non-PHPdoc).
-     *
      * @see question_definition::start_attempt()
+     * @param question_attempt_step $step
+     * @param int $variant
      */
     public function start_attempt(question_attempt_step $step, $variant) {
-
         $this->order = array_keys($this->rows);
         if ($this->shuffleanswers) {
             shuffle($this->order);
@@ -59,11 +68,10 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * (non-PHPdoc).
-     *
      * @see question_definition::apply_attempt_state()
+     * @param question_attempt_step $step
      */
     public function apply_attempt_state(question_attempt_step $step) {
-
         $this->order = explode(',', $step->get_qt_var('_order'));
 
         for ($i = 0; $i < count($this->order); $i++) {
@@ -85,23 +93,20 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     *
+     * get the question order
      * @param question_attempt $qa
      * @return array
      */
     public function get_order(question_attempt $qa) {
-
         $this->init_order($qa);
         return $this->order;
     }
 
     /**
      * Initialises the order (if it is not set yet) by decoding the question attempt variable '_order'.
-     *
      * @param question_attempt $qa
      */
     protected function init_order(question_attempt $qa) {
-
         if (is_null($this->order)) {
             $this->order = explode(',', $qa->get_step(0)->get_qt_var('_order'));
         }
@@ -109,32 +114,30 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Returns the name field name for distractor buttons.
-     *
      * @param int $key
      * @return string
      */
     public function distractorfield($key) {
-
         return 'distractor' . $key;
     }
 
     /**
+     * Checks wether a specific option is selected.
      * @param array $response
      * @param int $key
      * @return bool
      */
     public function is_option_selected($response, $key) {
-
         return property_exists((object) $response, 'option') && $response['option'] == $key;
     }
 
     /**
+     * Checks wether a specific distractor is selected.
      * @param array $response
      * @param int $key
      * @return bool
      */
     public function is_distractor_selected($response, $key) {
-
         $distractorfield = $this->distractorfield($key);
         return property_exists((object) $response, $distractorfield) && $response[$distractorfield];
     }
@@ -145,27 +148,31 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return array|mixed
      */
     public function get_response(question_attempt $qa) {
-
         return $qa->get_last_qt_data();
     }
 
     /**
-     * Returns true if an option was chosen, false otherwise.
-     *
-     * @param array $response response
-     * @return bool
+     * Used by many of the behaviours, to work out whether the student's
+     * response to the question is complete.
+     * That is, whether the question attempt
+     * should move to the COMPLETE or INCOMPLETE state.
+     * @param array $response responses, as returned by
+     *        {@see question_attempt_step::get_qt_data()}.
+     * @return bool whether this response is a complete answer to this question.
      */
     public function is_complete_response(array $response) {
         return property_exists((object) $response, 'option') && $response['option'] !== '-1';
     }
 
     /**
-     * Returns true if an option was chosen or, in case of aprime and subpoints, if at least one distractor was marked.
-     *
-     * @see question_graded_automatically::is_gradable_response()
+     * Use by many of the behaviours to determine whether the student
+     * has provided enough of an answer for the question to be graded automatically,
+     * or whether it must be considered aborted.
+     * @param array $response responses, as returned by
+     *      {@see question_attempt_step::get_qt_data()}.
+     * @return bool whether this response can be graded.
      */
     public function is_gradable_response(array $response) {
-
         if ($this->is_complete_response($response)) {
             return true;
         }
@@ -173,13 +180,14 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         if ($this->scoringmethod == 'aprime' || $this->scoringmethod == 'subpoints') {
             return $this->any_distractor_chosen($response);
         }
+
         return false;
     }
 
     /**
-     * In situations where is_gradable_response() returns false, this method should generate a description of what the problem is.
-     *
-     * @param array response
+     * In situations where is_gradable_response() returns false, this method
+     * should generate a description of what the problem is.
+     * @param array $response
      * @return string the message.
      */
     public function get_validation_error(array $response) {
@@ -192,8 +200,9 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     *
-     * @param array $response
+     * Get the number of selected options
+     * @param array $response responses, as returned by
+     *        {@see question_attempt_step::get_qt_data()}.
      * @return int the number of choices that were selected. in this response.
      */
     public function get_num_selected_choices(array $response) {
@@ -209,9 +218,8 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Produce a plain text summary of a response.
-     *
      * @param array $response
-     * @return string a plain text summary of that response, that could be used in reports.
+     * @return string
      */
     public function summarise_response(array $response) {
 
@@ -237,12 +245,10 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Returns true if at least one distractor was marked in a response.
-     *
      * @param array $response
      * @return bool
      */
     public function any_distractor_chosen(array $response) {
-
         foreach ($this->order as $key => $rowid) {
             $field = $this->distractorfield($key);
             if (property_exists((object) $response, $field) && $response[$field] == 1) {
@@ -253,13 +259,12 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * (non-PHPdoc).
-     *
-     * @param array $response
-     * @see question_with_responses::classify_response()
+     * Categorise the student's response according to the categories defined by get_possible_responses.
+     * @param array $response a response, as might be passed to  grade_response().
+     * @return array subpartid => question_classified_response objects.
+     *      returns an empty array if no analysis is possible.
      */
     public function classify_response(array $response) {
-
         if (!$this->is_complete_response($response)) {
             return array($this->id => question_classified_response::no_response());
         }
@@ -285,17 +290,17 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * Use by many of the behaviours to determine whether the student's response has changed.
-     * This is normally used to determine that a new set of responses can safely be discarded.
-     *
+     * Use by many of the behaviours to determine whether the student's
+     * response has changed.
+     * This is normally used to determine that a new set
+     * of responses can safely be discarded.
      * @param array $prevresponse the responses previously recorded for this question,
-     *        as returned by {@link question_attempt_step::get_qt_data()}
+     *        as returned by {@see question_attempt_step::get_qt_data()}
      * @param array $newresponse the new responses, in the same format.
      * @return bool whether the two sets of responses are the same - that is
      *         whether the new set of responses can safely be discarded.
      */
     public function is_same_response(array $prevresponse, array $newresponse) {
-
         if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, 'option')) {
             return false;
         }
@@ -312,12 +317,11 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * What data would need to be submitted to get this question correct.
-     * If there is more than one correct answer, this method should just return one possibility.
-     *
-     * @return array parameter name => value.
+     * If there is more than one correct answer, this method should just
+     * return one possibility
+     * @return array
      */
     public function get_correct_response() {
-
         $result = array();
 
         foreach ($this->order as $key => $rowid) {
@@ -331,11 +335,9 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Returns an instance of the grading class according to the scoringmethod of the question.
-     *
-     * @return The grading object.
+     * @return string The grading object.
      */
     public function grading() {
-
         global $CFG;
 
         $type = $this->scoringmethod;
@@ -348,15 +350,13 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Grade a response to the question, returning a fraction between
-     * get_min_fraction() and 1.0, and the corresponding {@link question_state}
+     * get_min_fraction() and 1.0, and the corresponding {@see question_state}
      * right, partial or wrong.
-     *
      * @param array $response responses, as returned by
-     *        {@link question_attempt_step::get_qt_data()}.
+     *        {@see question_attempt_step::get_qt_data()}.
      * @return array (number, integer) the fraction, and the state.
      */
     public function grade_response(array $response) {
-
         $grade = $this->grading()->grade_question($this, $response);
         $state = question_state::graded_state_for_fraction($grade);
 
@@ -364,17 +364,15 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * What data may be included in the form submission when a student submits this question in its current state?
-     *
+     * What data may be included in the form submission when a student submits
+     * this question in its current state?
      * This information is used in calls to optional_param. The parameter name
-     * has {@link question_attempt::get_field_prefix()} automatically prepended.
-     *
+     * has {@see question_attempt::get_field_prefix()} automatically prepended.
      * @return array|string variable name => PARAM_... constant, or, as a special case
      *         that should only be used in unavoidable, the constant question_attempt::USE_RAW_DATA
      *         meaning take all the raw submitted data belonging to this question.
      */
     public function get_expected_data() {
-
         $result = array();
 
         $result["qtype_sc_changed_value"] = PARAM_INT;
@@ -388,13 +386,12 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * Makes HTML text (e.g. option or feedback texts) suitable for inline presentation in renderer.php.
-     *
-     * @param string html The HTML code.
-     * @return string the purified HTML code without paragraph elements and line breaks.
+     * Makes HTML text (e.g.
+     * option or feedback texts) suitable for inline presentation in renderer.php.
+     * @param string $html
+     * @return string
      */
     public function make_html_inline($html) {
-
         $html = preg_replace('~\s*<p>\s*~u', '', $html);
         $html = preg_replace('/<p\b[^>]*>/', '', $html);
         $html = preg_replace('~\s*</p>\s*~u', '<br />', $html);
@@ -406,26 +403,21 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
 
     /**
      * Convert some part of the question text to plain text.
-     * This might be used,
-     * for example, by get_response_summary().
-     *
+     * This might be used, for example, by get_response_summary().
      * @param string $text The HTML to reduce to plain text.
      * @param int $format the FORMAT_... constant.
      * @return string the equivalent plain text.
      */
     public function html_to_text($text, $format) {
-
         return question_utils::to_plain_text($text, $format);
     }
 
     /**
      * Computes the final grade when "Multiple Attempts" or "Hints" are enabled
-     *
      * @param array $responses Contains the user responses. 1st dimension = attempt, 2nd dimension = answers
      * @param int $totaltries Not needed
      */
     public function compute_final_grade($responses, $totaltries) {
-
         $lastresponse = count($responses) - 1;
         $numpoints = isset($responses[$lastresponse]) ? $this->grading()->grade_question($this, $responses[$lastresponse]) : 0;
         return max(0, $numpoints - max(0, $lastresponse) * $this->penalty);
@@ -435,16 +427,21 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * Disable those hint settings that we don't want when the student has selected
      * more choices than the number of right choices.
      * This avoids giving the game away.
-     *
      * @param question_hint_with_parts $hint a hint.
      */
     protected function disable_hint_settings_when_too_many_selected(question_hint_with_parts $hint) {
-
         $hint->clearwrong = false;
     }
 
+    /**
+     * Get one of the question hints. The question_attempt is passed in case
+     * the question type wants to do something complex. For example, the
+     * multiple choice with multiple responses question type will turn off most
+     * of the hint options if the student has selected too many opitions.
+     * @param int $hintnumber Which hint to display. Indexed starting from 0
+     * @param question_attempt $qa The question_attempt.
+     */
     public function get_hint($hintnumber, question_attempt $qa) {
-
         $hint = parent::get_hint($hintnumber, $qa);
         if (is_null($hint)) {
             return $hint;
@@ -458,23 +455,29 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     }
 
     /**
-     * (non-PHPdoc)
-     *
-     * @see question_definition::check_file_access()
+     * Checks whether the users is allow to be served a particular file.
+     * @param object $qa
+     * @param object $options the options that control display of the question.
+     * @param string $component the name of the component we are serving files for.
+     * @param string $filearea the name of the file area.
+     * @param array $args the remaining bits of the file path.
+     * @param bool $forcedownload whether the user must be forced to download the file.
+     * @return bool true if the user can access this file.
      */
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
-
         if ($component == 'qtype_sc' && $filearea == 'optiontext') {
             return true;
         } else if ($component == 'qtype_sc' && $filearea == 'feedbacktext') {
             return true;
         } else if ($component == 'question'
                     && in_array($filearea, array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
+
             if ($this->editedquestion == 1) {
                 return true;
             } else {
                 return $this->check_combined_feedback_file_access($qa, $options, $filearea);
             }
+
         } else if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
         } else {
