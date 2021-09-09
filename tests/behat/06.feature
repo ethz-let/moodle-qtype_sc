@@ -45,6 +45,70 @@ Feature: Step 6
       | SC Question 4 | 1    |
 
   @javascript
+  Scenario: Testcase 2
+  # Test if the Scoring Method information is correctly displayed within quiz attempts
+
+  # The scoring method information should not be disabled by default
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Attempt quiz now"
+    Then I should not see "Scoring method: Subpoints"
+    And I log out
+
+  # Log in as admin and configure the Scoring method to be displayed
+    When I log in as "admin"
+    And I navigate to "Plugins > Question types > Single Choice (ETH)" in site administration
+    And I should see "Administration settings for the single choice (ETH) question type."
+    And I set the field "id_s_qtype_sc_showscoringmethod" to "1"
+    Then I press "Save changes"
+    And I log out
+
+  # The scoring method information should be disabled now
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Continue the last attempt"
+    Then I should see "Scoring method: Subpoints"
+    And I log out
+
+  # Set scoring method to SC1/0
+    When I log in as "admin"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Edit quiz" in current page administration
+    And I click on "Edit question SC Question 4" "link" in the "SC Question 4" "list_item"
+    And I click on "id_scoringmethod_sconezero" "radio"
+    Then I press "id_updatebutton"
+    And I log out
+
+  # The scoring method information should be disabled now as SC1/0
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Continue the last attempt"
+    Then I should see "Scoring method: SC1/0"
+    And I log out
+
+  # Set scoring method to Aprime
+    When I log in as "admin"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Edit quiz" in current page administration
+    And I click on "Edit question SC Question 4" "link" in the "SC Question 4" "list_item"
+    And I click on "id_scoringmethod_aprime" "radio"
+    Then I press "id_updatebutton"
+    And I log out
+
+  # The scoring method information should be disabled now as Aprime
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Continue the last attempt"
+    Then I should see "Scoring method: Aprime"
+    And I log out
+
+  @javascript
   Scenario: Testcase 9, 10, 11, 20, 23
   # Check grades: Verify that all possible mappings from
   # responses (correct, partially correct, incorrect) to

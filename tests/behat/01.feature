@@ -256,6 +256,7 @@ Feature: Step 1
     When I choose "Duplicate" action for "SC Question" in the question bank
     And I press "id_submitbutton"
     Then I should see "SC Question"
+    And I should see "SC Question (copy)"
 
   # Move the question to another category
     When I click on "SC Question" "checkbox" in the "SC Question" "table_row"
