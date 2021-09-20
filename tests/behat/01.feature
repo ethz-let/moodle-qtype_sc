@@ -198,13 +198,13 @@ Feature: Step 1
     Then I should not see "You must enter an option text."
 
   # Enter question title and check if stem is required
-      When I set the following fields to these values:
+    When I set the following fields to these values:
       | id_name        | SC Question |
       | id_defaultmark |             |
     And I press "id_submitbutton"
     Then "#id_name.is-invalid" "css_element" should not exist
     And "#id_defaultmark.is-invalid" "css_element" should exist
-  
+
   # Enter defaultmark and check if stem is required
     When I set the following fields to these values:
       | id_defaultmark  | 1 |
