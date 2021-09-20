@@ -122,8 +122,10 @@ Feature: Step 1
     And I set the field "item_qtype_sc" to "1"
     And I press "submitbutton"
     Then I should see "Adding a Single Choice"
-    And the following fields match these values:
+    When I expand all fieldsets
+    Then the following fields match these values:
       | id_name                    ||
+      | id_defaultmark             | 1 |
       | id_questiontext            | Enter the stem or question prompt here. |
       | id_generalfeedback         ||
       | id_scoringmethod_sconezero | checked |
@@ -134,6 +136,9 @@ Feature: Step 1
       | id_option_3                ||
       | id_feedback_3              ||
       | id_correctrow_1            | checked |
+      | id_hint_0                  ||
+      | id_hint_1                  ||
+    And I should see "No selection" in the "#fitem_id_tags" "css_element"
 
   @javascript
   Scenario: (new0)
@@ -152,6 +157,9 @@ Feature: Step 1
       | id_option_3              | 3rd optiontext            |
       | id_feedback_3            | 3rd feedbacktext          |
       | id_correctrow_3          | checked                   |
+      | id_hint_0                | 1th hinttext              |
+      | id_hint_1                | 2nd hinttext              |
+      | Tags                     | Tag1, Tag2                |
     Then I should see "SC Question"
 
   # Open the saved question and check if everything has been saved
@@ -167,6 +175,10 @@ Feature: Step 1
       | id_option_3              | 3rd optiontext            |
       | id_feedback_3            | 3rd feedbacktext          |
       | id_correctrow_3          | checked                   |
+      | id_hint_0                | 1th hinttext              |
+      | id_hint_1                | 2nd hinttext              |
+    And I should see "Tag1" in the "#fitem_id_tags" "css_element"
+    And I should see "Tag2" in the "#fitem_id_tags" "css_element"
 
   @javascript
   Scenario: Testcase
@@ -185,13 +197,29 @@ Feature: Step 1
     Then "#id_name.is-invalid" "css_element" should exist
     Then I should not see "You must enter an option text."
 
-  # Enter question title and check if options are required
-    When I set the following fields to these values:
-      | id_name     | SC Question     |
-      | id_option_1 |                 |
-
+  # Enter question title and check if stem is required
+      When I set the following fields to these values:
+      | id_name        | SC Question |
+      | id_defaultmark |             |
     And I press "id_submitbutton"
     Then "#id_name.is-invalid" "css_element" should not exist
+    And "#id_defaultmark.is-invalid" "css_element" should exist
+  
+  # Enter defaultmark and check if stem is required
+    When I set the following fields to these values:
+      | id_defaultmark  | 1 |
+      | id_questiontext |   |
+    And I press "id_submitbutton"
+    Then "#id_defaultmark.is-invalid" "css_element" should not exist
+    And I should see "You must supply a value here."
+
+  # Enter stem and check if options are required
+    When I set the following fields to these values:
+      | id_questiontext | This is a questiontext. |
+      | id_option_1     |                         |
+    And I press "id_submitbutton"
+    Then "#id_error_defaultmark" "css_element" should exist
+    And I should not see "You must supply a value here."
     And I should see "You must enter an option text."
 
   # Enter everything correctly and check if question can be created as usual
