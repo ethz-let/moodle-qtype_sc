@@ -30,7 +30,7 @@ Feature: Step 4
       | SC-Question-3 | 2    |
       | SC-Question-4 | 3    |
 
-  @javascript
+  @javascript @sc01
   Scenario: Testcase 18
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
@@ -41,14 +41,20 @@ Feature: Step 4
     And I press "Save and display"
     And I press "Preview quiz now"
     When I click on "[id^='question'][id$='-1'] tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
+    And I click on "[id^='question'][id$='-1'] tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "[id^='question'][id$='-2'] tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
+    And I click on "[id^='question'][id$='-2'] tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "[id^='question'][id$='-3'] tr:contains('Option Text 3') label[title='Click to choose as correct option.']" "css_element"
+    And I click on "[id^='question'][id$='-3'] tr:contains('Option Text 1') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
     Then "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-1']//tr[contains(.,'Option Text 1')]//input[@class='optionradio' and @checked='checked']" "xpath_element" should exist
+    And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-1']//tr[contains(.,'Option Text 2')]/td/input[@class='distractorcheckbox' and @checked='checked']" "xpath_element" should exist
     And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-2']//tr[contains(.,'Option Text 2')]//input[@class='optionradio' and @checked='checked']" "xpath_element" should exist
+    And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-2']//tr[contains(.,'Option Text 3')]/td/input[@class='distractorcheckbox' and @checked='checked']" "xpath_element" should exist
     And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-3']//tr[contains(.,'Option Text 3')]//input[@class='optionradio' and @checked='checked']" "xpath_element" should exist
+    And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-3']//tr[contains(.,'Option Text 1')]/td/input[@class='distractorcheckbox' and @checked='checked']" "xpath_element" should exist
     And I log out
 
   @javascript

@@ -45,7 +45,7 @@ Feature: Step 6
       | SC Question 4 | 1    |
 
   @javascript
-  Scenario: Testcase 2
+  Scenario: Testcase 23
   # Test if the Scoring Method information is correctly displayed within quiz attempts
 
   # The scoring method information should not be disabled by default
