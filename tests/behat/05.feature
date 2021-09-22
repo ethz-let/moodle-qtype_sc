@@ -121,7 +121,7 @@ Feature: Step 5
     And I set the field "Mark" to "0.86"
     And I press "Save" and switch to main window
 
-  # Set Scoring Method to Aprime
+  # Set Scoring Method to SC1/0
     And I navigate to "Edit quiz" in current page administration
     And I click on "Edit question SC Question 2" "link" in the "SC Question 2" "list_item"
     And I click on "id_scoringmethod_sconezero" "radio"
