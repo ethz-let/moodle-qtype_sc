@@ -58,6 +58,28 @@ Feature: Step 4
     And I log out
 
   @javascript
+  Scenario: Testcase 19
+    Given I log in as "teacher1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Edit settings" in current page administration
+    And I click on "Layout" "link"
+    And I set the field "New page" to "Never, all questions on one page"
+    And I press "Save and display"
+    And I press "Preview quiz now"
+  # Quesion 1: Option and distractor chosen
+    When I click on "[id^='question'][id$='-1'] tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
+    And I click on "[id^='question'][id$='-1'] tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+  # Quesion 2: Distractor chosen
+    And I click on "[id^='question'][id$='-2'] tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+  # Quesion 3: Nothing chosen
+    And I press "Finish attempt ..."
+    Then "//tr[starts-with(@class,'quizsummary1')]//td[contains(.,'Answer saved')]" "xpath_element" should exist
+    And "//tr[starts-with(@class,'quizsummary2')]//td[contains(.,'Incomplete answer')]" "xpath_element" should exist
+    And "//tr[starts-with(@class,'quizsummary3')]//td[contains(.,'Not yet answered')]" "xpath_element" should exist
+    And I log out
+
+  @javascript
   Scenario: Testcase 16
 
   # (12) Navigation and label
