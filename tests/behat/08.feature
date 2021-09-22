@@ -30,7 +30,85 @@ Feature: Step 8
       | SC Question 002 | 2 |
 
   @javascript
-  Scenario: Testcase 25, 26, 27
+  Scenario: Testcase 25
+
+  # Solving the exam as students
+  # Student 1 (100% correct)
+    Given I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Attempt quiz now"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
+    And I press "Next page"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I press "Finish attempt ..."
+    And I press "Submit all and finish"
+    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I log out
+
+  # Solving the exam as students
+  # Student 1 (50% correct)
+    Given I log in as "student2"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Attempt quiz now"
+    And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
+    And I press "Next page"
+    And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
+    And I press "Finish attempt ..."
+    And I press "Submit all and finish"
+    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I log out
+
+  #Backup course including SC question
+    When I log in as "admin"
+    And I backup "Course 1" course using this options:
+      | Confirmation | Filename | test_backup.mbz |
+    Then I should see "Restore"
+
+  # Restore the course as new course
+    And I click on "Restore" "link" in the "test_backup.mbz" "table_row"
+    And I should see "URL of backup"
+    And I press "Continue"
+    And I set the field "targetid" to "1"
+    And I click on "Continue" "button" in the ".bcs-new-course" "css_element"
+    And I press "Next"
+    And I press "Next"
+    And I press "Perform restore"
+    And I press "Continue"
+    Then I should see "Course 1 copy 1"
+
+  # Take a look at the SC question
+    When I follow "Quiz 1"
+    And I navigate to "Edit quiz" in current page administration
+    Then I should see "SC Question 001" on quiz page "1"
+    And I should see "SC Question 002" on quiz page "2"
+    When I click on "Edit question SC Question 001" "link" in the "SC Question 001" "list_item"
+    Then the following fields match these values:
+      | id_name                  | SC Question 001             |
+      | id_defaultmark           | 1                           |
+      | id_questiontext          | Questiontext for Question 1 |
+      | id_generalfeedback       | This feedback is general    |
+      | id_option_1              | Option Text 1               |
+      | id_feedback_1            | Feedback Text 1             |
+      | id_option_2              | Option Text 2               |
+      | id_feedback_2            | Feedback Text 2             |
+      | id_option_3              | Option Text 3               |
+      | id_feedback_3            | Feedback Text 3             |
+      | id_correctrow_1          | checked                     |
+      | id_hint_0                | This is the 1st hint        |
+      | id_hint_1                | This is the 2nd hint        |
+
+  # Check Results
+    When I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Results" in current page administration
+    Then "tr:contains('student1@moodle.com') .c8:contains('66.67')" "css_element" should exist
+    And "tr:contains('student2@moodle.com') .c8:contains('50.00')" "css_element" should exist
+
+  @javascript
+  Scenario: Testcase 26, 27
 
   # Solving the exam as students
   # Student 1 (100% correct)

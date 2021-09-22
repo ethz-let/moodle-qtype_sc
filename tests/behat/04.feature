@@ -30,7 +30,7 @@ Feature: Step 4
       | SC-Question-3 | 2    |
       | SC-Question-4 | 3    |
 
-  @javascript @sc01
+  @javascript
   Scenario: Testcase 18
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
