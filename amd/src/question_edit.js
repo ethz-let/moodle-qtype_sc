@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     qtype_sc
+ * @module      qtype_sc/question_edit.js
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
