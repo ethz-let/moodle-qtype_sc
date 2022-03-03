@@ -29,8 +29,6 @@
 
 namespace qtype_sc\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Mock class for get_content.
  *
