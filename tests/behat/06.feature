@@ -68,7 +68,7 @@ Feature: Step 6
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Continue the last attempt"
+    And I press "Continue your attempt"
     Then I should see "Scoring method: Subpoints"
     And I log out
 
@@ -86,7 +86,7 @@ Feature: Step 6
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Continue the last attempt"
+    And I press "Continue your attempt"
     Then I should see "Scoring method: SC1/0"
     And I log out
 
@@ -104,7 +104,7 @@ Feature: Step 6
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Continue the last attempt"
+    And I press "Continue your attempt"
     Then I should see "Scoring method: Aprime"
     And I log out
 
