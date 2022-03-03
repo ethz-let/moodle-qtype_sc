@@ -27,7 +27,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace qtype_sc;
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
@@ -38,7 +38,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group       qtype_sc
  */
-class qtype_sc_question_test extends advanced_testcase {
+class question_test extends advanced_testcase {
 
     /**
      * Makes a qtype_sc question.
