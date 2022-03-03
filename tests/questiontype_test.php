@@ -27,7 +27,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace qtype_sc;
+defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/sc/questiontype.php');
@@ -41,7 +41,7 @@ require_once($CFG->dirroot . '/question/type/sc/edit_sc_form.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group       qtype_sc
  */
-class test extends advanced_testcase {
+class qtype_sc_test extends advanced_testcase {
 
     /** @var object qtype */
     protected $qtype;
