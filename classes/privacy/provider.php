@@ -29,8 +29,6 @@
 
 namespace qtype_sc\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for qtype_sc implementing null_provider.
  *
