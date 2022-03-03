@@ -28,7 +28,6 @@
  */
 
 namespace qtype_sc;
-defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/lib.php');
 require_once($CFG->dirroot . '/question/type/sc/tests/helper.php');
