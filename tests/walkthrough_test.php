@@ -27,7 +27,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace qtype_sc;
+defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/lib.php');
 require_once($CFG->dirroot . '/question/type/sc/tests/helper.php');
@@ -40,7 +40,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group       qtype_sc
  */
-class walkthrough_test extends qbehaviour_walkthrough_test_base {
+class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
 
     /**
      * Starts attempt at given question
