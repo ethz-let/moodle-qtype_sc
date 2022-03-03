@@ -27,8 +27,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The default number of options. Options are called 'rows' in the database to distinguish from Moodle question options.
  */
