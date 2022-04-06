@@ -1,12 +1,14 @@
-<section *ngIf="question.text || question.text === ''" class="qtype-sc">
-    <ion-item class="ion-text-wrap">
+<section class="list qtype-sc-container qtype-sc" *ngIf="question.text || question.text === ''" class="qtype-sc">
+    <ion-item class="addon-qtype-sc-container qtext ion-text-wrap ">
         <ion-label>
             <p>
-                <core-format-text [component]="component" [componentId]="componentId" [text]="question.text">
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.text"
+                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId">
                 </core-format-text>
             </p>
             <p *ngIf="question.prompt">
-                <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt">
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt"
+                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId">
                 </core-format-text>
             </p>
         </ion-label>
@@ -32,15 +34,17 @@
                                 (click)="clickoptionbutton(row.optionvalue)"
                                 slot="start">
                             </ion-radio>
-                            <ion-label>
+                            <ion-label  class="addon-qtype-sc-container qtext ion-text-wrap ">
                                 <core-format-text
                                     [component]="component"
                                     [componentId]="row.optionid + 'label'"
+                                    [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId"
                                     [text]="row.optiontext"
                                     [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
                                 </core-format-text>
                                 <div *ngIf="row.feedback" class="scspecificfeedback ng-star-inserted">
-                                    <core-format-text [text]="row.feedback"></core-format-text>
+                                    <core-format-text  [component]="component" [componentId]="componentId"
+                                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" [text]="row.feedback"></core-format-text>
                                 </div>
                             </ion-label>
                         </ion-item>
@@ -70,7 +74,7 @@
         <hr>
         <ion-item (click)="scoringmethodhelp=!scoringmethodhelp" class="ion-text-wrap">
             <ion-icon name="far-question-circle" aria-hidden="true" slot="start"></ion-icon>
-            <ion-label>
+            <ion-label  class="addon-qtype-sc-container qtext ion-text-wrap ">
                 <core-format-text [component]="component" [componentId]="componentId" [text]="question.scoringmethodlabel">
                 </core-format-text>
             </ion-label>
