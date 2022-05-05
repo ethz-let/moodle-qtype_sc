@@ -79,6 +79,7 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
         test_question_maker::initialise_a_question($sc);
         $sc->qtype = question_bank::get_qtype('sc');
         $sc->name = 'SC001';
+        $sc->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $sc->idnumber = 6;
         $sc->questiontext = 'the correct row is row 1';
         $sc->generalfeedback = 'You should do this and that';

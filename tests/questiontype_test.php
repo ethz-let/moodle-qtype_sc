@@ -76,6 +76,7 @@ class qtype_sc_test extends advanced_testcase {
         $qdata->modifiedby = 0;
         $qdata->length = 0;
         $qdata->hidden = 0;
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->timecreated = "1552376610";
         $qdata->timemodified = "1552376610";
         $qdata->stamp = "127.0.0.1+1552376610+76EZEc";

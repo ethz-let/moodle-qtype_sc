@@ -64,6 +64,7 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->length = 0;
         $qdata->hidden = 0;
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->timecreated = "1552376610";
         $qdata->timemodified = "1552376610";
         $qdata->stamp = "127.0.0.1+1552376610+76EZEc";
@@ -142,6 +143,7 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata = new stdClass();
         $qdata->id = 4010;
         $qdata->createdby = $USER->id;
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-001';
@@ -210,6 +212,7 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata = new stdClass();
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-002';
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->idnumber = 4010;
         $qdata->category = 1;
         $qdata->contextid = 1;
@@ -310,6 +313,7 @@ class qtype_sc_test_helper extends question_test_helper {
             'itemid' => 2
         );
         $qdata->defaultmark = 1;
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->length = 1;
         $qdata->penalty = 0.3333333;
         $qdata->hidden = 0;
@@ -381,6 +385,7 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->length = 1;
         $qdata->penalty = 0.3333333;
         $qdata->hidden = 0;
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->scoringmethod = 'sconezero';
         $qdata->shuffleanswers = 1;
         $qdata->answernumbering = 'none';
@@ -451,6 +456,7 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-004';
+        $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->questiontext = array(
             "text" => 'Questiontext for Question 1',
             'format' => FORMAT_HTML,
