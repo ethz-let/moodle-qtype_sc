@@ -157,6 +157,7 @@ class qtype_sc_edit_form extends question_edit_form {
 
         // Any questiontype specific fields.
         $this->definition_inner($mform);
+        $this->add_interactive_settings();
 
         if (core_tag_tag::is_enabled('core_question', 'question') && class_exists('qbank_tagquestion\\tags_action_column') &&
              \core\plugininfo\qbank::is_plugin_enabled('qbank_tagquestion')) {
