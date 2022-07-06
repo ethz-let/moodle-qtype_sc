@@ -88,3 +88,4 @@ $string['stem'] = 'Stem';
 $string['tasktitle'] = 'Task title';
 $string['unchecked'] = 'not chosen';
 $string['warningreduceoptions'] = 'When lowering the number of options surplus options will be deleted. Are you sure you want to proceed?';
+$string['numberchoicehaschanged'] = 'Number of options has changed. Can not regrade the question attempt.';

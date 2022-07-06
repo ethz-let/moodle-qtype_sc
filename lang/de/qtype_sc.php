@@ -88,3 +88,4 @@ $string['stem'] = 'Stamm';
 $string['tasktitle'] = 'Aufgabentitel';
 $string['unchecked'] = 'nicht ausgewählt';
 $string['warningreduceoptions'] = 'Wenn Sie auf eine kleinere Anzahl Wahlantworten wechseln, werden überzählige Wahlantworten gelöscht. Möchten Sie fortfahren?';
+$string['numberchoicehaschanged'] = 'Number of options has changed. Can not regrade the question attempt.';
