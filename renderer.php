@@ -156,7 +156,7 @@ class qtype_sc_renderer extends qtype_renderer {
                 $output .= html_writer::empty_tag('input', $inputattributes);
 
                 $labelattributes = [];
-                $labelattributes['class'] = 'w-100' . ($distractor['selected'] ? 'linethrough' : '');
+                $labelattributes['class'] = 'w-100 ' . ($distractor['selected'] ? 'linethrough' : '');
                 $labelattributes['title'] = $label;
 
                 $output .= html_writer::label($feedbackimage . $option['rowtext'], $option['inputid'], true, $labelattributes);
