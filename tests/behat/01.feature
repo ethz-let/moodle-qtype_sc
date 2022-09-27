@@ -112,7 +112,7 @@ Feature: Step 1
       | id_correctrow_2 | checked |
     And I log out
 
-  @javascript
+  @javascript @qtype_sc_scenario_1_3
   Scenario: Testcase 1, 3
 
   # Create question and check if all values are on default state
@@ -138,7 +138,7 @@ Feature: Step 1
       | id_correctrow_1            | checked |
       | id_hint_0                  ||
       | id_hint_1                  ||
-    And I should see "No selection" in the "#fitem_id_tags" "css_element"
+    And I should see "Any tags" in the "#fitem_id_tags" "css_element"
 
   @javascript
   Scenario: (new0)
@@ -260,7 +260,7 @@ Feature: Step 1
     And I click on "Scoring method" "link"
     Then "#id_scoringmethod_subpoints[checked]" "css_element" should exist
 
-  @javascript
+  @javascript @qtype_sc_scenario_4_5
   Scenario: Testcase 4,5
 
     When I am on "Course 1" course homepage
@@ -288,8 +288,10 @@ Feature: Step 1
 
   # Move the question to another category
     When I click on "SC Question" "checkbox" in the "SC Question" "table_row"
+    And I press "With selected"
+    And I click on question bulk action "move"
     And I set the field "Question category" to "AnotherCat"
-    And I press "Move to >>"
+    And I press "Move to"
     Then I should see "Question bank"
     And I should see "AnotherCat"
     And I should see "SC Question"
