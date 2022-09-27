@@ -31,7 +31,7 @@ Feature: Step 3
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Edit quiz" in current page administration
+    And I navigate to "Questions" in current page administration
 
   @javascript
   Scenario: Testcase 13
@@ -67,18 +67,18 @@ Feature: Step 3
       | id_correctrow_1      | checked                  |
 
     And I press "id_submitbutton"
-    Then I should see "Editing quiz: Quiz 1"
+    Then I should see "Questions"
     And I should see "SC Question 4"
 
   # Add a question from the question bank to the quiz
     And I click on "li:contains('Page 2') .add-menu-outer" "css_element"
     And I click on ".menu-action-text:contains('from question bank')" "css_element"
     And I click on "Add to quiz" "link" in the "SC Question 5" "table_row"
-    Then I should see "Editing quiz: Quiz 1"
+    Then I should see "Questions"
     And I should see "SC Question 5"
 
   # Delete a question from a quiz
     When I click on "Delete" "link" in the "SC Question 4" "list_item"
     And I click on "Yes" "button" in the ".moodle-dialogue-wrap" "css_element"
-    Then I should see "Editing quiz: Quiz 1"
+    Then I should see "Questions"
     And I should not see "SC Question 4"
