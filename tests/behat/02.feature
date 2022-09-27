@@ -21,22 +21,25 @@ Feature: Step 2
     And I am on "Course 1" course homepage
 
   @javascript
-  Scenario: Testcase 24
+  Scenario: Testcase 24 a
 
   #Export question
-    When I navigate to "Question bank > Export" in current page administration
+    When I navigate to "Question bank" in current page administration
+    And I click on "Question" "select"
+    And I click on "Export" "option"
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
     And following "click here" should download between "1500" and "2000" bytes
     And I log out
 
   @javascript @_file_upload
-  Scenario: Testcase 24
+  Scenario: Testcase 24 b
 
   # Import question
 
     And I navigate to "Question bank" in current page administration
-    And I click on "Import" "link"
+    When I click on "Question" "select"
+    And I click on "Import" "option"
     And I set the field "id_format_xml" to "1"
     And I upload "question/type/sc/tests/fixtures/testquestion.moodle.xml" file to "Import" filemanager
     And I press "id_submitbutton"
@@ -46,14 +49,15 @@ Feature: Step 2
 
     And I should see "SC-Question-001"
     When I choose "Preview" action for "SC-Question-001" in the question bank
-    And I switch to "questionpreview" window
+  #  And I switch to "questionpreview" window
     Then "[alt='testimage1AltDescription']" "css_element" should exist
     And I should not see "testimage1AltDescription"
     And "[alt='testimage2AltDescription']" "css_element" should exist
     And I should not see "testimage2AltDescription"
     And I should see "Option Text 1"
     And I should see "Option Text 2"
-    When I set the field "How questions behave" to "Immediate feedback"
+    When I click on "Preview options" "link"
+    And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Check"
