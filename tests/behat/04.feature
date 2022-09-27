@@ -35,11 +35,11 @@ Feature: Step 4
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I click on "Layout" "link"
     And I set the field "New page" to "Never, all questions on one page"
     And I press "Save and display"
-    And I press "Preview quiz now"
+    And I press "Preview quiz"
     When I click on "[id^='question'][id$='-1'] tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I click on "[id^='question'][id$='-1'] tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "[id^='question'][id$='-2'] tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
@@ -62,11 +62,11 @@ Feature: Step 4
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I click on "Layout" "link"
     And I set the field "New page" to "Never, all questions on one page"
     And I press "Save and display"
-    And I press "Preview quiz now"
+    And I press "Preview quiz"
   # Quesion 1: Option and distractor chosen
     When I click on "[id^='question'][id$='-1'] tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I click on "[id^='question'][id$='-1'] tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
@@ -87,7 +87,7 @@ Feature: Step 4
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I click on "Question behaviour" "link"
     And I set the field "How questions behave" to "Deferred feedback"
     And I press "Save and return to course"
@@ -98,7 +98,7 @@ Feature: Step 4
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
-    When I press "Attempt quiz now"
+    When I press "Attempt quiz"
 
   # No option selected
     When I click on "quiznavbutton2" "link"
