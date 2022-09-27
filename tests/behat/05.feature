@@ -36,7 +36,7 @@ Feature: Step 5
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
     And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
@@ -49,7 +49,7 @@ Feature: Step 5
     When I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
     And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
@@ -61,7 +61,8 @@ Feature: Step 5
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Manual grading" in current page administration
+    And I navigate to "Results" in current page administration
+    And I click on "Manual grading" "option"
     Then I should see "Nothing to display"
     When I click on "Also show questions that have been graded automatically" "link"
     And I click on "grade all" "link"
@@ -79,8 +80,8 @@ Feature: Step 5
     Then "tr[class='gradedattempt']:contains('44.00')" "css_element" should exist
     And "tr[class='gradedattempt']:contains('22.00')" "css_element" should exist
 
-  @javascript @_switch_window
-  Scenario: Testcase 21, 22
+  @javascript @_switch_window @qtype_sc_scenario_21_22_a
+  Scenario: Testcase 21, 22 a
   # Change scoringmethod after test has been submitted
   # Check grades. Manual applied grades should not be overwritten
 
@@ -88,7 +89,7 @@ Feature: Step 5
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
     And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
@@ -101,7 +102,7 @@ Feature: Step 5
     When I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
     And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 4') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
@@ -114,7 +115,8 @@ Feature: Step 5
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Responses" in current page administration
+    And I navigate to "Results" in current page administration
+    And I click on "Responses" "option"
     And I click on "tr:contains('student1@moodle.com') a:contains('Review attempt')" "css_element"
     And I click on "Make comment or override mark" "link"
     And I switch to "commentquestion" window
@@ -122,13 +124,13 @@ Feature: Step 5
     And I press "Save" and switch to main window
 
   # Set Scoring Method to SC1/0
-    And I navigate to "Edit quiz" in current page administration
+    And I navigate to "Questions" in current page administration
     And I click on "Edit question SC Question 2" "link" in the "SC Question 2" "list_item"
     And I click on "id_scoringmethod_sconezero" "radio"
     And I press "id_submitbutton"
 
   # Regrade
-    And I follow "Quiz 1"
+    And I navigate to "Quiz" in current page administration
     And I navigate to "Results" in current page administration
     And I click on "#mod-quiz-report-overview-report-selectall-attempts" "css_element"
     And I press "Regrade selected attempts"
@@ -138,8 +140,8 @@ Feature: Step 5
     Then ".gradedattempt:contains('student1@moodle.com'):contains('86.00')" "css_element" should exist
     And ".gradedattempt:contains('student2@moodle.com'):contains('0.00')" "css_element" should exist
 
-  @javascript @_switch_window
-  Scenario: Testcase 21, 22
+  @javascript @_switch_window @qtype_sc_scenario_21_22_b
+  Scenario: Testcase 21, 22 b
   # Change correct answer after test has been submitted.
   # Regrade the test and check the results
 
@@ -147,7 +149,7 @@ Feature: Step 5
     When I log in as "student1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
@@ -158,7 +160,7 @@ Feature: Step 5
     When I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
     And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
@@ -169,7 +171,7 @@ Feature: Step 5
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Edit quiz" in current page administration
+    And I navigate to "Questions" in current page administration
     And I click on "Edit question SC Question 2" "link" in the "SC Question 2" "list_item"
     And I set the following fields to these values:
       | id_correctrow_2 | checked |
