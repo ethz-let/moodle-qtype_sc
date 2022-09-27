@@ -33,6 +33,7 @@ Feature: Step 7
     And I press "id_updatebutton"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window
+    And I click on "Preview options" "link"
     And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
@@ -56,8 +57,10 @@ Feature: Step 7
     And I press "id_updatebutton"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window
+    And I click on "Preview options" "link"
     And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
+    And I click on "Display options" "link"
     And I set the field "Marks" to "Show mark and max"
     And I press "Update display options"
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
@@ -96,8 +99,10 @@ Feature: Step 7
     And I press "id_updatebutton"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window
+    And I click on "Preview options" "link"
     And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
+    And I click on "Display options" "link"
     And I set the field "Marks" to "Show mark and max"
     And I press "Update display options"
     When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
