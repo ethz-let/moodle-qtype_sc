@@ -28,7 +28,7 @@ Feature: Step 5
       | question      | page |
       | SC Question 2 | 1    |
 
-  @javascript
+  @javascript @qtype_sc_5_tc2021
   Scenario: Testcase 21, 22
   # Check manual grading override
 
@@ -42,7 +42,7 @@ Feature: Step 5
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student2: 33.3% correct options
@@ -54,7 +54,7 @@ Feature: Step 5
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Login as teacher1 and grade manually
@@ -72,7 +72,7 @@ Feature: Step 5
     And "input[value='0.3333333']" "css_element" should exist
     And I set the field with xpath "//*[@value='0.5']" to "0.44"
     And I set the field with xpath "//*[@value='0.3333333']" to "0.22"
-    And I press "Save and go to next page"
+    And I press "Save and show next"
 
   # Check regraded attempts
     When I click on "nav a:contains('Quiz 1')" "css_element"
@@ -95,7 +95,7 @@ Feature: Step 5
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student2: 50% correct options
@@ -108,7 +108,7 @@ Feature: Step 5
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Login as teacher1 and grade student1 manually
@@ -153,7 +153,7 @@ Feature: Step 5
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student2: 0% (Post 100%) correct options
@@ -164,7 +164,7 @@ Feature: Step 5
     And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Changing the correct answer from 1 0 0 0 0 to 0 1 0 0 0
