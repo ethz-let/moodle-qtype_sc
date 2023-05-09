@@ -140,7 +140,7 @@ Feature: Step 1
       | id_hint_1                  ||
     And I should see "Any tags" in the "#fitem_id_tags" "css_element"
 
-  @javascript
+  @javascript @qtype_sc_1_new0
   Scenario: (new0)
 
   # Create a question filling out all forms
@@ -180,7 +180,7 @@ Feature: Step 1
     And I should see "Tag1" in the "#fitem_id_tags" "css_element"
     And I should see "Tag2" in the "#fitem_id_tags" "css_element"
 
-  @javascript
+  @javascript @qtype_sc_1_Testcase
   Scenario: Testcase
 
   # Create a question and check if question title is required
