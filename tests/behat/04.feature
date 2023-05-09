@@ -102,7 +102,7 @@ Feature: Step 4
 
   # No option selected
     When I click on "quiznavbutton2" "link"
-    Then "#quiznavbutton1[title='Not yet answered']" "css_element" should exist
+    Then "#quiznavbutton1.notyetanswered" "css_element" should exist
 
   #One option selected
     When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
