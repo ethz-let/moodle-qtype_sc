@@ -48,7 +48,7 @@ Feature: Step 4
     And I click on "[id^='question'][id$='-3'] tr:contains('Option Text 1') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     Then "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-1']//tr[contains(.,'Option Text 1')]//input[@class='optionradio' and @checked='checked']" "xpath_element" should exist
     And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-1']//tr[contains(.,'Option Text 2')]/td/input[@class='distractorcheckbox' and @checked='checked']" "xpath_element" should exist
     And "//div[starts-with(@id,'question') and substring(@id, string-length(@id)-1)='-2']//tr[contains(.,'Option Text 2')]//input[@class='optionradio' and @checked='checked']" "xpath_element" should exist
