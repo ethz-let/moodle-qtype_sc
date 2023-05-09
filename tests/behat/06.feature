@@ -134,7 +134,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student9: 100% correct options (SUBPOINTS are activated) Using distractors
@@ -148,7 +148,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student2: 50% correct options (SUBPOINTS are activated)
@@ -161,7 +161,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student3: 0% correct options (SUBPOINTS are activated)
@@ -172,7 +172,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Check results for Subpoints
@@ -225,7 +225,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student5: 0% correct options (SC1/0 is activated)
@@ -236,7 +236,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Check results for SC1/0
@@ -273,7 +273,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student10: 100% correct options (Aprime is activated) - using distractors
@@ -287,7 +287,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student7: 1 false option -> 50% (Aprime is activated)
@@ -300,7 +300,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving quiz as student8: 2 false option -> 0% (Aprime is activated)
@@ -312,7 +312,7 @@ Feature: Step 6
     And I click on "tr:contains('Option Text 5') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
 # Check results for Aprime
