@@ -44,7 +44,7 @@ Feature: Step 8
     And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving the exam as students
@@ -58,7 +58,7 @@ Feature: Step 8
     And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   #Backup course including SC question
@@ -135,7 +135,7 @@ Feature: Step 8
     And I click on "tr:contains('Option Text 3') label[title='Click to cross out as incorrect option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Solving the exam as students
@@ -149,7 +149,7 @@ Feature: Step 8
     And I click on "tr:contains('Option Text 2') label[title='Click to choose as correct option.']" "css_element"
     And I press "Finish attempt ..."
     And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
 
   # Backup Exam as admin
