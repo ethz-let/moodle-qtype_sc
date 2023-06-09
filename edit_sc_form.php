@@ -427,19 +427,52 @@ class qtype_sc_edit_form extends question_edit_form {
             if (!property_exists((object)$data, 'correctrow') || !$data['correctrow'] || $data['correctrow'] > $data['numberofrows']) {
                 $errors['correctrow'] = get_string('mustchoosecorrectoption', 'qtype_sc');
             }
+        } 
+        // Category.
+        if (empty($data['category'])) {
+            // User has provided an invalid category.
+            $errors['category'] = get_string('required');
         }
 
+        // Default mark.
+        if (array_key_exists('defaultmark', $data) && $data['defaultmark'] < 0) {
+            $errors['defaultmark'] = get_string('defaultmarkmustbepositive', 'question');
+        }
 
-        // Can only have one idnumber.
-        if (isset($data['idnumber']) && ((string)$data['idnumber'] !== '')) {
-            $conditions = 'idnumber = ?';
-            if (!empty($this->question->id)) {
-                $conditions .= ' AND id <> ?';
-                $params[] = $this->question->id;
+        // Can only have one idnumber per category.
+        if (strpos($data['category'], ',') !== false) {
+            list($category, $categorycontextid) = explode(',', $data['category']);
+        } else {
+            $category = $data['category'];
+        }
+        if (isset($data['idnumber']) && ((string) $data['idnumber'] !== '')) {
+            if (empty($data['usecurrentcat']) && !empty($data['categorymoveto'])) {
+                $categoryinfo = $data['categorymoveto'];
+            } else {
+                $categoryinfo = $data['category'];
             }
-            if ($DB->record_exists_select('question', $conditions, $params)) {
+            list($categoryid, $notused) = explode(',', $categoryinfo);
+            $conditions = 'questioncategoryid = ? AND idnumber = ?';
+            $params = [$categoryid, $data['idnumber']];
+            if (!empty($this->question->id)) {
+                // Get the question bank entry id to not check the idnumber for the same bank entry.
+                $sql = "SELECT DISTINCT qbe.id
+                          FROM {question_versions} qv
+                          JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                         WHERE qv.questionid = ?";
+                $bankentry = $DB->get_record_sql($sql, ['id' => $this->question->id]);
+                $conditions .= ' AND id <> ?';
+                $params[] = $bankentry->id;
+            }
+
+            if ($DB->record_exists_select('question_bank_entries', $conditions, $params)) {
                 $errors['idnumber'] = get_string('idnumbertaken', 'error');
             }
+        }
+
+        if ($this->customfieldpluginenabled) {
+            // Add the custom field validation.
+            $errors  = array_merge($errors, $this->customfieldhandler->instance_form_validation($data, $files));
         }
 
         return $errors;
