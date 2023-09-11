@@ -9,7 +9,7 @@
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// GNU General Public License for more details. 
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
@@ -18,7 +18,7 @@
  * Version information for qtype_sc.
  *
  * @package     qtype_sc
- * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch).
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
  * @author      Andreas Hruska (andreas.hruska@edaktik.at)
