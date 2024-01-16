@@ -116,4 +116,4 @@ However Unit tests can be used genetically in combination with any Moodle setup.
  
 ## Contributors:
 ETH Zürich (Lead maintainer)
-Thomas Korner (Service owner, thomas.korner@let.ethz.ch)
+Antonia Bonaccorso (Service owner, antonia.bonaccorso@id.ethz.ch)
