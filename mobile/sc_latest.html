@@ -20,7 +20,7 @@
                     <ng-container *ngFor="let row of question.rows">
                         <ion-item
                             class="ion-text-wrap {{row.qclass}}"
-                            [class.qtype-sc-highlight]="togglehighlightrows(row.optionvalue)"
+                            [class.qtype-sc-highlight]="row.highlight"
                             [attr.number]="row.optionvalue"
                             [hidden]="(row.optionvalue == -1 && question.optionselected == -1) || row.optionvalue == null">
                             <ion-radio
@@ -54,7 +54,6 @@
                     <ion-item
                         lines="none"
                         class="ion-no-padding {{row.qclass}}"
-                        [class.qtype-sc-highlight]="togglehighlightrows(row.optionvalue)"
                         [attr.number]="row.optionvalue"
                         [hidden]="(row.optionvalue == -1 && question.optionselected == -1) || row.optionvalue == null">
                         <ion-checkbox
