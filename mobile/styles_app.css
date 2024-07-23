@@ -54,4 +54,8 @@
     color: #64450a;
     display: inline;
 }
+
+.qtype-sc .qtype-sc-highlight {
+    --background: rgba(0, 255, 7, 0.21);
+}
 /* stylelint-enable declaration-no-important  */

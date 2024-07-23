@@ -13,63 +13,65 @@
             </p>
         </ion-label>
     </ion-item>
-    <ion-radio-group [name]="question.optiongroupname" [(ngModel)]="question.optionselected">
-        <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
-        <input type="hidden" [ngModel]="question.optionselected" [attr.name]="question.optiongroupname">
-        <ng-container *ngFor="let row of question.rows">
-            <ion-grid
-                [ngClass]="row.qclass"
-                [attr.number]="row.optionvalue"
-                [hidden]="(row.optionvalue == -1 && question.optionselected == -1) || row.optionvalue == null"
-                [style.background]="togglehighlightrows(row.optionvalue) ? 'rgba(0, 255, 7, 0.21)' : 'transparent'">
-                <ion-row>
-                    <ion-col size="10">
-                        <ion-item class="ion-text-wrap">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-radio-group [name]="question.optiongroupname" [(ngModel)]="question.optionselected">
+                    <ng-container *ngFor="let row of question.rows">
+                        <ion-item
+                            class="ion-text-wrap {{row.qclass}}"
+                            [class.qtype-sc-highlight]="row.highlight"
+                            [attr.number]="row.optionvalue"
+                            [hidden]="(row.optionvalue == -1 && question.optionselected == -1) || row.optionvalue == null">
                             <ion-radio
                                 [id]="row.optionid"
-                                [name]="question.optiongroupname"
                                 [attr.number]="row.optionvalue"
                                 [value]="row.optionvalue"
                                 [disabled]="row.disabled"
                                 (click)="clickoptionbutton(row.optionvalue)"
-                                slot="start">
-                            </ion-radio>
-                            <ion-label  class="addon-qtype-sc-container qtext ion-text-wrap ">
-                                <core-format-text
-                                    [component]="component"
-                                    [componentId]="row.optionid + 'label'"
-                                    [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId"
-                                    [text]="row.optiontext"
-                                    [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
-                                </core-format-text>
-                                <div *ngIf="row.feedback" class="scspecificfeedback ng-star-inserted">
-                                    <core-format-text  [component]="component" [componentId]="componentId"
-                                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" [text]="row.feedback"></core-format-text>
+                                labelPlacement="end"
+                                justify="start">
+                                <div class="addon-qtype-sc-container qtext ion-text-wrap">
+                                    <core-format-text
+                                        [component]="component"
+                                        [componentId]="row.optionid + 'label'"
+                                        [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId"
+                                        [text]="row.optiontext"
+                                        [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
+                                    </core-format-text>
+                                    <div *ngIf="row.feedback" class="scspecificfeedback ng-star-inserted">
+                                        <core-format-text  [component]="component" [componentId]="componentId"
+                                    [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" [text]="row.feedback"></core-format-text>
+                                    </div>
                                 </div>
-                            </ion-label>
+                            </ion-radio>
                         </ion-item>
-                    </ion-col>
-                    <ion-col size="2">
-                        <ion-item lines="none" class="ion-no-padding">
-                            <ion-checkbox
-                                part="container"
-                                *ngIf="row.optionvalue != -1"
-                                [(ngModel)]="row.distractorselected"
-                                [id]="row.distractorid"
-                                [name]="row.distractorname"
-                                [attr.number]="row.optionvalue"
-                                [value]="1"
-                                [disabled]="row.disabled"
-                                (ionChange)="clickdistractor(row.distractorselected, row.optionvalue);">
-                            </ion-checkbox>
-                            <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
-                            <input type="hidden" [ngModel]="row.distractorselected" [attr.name]="row.distractorname">
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ng-container>
-    </ion-radio-group>
+                    </ng-container>
+                </ion-radio-group>
+            </ion-col>
+            <ion-col size="auto">
+                <ng-container *ngFor="let row of question.rows">
+                    <ion-item
+                        lines="none"
+                        class="ion-no-padding {{row.qclass}}"
+                        [attr.number]="row.optionvalue"
+                        [hidden]="(row.optionvalue == -1 && question.optionselected == -1) || row.optionvalue == null">
+                        <ion-checkbox
+                            part="container"
+                            *ngIf="row.optionvalue != -1"
+                            [(ngModel)]="row.distractorselected"
+                            [id]="row.distractorid"
+                            [name]="row.distractorname"
+                            [attr.number]="row.optionvalue"
+                            [value]="1"
+                            [disabled]="row.disabled"
+                            (ionChange)="clickdistractor(row.distractorselected, row.optionvalue);">
+                        </ion-checkbox>
+                    </ion-item>
+                </ng-container>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
     <div *ngIf="question.scoringmethodlabel && question.scoringmethodhelp" class="scoringmethod">
         <hr>
         <ion-item (click)="scoringmethodhelp=!scoringmethodhelp" class="ion-text-wrap">

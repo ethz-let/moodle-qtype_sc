@@ -5,13 +5,11 @@ var result = {
 
         this.clickdistractor = function clickdistractor(isSelected, optionvalue) {
 
-            if (!this.question.optionselected) {
-                return;
-            }
-
-            if (isSelected && this.question.optionselected == optionvalue) {
+            if (this.question.optionselected && isSelected && this.question.optionselected == optionvalue) {
                 this.question.optionselected = -1;
             }
+
+            this.calculatehighlightrows();
         }
 
         this.clickoptionbutton = function clickoptionbutton(optionvalue) {
@@ -25,34 +23,23 @@ var result = {
             }
         }
 
-        this.togglehighlightrows = function togglehighlightrows(optionvalue) {
+        this.calculatehighlightrows = function calculatehighlightrows() {
 
             if (!this.question.scoringmethod) {
-                return false;
+                return;
             }
 
             if(this.question.scoringmethod == "sconezero") {
-                return false;
+                return;
             }
 
-            if (!optionvalue || optionvalue == -1) {
-                return false;
-            }
+            const hasCheckedDistractor = this.question.rows.some(row => row.distractorselected == 1);
 
-            var distractorschecked = 0;
-            for (var key in this.question.rows) {
-                if (this.question.rows[key].distractorselected == 1) {
-                    distractorschecked++;
-                }
-            }
+            this.question.rows.forEach(row => {
+                row.highlight = hasCheckedDistractor && row.optionvalue != -1 && !row.distractorselected &&
+                    this.question.optionselected == -1;
+            });
 
-            if (distractorschecked > 0
-                && !this.question.rows[optionvalue].distractorselected
-                && this.question.optionselected == -1) {
-                return true;
-            } else {
-                return false;
-            }
         }
 
         // Get the question raw data for initializing the template.
@@ -125,11 +112,14 @@ var result = {
                 distractorselected: distractorselected,
                 feedback: feedback,
                 disabled: disabled,
-                qclass: qclass
+                qclass: qclass,
+                highlight: false,
             });
         }
 
         this.question.rows = rows;
+
+        this.calculatehighlightrows();
 
         return true;
     }
