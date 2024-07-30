@@ -47,12 +47,12 @@ class backup_qtype_sc_plugin extends backup_qtype_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Now create the qtype own structures.
-        $sc = new backup_nested_element('sc', array('id'),
-                array('scoringmethod', 'shuffleanswers', 'answernumbering', 'numberofrows', 'correctrow'));
+        $sc = new backup_nested_element('sc', ['id'],
+                ['scoringmethod', 'shuffleanswers', 'answernumbering', 'numberofrows', 'correctrow']);
 
         $rows = new backup_nested_element('rows');
-        $row = new backup_nested_element('row', array('id'),
-                array('number', 'optiontext', 'optiontextformat', 'optionfeedback', 'optionfeedbackformat'));
+        $row = new backup_nested_element('row', ['id'],
+                ['number', 'optiontext', 'optiontextformat', 'optionfeedback', 'optionfeedbackformat']);
 
         // Now the qtype tree.
         $rows->add_child($row);
@@ -60,8 +60,8 @@ class backup_qtype_sc_plugin extends backup_qtype_plugin {
         $pluginwrapper->add_child($rows);
 
         // Set sources to populate the data.
-        $sc->set_source_table('qtype_sc_options', array('questionid' => backup::VAR_PARENTID));
-        $row->set_source_table('qtype_sc_rows', array('questionid' => backup::VAR_PARENTID));
+        $sc->set_source_table('qtype_sc_options', ['questionid' => backup::VAR_PARENTID]);
+        $row->set_source_table('qtype_sc_rows', ['questionid' => backup::VAR_PARENTID]);
 
         return $plugin;
     }
@@ -72,6 +72,6 @@ class backup_qtype_sc_plugin extends backup_qtype_plugin {
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
-        return array('optiontext' => 'qtype_sc_rows', 'feedbacktext' => 'qtype_sc_rows');
+        return ['optiontext' => 'qtype_sc_rows', 'feedbacktext' => 'qtype_sc_rows'];
     }
 }

@@ -67,7 +67,7 @@ $sql = "SELECT q.*
           AND mco.questionid = q.id
           AND mco.single = 1
         ";
-$params = array();
+$params = [];
 
 if (!$all && (!($courseid > 0 || $categoryid > 0))) {
     echo "<br/><font color='red'>You should specify either the 'courseid'
@@ -77,7 +77,7 @@ if (!$all && (!($courseid > 0 || $categoryid > 0))) {
 }
 
 if ($courseid > 0) {
-    if (!$course = $DB->get_record('course', array('id' => $courseid))) {
+    if (!$course = $DB->get_record('course', ['id' => $courseid])) {
         echo "<br/><font color='red'>Course with ID $courseid  not found...!</font><br/>\n";
         die();
     }
@@ -85,7 +85,7 @@ if ($courseid > 0) {
     $contextid = $coursecontext->id;
 
     $categories = $DB->get_records('question_categories',
-               array('contextid' => $coursecontext->id));
+               ['contextid' => $coursecontext->id]);
     $catids = array_keys($categories);
 
     if (!empty($catids)) {
@@ -99,7 +99,7 @@ if ($courseid > 0) {
 }
 
 if ($categoryid > 0) {
-    if ($category = $DB->get_record('question_categories', array('id' => $categoryid))) {
+    if ($category = $DB->get_record('question_categories', ['id' => $categoryid])) {
 
         echo 'Migration restricted to category "' . $category->name . "\".<br/>\n";
 
@@ -119,7 +119,7 @@ if ($categoryid > 0) {
 
         $sql .= " AND q.category $csql ";
 
-        $contextid = $DB->get_field('question_categories', 'contextid', array('id' => $categoryid));
+        $contextid = $DB->get_field('question_categories', 'contextid', ['id' => $categoryid]);
     } else {
         echo "<br/><font color='red'>Question category with ID $categoryid  not found...!</font><br/>\n";
         echo "I'm not doing anything without restrictions!\n";
@@ -142,7 +142,7 @@ echo "--------------------------------------------------------------------------
 echo "=========================================================================================<br/>\n";
 
 $counter = 0;
-$notmigrated = array();
+$notmigrated = [];
 
 foreach ($questions as $question) {
     set_time_limit(60);
@@ -151,7 +151,7 @@ foreach ($questions as $question) {
     $oldquestionname = $question->name;
 
     // Retrieve the answers.
-    $answers = $DB->get_records('question_answers', array('question' => $oldquestionid), ' id ASC ');
+    $answers = $DB->get_records('question_answers', ['question' => $oldquestionid], ' id ASC ');
 
     // If the MC question has got too manu options or responses, we ignore it.
     if (!in_array(count($answers), [2, 3, 4, 5])) {
@@ -161,7 +161,7 @@ foreach ($questions as $question) {
     }
 
     // Get contextid from question category.
-    $contextid = $DB->get_field('question_categories', 'contextid', array('id' => $question->category));
+    $contextid = $DB->get_field('question_categories', 'contextid', ['id' => $question->category]);
 
     if (!isset($contextid) || $contextid == false) {
         echo "<br/>[<font color='red'>ERR</font>] No context id found for this question.";
@@ -277,7 +277,7 @@ foreach ($questions as $question) {
             $correctrow = null;
             $optionnumber = 1;
             $rowcount = 1;
-            $rows = array();
+            $rows = [];
 
             foreach ($answers as $answer) {
                 if ($answer->fraction == 1.0 && !$correctrow) {
@@ -320,7 +320,7 @@ foreach ($questions as $question) {
 
             }
 
-            $mcoptions = $DB->get_record('qtype_multichoice_options', array('questionid' => $oldquestionid));
+            $mcoptions = $DB->get_record('qtype_multichoice_options', ['questionid' => $oldquestionid]);
 
             // SC question options.
             $scoptions = new stdClass();
@@ -337,7 +337,7 @@ foreach ($questions as $question) {
             // Copy tags.
             $tags = $DB->get_records_sql(
                 "SELECT * FROM {tag_instance} WHERE itemid = :itemid",
-                array('itemid' => $oldquestionid));
+                ['itemid' => $oldquestionid]);
 
             foreach ($tags as $tag) {
                 $entry = new stdClass();
@@ -401,7 +401,7 @@ die();
 function get_subcategories($categoryid) {
     global $DB;
 
-    $subcategories = $DB->get_records('question_categories', array('parent' => $categoryid), 'id');
+    $subcategories = $DB->get_records('question_categories', ['parent' => $categoryid], 'id');
 
     foreach ($subcategories as $subcategory) {
         $subcategories = array_merge($subcategories, get_subcategories($subcategory->id));
@@ -416,10 +416,10 @@ function get_subcategories($categoryid) {
  * @return array
  */
 function get_image_filenames($text) {
-    $result = array();
+    $result = [];
     $strings = preg_split("/<img|<source/i", $text);
     foreach ($strings as $string) {
-        $matches = array();
+        $matches = [];
         if (preg_match('!@@PLUGINFILE@@/(.+)!u', $string, $matches) && count($matches) > 0) {
             $filename = mb_substr($matches[1], 0, mb_strpos($matches[1], '"'));
             $filename = urldecode($filename);

@@ -36,10 +36,10 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_sc')));
 
     // Scoring methods.
-    $options = array('sconezero' => get_string('scoringsconezero', 'qtype_sc'),
+    $options = ['sconezero' => get_string('scoringsconezero', 'qtype_sc'),
         'aprime' => get_string('scoringaprime', 'qtype_sc'),
-        'subpoints' => get_string('scoringsubpoints', 'qtype_sc')
-    );
+        'subpoints' => get_string('scoringsubpoints', 'qtype_sc'),
+    ];
 
     $settings->add(new admin_setting_configselect('qtype_sc/scoringmethod',
         get_string('scoringmethod', 'qtype_sc'),

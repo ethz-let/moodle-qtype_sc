@@ -54,13 +54,13 @@ class qtype_sc_renderer extends qtype_renderer {
         $response = $question->get_response($qa);
 
         $result = '';
-        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
+        $result .= html_writer::tag('div', $question->format_questiontext($qa), ['class' => 'qtext']);
         $table = $this->createrows($question, $displayoptions, $qa, $response, $order);
         $result .= html_writer::table($table, true);
 
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div', $question->get_validation_error($qa->get_last_qt_data()),
-                array('class' => 'validationerror'));
+                ['class' => 'validationerror']);
         }
 
         $changedvalue = $qa->get_qt_field_name('qtype_sc_changed_value');
@@ -75,9 +75,9 @@ class qtype_sc_renderer extends qtype_renderer {
 
         if (!$displayoptions->readonly) {
             $optionhighlighting = $question->scoringmethod == 'sconezero' ? false : true;
-            $this->page->requires->js_call_amd('qtype_sc/question_behaviour', 'init', array($optionhighlighting, $question->id));
+            $this->page->requires->js_call_amd('qtype_sc/question_behaviour', 'init', [$optionhighlighting, $question->id]);
         } else {
-            $this->page->requires->js_call_amd('qtype_sc/question_behaviour', 'initReadonly', array($question->id));
+            $this->page->requires->js_call_amd('qtype_sc/question_behaviour', 'initReadonly', [$question->id]);
         }
 
         return $result;
@@ -176,11 +176,11 @@ class qtype_sc_renderer extends qtype_renderer {
                     $label = get_string('markasdistractor', 'qtype_sc');
                 }
 
-                $output .= html_writer::empty_tag('input', array(
+                $output .= html_writer::empty_tag('input', [
                     'type' => 'hidden',
                     'name' => $distractor['inputname'],
                     'value' => 0,
-                ));
+                ]);
 
                 $inputattributes = [];
                 $inputattributes['type'] = 'checkbox';
@@ -229,7 +229,7 @@ class qtype_sc_renderer extends qtype_renderer {
                                                 'qtype_sc',
                                                 'feedbacktext',
                                                 $rowid)),
-                                        array('class' => 'scspecificfeedback')));
+                                        ['class' => 'scspecificfeedback']));
                     } else {
                         $cell = new html_table_cell();
                     }
@@ -302,9 +302,9 @@ class qtype_sc_renderer extends qtype_renderer {
             $label = get_string('scoringmethod', 'qtype_sc') . ': <b>' . ucfirst($outputscoringmethod) . '</b>';
             $result .= html_writer::tag('div',
                 '<br>' . $label . $this->output->help_icon('scoring' . $question->scoringmethod, 'qtype_sc'),
-                array('id' => 'scoringmethodinfo_q' . $question->id,
+                ['id' => 'scoringmethodinfo_q' . $question->id,
                     'data-scoringmethodlabel' => $label,
-                    'data-scoringmethod' => $question->scoringmethod));
+                    'data-scoringmethod' => $question->scoringmethod, ]);
         }
         return $result;
     }
@@ -422,7 +422,7 @@ class qtype_sc_renderer extends qtype_renderer {
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
 
-        $result = array();
+        $result = [];
         $response = '';
         $correctresponse = $question->get_correct_response(true);
 

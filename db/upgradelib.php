@@ -48,9 +48,9 @@ function qtype_sc_convert_question_attempts($version) {
 
     foreach ($attemptids as $attemptid) {
 
-        $attempt = $DB->get_record('question_attempts', array('id' => $attemptid));
-        $numberofrows = $DB->get_field('qtype_sc_options', 'numberofrows', array('questionid' => $attempt->questionid));
-        $steps = $DB->get_records('question_attempt_steps', array('questionattemptid' => $attemptid));
+        $attempt = $DB->get_record('question_attempts', ['id' => $attemptid]);
+        $numberofrows = $DB->get_field('qtype_sc_options', 'numberofrows', ['questionid' => $attempt->questionid]);
+        $steps = $DB->get_records('question_attempt_steps', ['questionattemptid' => $attemptid]);
 
         if ($version == 2018032003) {
             $transaction = $DB->start_delegated_transaction();
@@ -94,23 +94,23 @@ function qtype_sc_is_order_or_finish_step(array $stepdatarows) {
 function qtype_sc_convert_attempt_step_data_2018032003($numberofrows, $attemptstepid) {
     global $DB;
 
-    $stepdatarows = $DB->get_records('question_attempt_step_data', array('attemptstepid' => $attemptstepid));
+    $stepdatarows = $DB->get_records('question_attempt_step_data', ['attemptstepid' => $attemptstepid]);
     if (qtype_sc_is_order_or_finish_step($stepdatarows)) {
         return;
     }
 
     $chosenoption = -1;
-    $chosendistractors = array();
+    $chosendistractors = [];
 
     foreach ($stepdatarows as $stepdata) {
         if ($stepdata->name == 'option') {
             $chosenoption = $stepdata->value;
-            $DB->delete_records('question_attempt_step_data', array('id' => $stepdata->id));
+            $DB->delete_records('question_attempt_step_data', ['id' => $stepdata->id]);
         }
         if (substr($stepdata->name, 0, 10) == 'distractor' && $stepdata->value == 1) {
             $number = (int) substr($stepdata->name, 10 , 1);
             $chosendistractors[$number] = 1;
-            $DB->delete_records('question_attempt_step_data', array('id' => $stepdata->id));
+            $DB->delete_records('question_attempt_step_data', ['id' => $stepdata->id]);
         }
     }
 
@@ -145,7 +145,7 @@ function qtype_sc_convert_attempt_step_data_2020051200($attemptstepid) {
     @set_time_limit(0);
     @ini_set('memory_limit', '3072M');
 
-    $stepdatarows = $DB->get_records('question_attempt_step_data', array('attemptstepid' => $attemptstepid));
+    $stepdatarows = $DB->get_records('question_attempt_step_data', ['attemptstepid' => $attemptstepid]);
     if (qtype_sc_is_order_or_finish_step($stepdatarows)) {
         return;
     }
@@ -168,7 +168,7 @@ function qtype_sc_convert_attempt_step_data_2020051200($attemptstepid) {
         if ($stepdata->value == 1 && isset($optionrow)) {
             $selected = $optionrow;
         }
-        $DB->delete_records('question_attempt_step_data', array('id' => $stepdata->id));
+        $DB->delete_records('question_attempt_step_data', ['id' => $stepdata->id]);
     }
 
     if (!$isconverted) {

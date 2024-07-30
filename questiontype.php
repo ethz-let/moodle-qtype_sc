@@ -119,7 +119,7 @@ class qtype_sc extends question_type {
             $question->options->correctrow = 1;
         }
         if (!isset($question->options->rows)) {
-            $rows = array();
+            $rows = [];
             for ($i = 1; $i <= $question->options->numberofrows; $i++) {
                 $row = new stdClass();
                 $row->number = $i;
@@ -147,10 +147,10 @@ class qtype_sc extends question_type {
 
         // Retrieve the question options.
         $question->options = $DB->get_record('qtype_sc_options',
-                array('questionid' => $question->id));
+                ['questionid' => $question->id]);
         // Retrieve the question rows (sc options).
         $question->options->rows = $DB->get_records('qtype_sc_rows',
-                array('questionid' => $question->id),
+                ['questionid' => $question->id],
                 'number ASC', '*', 0, $question->options->numberofrows);
 
         foreach ($question->options->rows as $key => $row) {
@@ -175,7 +175,7 @@ class qtype_sc extends question_type {
         $context = $question->context;
 
         // Get the old options.
-        $options = $DB->get_record('qtype_sc_options', array('questionid' => $question->id));
+        $options = $DB->get_record('qtype_sc_options', ['questionid' => $question->id]);
 
         // If there are none, create a DB row.
         if (!$options) {
@@ -205,7 +205,7 @@ class qtype_sc extends question_type {
         $this->save_hints($question, true);
 
         // Insert all the new rows.
-        $oldrows = $DB->get_records('qtype_sc_rows', array('questionid' => $question->id), 'number ASC');
+        $oldrows = $DB->get_records('qtype_sc_rows', ['questionid' => $question->id], 'number ASC');
 
         // Delete surplus rows/options from DB.
         $numberofobsolete = count($oldrows) - $question->numberofrows;
@@ -214,7 +214,7 @@ class qtype_sc extends question_type {
             for ($k = 1; $k <= $numberofobsolete; $k++) {
                 $obsoleterow = array_pop($oldrows);
                 if ($obsoleterow->id) {
-                    $DB->delete_records('qtype_sc_rows', array('id' => $obsoleterow->id));
+                    $DB->delete_records('qtype_sc_rows', ['id' => $obsoleterow->id]);
                 }
             }
         }
@@ -239,7 +239,7 @@ class qtype_sc extends question_type {
                 $optiondata = $question->{'option_' . $i};
                 $row->optiontext = $this->import_or_save_files($optiondata, $context, 'qtype_sc', 'optiontext', $row->id);
             } else {
-                $optiondata = array('text' => '', 'format' => FORMAT_HTML);
+                $optiondata = ['text' => '', 'format' => FORMAT_HTML];
                 $row->optiontext = '';
             }
 
@@ -251,7 +251,7 @@ class qtype_sc extends question_type {
                 $optionfeedback = $question->{'feedback_' . $i};
                 $row->optionfeedback = $this->import_or_save_files($optionfeedback, $context, 'qtype_sc', 'feedbacktext', $row->id);
             } else {
-                $optionfeedback = array('text' => '', 'format' => FORMAT_HTML);
+                $optionfeedback = ['text' => '', 'format' => FORMAT_HTML];
                 $row->optionfeedback = '';
             }
 
@@ -273,7 +273,7 @@ class qtype_sc extends question_type {
         $context = $formdata->context;
 
         $oldhints = $DB->get_records('question_hints',
-                array('questionid' => $formdata->id), 'id ASC');
+                ['questionid' => $formdata->id], 'id ASC');
 
         if (!empty($formdata->hint)) {
             $numhints = max(array_keys($formdata->hint)) + 1;
@@ -337,7 +337,7 @@ class qtype_sc extends question_type {
 
         foreach ($oldhints as $oldhint) {
             $fs->delete_area_files($context->id, 'question', 'hint', $oldhint->id);
-            $DB->delete_records('question_hints', array('id' => $oldhint->id));
+            $DB->delete_records('question_hints', ['id' => $oldhint->id]);
         }
     }
 
@@ -376,8 +376,8 @@ class qtype_sc extends question_type {
      */
     public function delete_question($questionid, $contextid) {
         global $DB;
-        $DB->delete_records('qtype_sc_options', array('questionid' => $questionid));
-        $DB->delete_records('qtype_sc_rows', array('questionid' => $questionid));
+        $DB->delete_records('qtype_sc_options', ['questionid' => $questionid]);
+        $DB->delete_records('qtype_sc_rows', ['questionid' => $questionid]);
         parent::delete_question($questionid, $contextid);
     }
 
@@ -433,7 +433,7 @@ class qtype_sc extends question_type {
      */
     public function get_possible_responses($questiondata) {
         $question = $this->make_question($questiondata);
-        $choices = array();
+        $choices = [];
 
         foreach ($question->rows as $rowid => $row) {
 
@@ -448,7 +448,7 @@ class qtype_sc extends question_type {
         }
         $choices[null] = question_possible_response::no_response();
 
-        return array($questiondata->id => $choices);
+        return [$questiondata->id => $choices];
     }
 
     /**
@@ -488,7 +488,7 @@ class qtype_sc extends question_type {
 
         $fs = get_file_storage();
 
-        $rowids = $DB->get_records_menu('qtype_sc_rows', array('questionid' => $questionid), 'id', 'id,1');
+        $rowids = $DB->get_records_menu('qtype_sc_rows', ['questionid' => $questionid], 'id', 'id,1');
 
         foreach ($rowids as $rowid => $notused) {
             $fs->move_area_files_to_new_context($oldcontextid, $newcontextid, 'qtype_sc', 'optiontext', $rowid);
@@ -505,7 +505,7 @@ class qtype_sc extends question_type {
         global $DB;
         $fs = get_file_storage();
 
-        $rowids = $DB->get_records_menu('qtype_sc_rows', array('questionid' => $questionid), 'id', 'id,1');
+        $rowids = $DB->get_records_menu('qtype_sc_rows', ['questionid' => $questionid], 'id', 'id,1');
 
         foreach ($rowids as $rowid => $notused) {
             $fs->delete_area_files($contextid, 'qtype_sc', 'optiontext', $rowid);
@@ -576,30 +576,30 @@ class qtype_sc extends question_type {
         $question = $format->import_headers($data);
         $question->qtype = 'sc';
 
-        $question->scoringmethod = $format->getpath($data, array('#', 'scoringmethod', 0, '#', 'text', 0, '#'), 'sc');
-        $question->shuffleanswers = $format->trans_single($format->getpath($data, array('#', 'shuffleanswers', 0, '#'), 1));
-        $question->answernumbering = $format->getpath($data, array('#', 'answernumbering', 0, '#', 'text', 0, '#'), 'sc');
-        $question->numberofrows = $format->getpath($data, array('#', 'numberofrows', 0, '#'), QTYPE_SC_NUMBER_OF_OPTIONS);
-        $question->correctrow = $format->getpath($data, array('#', 'correctrow', 0, '#'), 0);
+        $question->scoringmethod = $format->getpath($data, ['#', 'scoringmethod', 0, '#', 'text', 0, '#'], 'sc');
+        $question->shuffleanswers = $format->trans_single($format->getpath($data, ['#', 'shuffleanswers', 0, '#'], 1));
+        $question->answernumbering = $format->getpath($data, ['#', 'answernumbering', 0, '#', 'text', 0, '#'], 'sc');
+        $question->numberofrows = $format->getpath($data, ['#', 'numberofrows', 0, '#'], QTYPE_SC_NUMBER_OF_OPTIONS);
+        $question->correctrow = $format->getpath($data, ['#', 'correctrow', 0, '#'], 0);
 
         $rows = $data['#']['row'];
         $i = 1;
 
         foreach ($rows as $row) {
-            $number = $format->getpath($row, array('@', 'number'), $i++);
+            $number = $format->getpath($row, ['@', 'number'], $i++);
 
-            $question->{'option_' . $number} = array();
+            $question->{'option_' . $number} = [];
 
             $question->{'option_' . $number}['text'] = $format->getpath(
-                    $row, array('#', 'optiontext', 0, '#', 'text', 0, '#'), '', true);
+                    $row, ['#', 'optiontext', 0, '#', 'text', 0, '#'], '', true);
 
             $question->{'option_' . $number}['format'] = $format->trans_format(
-                    $format->getpath($row, array('#', 'optiontext', 0, '@', 'format'), FORMAT_HTML));
+                    $format->getpath($row, ['#', 'optiontext', 0, '@', 'format'], FORMAT_HTML));
 
-            $question->{'option_' . $number}['files'] = array();
+            $question->{'option_' . $number}['files'] = [];
 
             // Restore files in options (rows).
-            $files = $format->getpath($row, array('#', 'optiontext', 0, '#', 'file'), array(), false);
+            $files = $format->getpath($row, ['#', 'optiontext', 0, '#', 'file'], [], false);
 
             foreach ($files as $file) {
                 $filesdata = new stdclass();
@@ -609,18 +609,18 @@ class qtype_sc extends question_type {
                 $question->{'option_' . $number}['files'][] = $filesdata;
             }
 
-            $question->{'feedback_' . $number} = array();
+            $question->{'feedback_' . $number} = [];
 
             $question->{'feedback_' . $number}['text'] = $format->getpath(
-                    $row, array('#', 'feedbacktext', 0, '#', 'text', 0, '#'), '', true);
+                    $row, ['#', 'feedbacktext', 0, '#', 'text', 0, '#'], '', true);
 
             $question->{'feedback_' . $number}['format'] = $format->trans_format(
-                    $format->getpath($row, array('#', 'feedbacktext', 0, '@', 'format'), FORMAT_HTML));
+                    $format->getpath($row, ['#', 'feedbacktext', 0, '@', 'format'], FORMAT_HTML));
 
             // Restore files in option feedback.
-            $question->{'feedback_' . $number}['files'] = array();
+            $question->{'feedback_' . $number}['files'] = [];
 
-            $files = $format->getpath($row, array('#', 'feedbacktext', 0, '#', 'file'), array(), false);
+            $files = $format->getpath($row, ['#', 'feedbacktext', 0, '#', 'file'], [], false);
 
             foreach ($files as $file) {
                 $filesdata = new stdclass();

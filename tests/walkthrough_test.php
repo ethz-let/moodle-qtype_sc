@@ -27,6 +27,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace qtype_sc;
+
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/lib.php');
@@ -40,7 +42,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group       qtype_sc
  */
-class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
+final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
 
     /**
      * Starts attempt at given question
@@ -63,10 +65,10 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
      * @return array
      */
     public function get_contains_sc_radio_expectation($index, $enabled = null, $checked = null) {
-        return $this->get_contains_radio_expectation(array(
+        return $this->get_contains_radio_expectation([
             'name' => $this->quba->get_field_prefix($this->slot) . "option",
             'value' => $index,
-        ), $enabled, $checked);
+        ], $enabled, $checked);
     }
 
     /**
@@ -74,10 +76,10 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
      * @return qtype_sc
      */
     public function make_a_sc_question() {
-        question_bank::load_question_definition_classes('sc');
-        $sc = new qtype_sc_question();
-        test_question_maker::initialise_a_question($sc);
-        $sc->qtype = question_bank::get_qtype('sc');
+        \question_bank::load_question_definition_classes('sc');
+        $sc = new \qtype_sc_question();
+        \test_question_maker::initialise_a_question($sc);
+        $sc->qtype = \question_bank::get_qtype('sc');
         $sc->name = 'SC001';
         $sc->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $sc->idnumber = 6;
@@ -85,54 +87,56 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $sc->generalfeedback = 'You should do this and that';
         $sc->answernumbering = 'abc';
         $sc->scoringmethod = "subpoints";
-        $sc->options = new stdClass();
+        $sc->options = new \stdClass();
         $sc->shuffleanswers = 0;
         $sc->numberofrows = 3;
         $sc->correctrow = 1;
-        $sc->rows = array(
-            1 => (object) array(
+        $sc->rows = [
+            1 => (object) [
                 'id' => 1,
                 'questionid' => 6,
                 'number' => 1,
                 'optiontext' => 'option text 1',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'feedback text 1',
-                'optionfeedbackformat' => 1
-            ),
-            2 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+            2 => (object) [
                 'id' => 2,
                 'questionid' => 6,
                 'number' => 2,
                 'optiontext' => 'option text 2',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'feedback text 2',
-                'optionfeedbackformat' => 1
-            ),
-            3 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+            3 => (object) [
                 'id' => 3,
                 'questionid' => 6,
                 'number' => 3,
                 'optiontext' => 'option text 3',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'feedback text 3',
-                'optionfeedbackformat' => 1
-            )
-        );
+                'optionfeedbackformat' => 1,
+            ],
+        ];
         return $sc;
     }
 
     /**
      * Test deferredfeedback_feedback_sc
+     *
+     * @covers ::question_behaviours
      */
-    public function test_deferredfeedback_feedback_sc() {
+    public function test_deferredfeedback_feedback_sc(): void {
         $rightindex = 0;
 
         $sc = $this->make_a_sc_question();
         $this->start_attempt_at_question($sc, 'deferredfeedback', 1);
         $this->process_submission(
-            array("option" => $rightindex, "distractor1" => 0, "distractor2" => 0)
+            ["option" => $rightindex, "distractor1" => 0, "distractor2" => 0]
         );
-        $this->check_current_state(question_state::$complete);
+        $this->check_current_state(\question_state::$complete);
         $this->check_current_mark(null);
         $this->check_current_output(
             $this->get_contains_sc_radio_expectation($rightindex, true, true),
@@ -141,14 +145,14 @@ class qtype_sc_walkthrough_test extends qbehaviour_walkthrough_test_base {
             $this->get_does_not_contain_correctness_expectation(),
             $this->get_does_not_contain_feedback_expectation());
         $this->quba->finish_all_questions();
-        $this->check_current_state(question_state::$gradedright);
+        $this->check_current_state(\question_state::$gradedright);
         $this->check_current_mark(1);
         $this->check_current_output(
             $this->get_contains_sc_radio_expectation($rightindex, false, true),
             $this->get_contains_sc_radio_expectation($rightindex + 1, false, false),
             $this->get_contains_sc_radio_expectation($rightindex + 2, false, false),
             $this->get_contains_correct_expectation(),
-            new question_pattern_expectation('/name=\".*1_option\".*value=\"0\".*checked=\"checked\"/')
+            new \question_pattern_expectation('/name=\".*1_option\".*value=\"0\".*checked=\"checked\"/')
         );
     }
 }

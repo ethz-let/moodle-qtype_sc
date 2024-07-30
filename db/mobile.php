@@ -41,9 +41,9 @@ $addons = [
                 'method' => 'sc_view',
                 'styles' => [
                     'url' => '/question/type/sc/mobile/styles_app.css',
-                    'version' => '1.17'
-                ]
-            ]
-        ]
-    ]
+                    'version' => '1.17',
+                ],
+            ],
+        ],
+    ],
 ];
