@@ -27,8 +27,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Represents a qtype_sc question.
  *
@@ -51,6 +49,10 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     public $editedquestion;
     /** @var int correctrow */
     public $correctrow;
+    /** @var stdClass options */
+    public $options;
+    /** @var string answernumbering */
+    public $answernumbering;
 
     /**
      * (non-PHPdoc).
@@ -75,6 +77,14 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         $this->order = explode(',', $step->get_qt_var('_order'));
         parent::apply_attempt_state($step);
     }
+    /**
+     * (non-PHPdoc).
+     * @see question_definition::validate_can_regrade_with_other_version
+     *
+     * @param question_definition $otherversion
+     * @return string|null
+     * @throws coding_exception
+     */
     public function validate_can_regrade_with_other_version(question_definition $otherversion): ?string {
         $basemessage = parent::validate_can_regrade_with_other_version($otherversion);
         if ($basemessage) {
@@ -86,6 +96,15 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         return null;
     }
 
+    /**
+     * (non-PHPdoc).
+     * @see question_definition::update_attempt_state_data_for_new_version
+     *
+     * @param question_attempt_step $oldstep
+     * @param question_definition $otherversion
+     * @return array
+     * @throws coding_exception
+     */
     public function update_attempt_state_data_for_new_version(
                     question_attempt_step $oldstep, question_definition $otherversion) {
 
@@ -232,7 +251,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      */
     public function summarise_response(array $response) {
 
-        $result = array();
+        $result = [];
 
         foreach ($this->order as $key => $rowid) {
             if (property_exists((object) $response, 'option') && $response['option'] == $key) {
@@ -275,7 +294,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      */
     public function classify_response(array $response) {
         if (!$this->is_complete_response($response)) {
-            return array($this->id => question_classified_response::no_response());
+            return [$this->id => question_classified_response::no_response()];
         }
 
         list($partialcredit, $state) = $this->grade_response($response);
@@ -290,10 +309,10 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
                     $partialcredit = 0; // Due to non-linear math.
                 }
 
-                return array($this->id => new question_classified_response(
+                return [$this->id => new question_classified_response(
                     $rowid . '1',
                     question_utils::to_plain_text($row->optiontext, $row->optiontextformat),
-                    $partialcredit));
+                    $partialcredit), ];
             }
         }
     }
@@ -331,7 +350,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      * @return array
      */
     public function get_correct_response() {
-        $result = array();
+        $result = [];
 
         foreach ($this->order as $key => $rowid) {
             $row = $this->rows[$rowid];
@@ -369,7 +388,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         $grade = $this->grading()->grade_question($this, $response);
         $state = question_state::graded_state_for_fraction($grade);
 
-        return array($grade, $state);
+        return [$grade, $state];
     }
 
     /**
@@ -382,7 +401,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
      *         meaning take all the raw submitted data belonging to this question.
      */
     public function get_expected_data() {
-        $result = array();
+        $result = [];
 
         $result["qtype_sc_changed_value"] = PARAM_INT;
         $result['option'] = PARAM_INT;
@@ -479,7 +498,7 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
         } else if ($component == 'qtype_sc' && $filearea == 'feedbacktext') {
             return true;
         } else if ($component == 'question'
-                    && in_array($filearea, array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
+                    && in_array($filearea, ['correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'])) {
 
             if ($this->editedquestion == 1) {
                 return true;

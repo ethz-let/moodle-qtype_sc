@@ -57,9 +57,9 @@ class mobile {
         return [
             'templates' => [[
                 'id' => 'main',
-                'html' => file_get_contents($CFG->dirroot . "/question/type/sc/mobile/sc_$versionname.html")
-            ]],
-            'javascript' => file_get_contents($CFG->dirroot . '/question/type/sc/mobile/sc.js')
+                'html' => file_get_contents($CFG->dirroot . "/question/type/sc/mobile/sc_$versionname.html"),
+            ], ],
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/sc/mobile/sc.js'),
         ];
     }
 }

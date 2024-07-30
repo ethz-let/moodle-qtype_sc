@@ -44,7 +44,7 @@ class qtype_sc_test_helper extends question_test_helper {
      * @return array
      */
     public function get_test_questions() {
-        return array('question_one', 'question_two', 'question_three', 'question_four');
+        return ['question_one', 'question_two', 'question_three', 'question_four'];
     }
 
     /**
@@ -82,55 +82,55 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->options->answernumbering = 'none';
         $qdata->options->numberofrows = 3;
         $qdata->options->correctrow = 1;
-        $qdata->options->rows = array(
-            1 => (object) array(
+        $qdata->options->rows = [
+            1 => (object) [
                 'id' => 1,
                 'questionid' => 4010,
                 'number' => 1,
                 'optiontext' => 'Option Text 1',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'Feedback Text 1',
-                'optionfeedbackformat' => 1
-            ),
-            2 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+            2 => (object) [
                 'id' => 2,
                 'questionid' => 4010,
                 'number' => 2,
                 'optiontext' => 'Option Text 2',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'Feedback Text 2',
-                'optionfeedbackformat' => 1
-            ),
-            3 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+            3 => (object) [
                 'id' => 3,
                 'questionid' => 4010,
                 'number' => 3,
                 'optiontext' => 'Option Text 3',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'Feedback Text 3',
-                'optionfeedbackformat' => 1
-            )
-        );
-        $qdata->hints = array(
-            0 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+        ];
+        $qdata->hints = [
+            0 => (object) [
                 'id' => 0,
                 'questionid' => 4010,
                 'hint' => 'This is the 1st hint',
                 'hintformat' => FORMAT_HTML,
                 'shownumcorrect' => 0,
                 'clearwrong' => 0,
-                'options' => 0
-            ),
-            1 => (object) array(
+                'options' => 0,
+            ],
+            1 => (object) [
                 'id' => 1,
                 'questionid' => 4010,
                 'hint' => 'This is the 2nd hint',
                 'hintformat' => FORMAT_HTML,
                 'shownumcorrect' => 0,
                 'clearwrong' => 0,
-                'options' => 0
-            )
-        );
+                'options' => 0,
+            ],
+        ];
         return $qdata;
     }
 
@@ -147,16 +147,16 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-001';
-        $qdata->questiontext = array(
+        $qdata->questiontext = [
             "text" => 'Questiontext for Question 1',
             'format' => FORMAT_HTML,
-            'itemid' => 1
-        );
-        $qdata->generalfeedback = array(
+            'itemid' => 1,
+        ];
+        $qdata->generalfeedback = [
             "text" => 'This feedback is general',
             'format' => FORMAT_HTML,
-            'itemid' => 2
-        );
+            'itemid' => 2,
+        ];
         $qdata->defaultmark = 1;
         $qdata->length = 1;
         $qdata->penalty = 0.3333333;
@@ -166,40 +166,40 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->answernumbering = 'none';
         $qdata->numberofrows = 3;
         $qdata->correctrow = 1;
-        $qdata->option_1 = array(
+        $qdata->option_1 = [
             'text' => 'Option Text 1',
-            'format' => 1
-        );
-        $qdata->feedback_1 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_1 = [
             'text' => 'Feedback Text 1',
-            'format' => 1
-        );
-        $qdata->option_2 = array(
+            'format' => 1,
+        ];
+        $qdata->option_2 = [
             'text' => 'Option Text 2',
-            'format' => 1
-        );
-        $qdata->feedback_2 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_2 = [
             'text' => 'Feedback Text 2',
-            'format' => 1
-        );
-        $qdata->option_3 = array(
+            'format' => 1,
+        ];
+        $qdata->option_3 = [
             'text' => 'Option Text 3',
-            'format' => 1
-        );
-        $qdata->feedback_3 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_3 = [
             'text' => 'Feedback Text 3',
-            'format' => 1
-        );
-        $qdata->hint = array(
-            0 => array(
+            'format' => 1,
+        ];
+        $qdata->hint = [
+            0 => [
                 'text' => 'This is the 1st hint',
-                'format' => FORMAT_HTML
-            ),
-            1  => array(
+                'format' => FORMAT_HTML,
+            ],
+            1  => [
                 'text' => 'This is the 2nd hint',
-                'format' => FORMAT_HTML
-            ),
-        );
+                'format' => FORMAT_HTML,
+            ],
+        ];
         return $qdata;
     }
 
@@ -238,55 +238,55 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->options->answernumbering = 'none';
         $qdata->options->numberofrows = 3;
         $qdata->options->correctrow = 1;
-        $qdata->options->rows = array(
-            1 => (object) array(
+        $qdata->options->rows = [
+            1 => (object) [
                 'id' => 1,
                 'questionid' => 4010,
                 'number' => 1,
                 'optiontext' => 'Option Text 1',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'Feedback Text 1',
-                'optionfeedbackformat' => 1
-            ),
-            2 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+            2 => (object) [
                 'id' => 2,
                 'questionid' => 4010,
                 'number' => 2,
                 'optiontext' => 'Option Text 2',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'Feedback Text 2',
-                'optionfeedbackformat' => 1
-            ),
-            3 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+            3 => (object) [
                 'id' => 3,
                 'questionid' => 4010,
                 'number' => 3,
                 'optiontext' => 'Option Text 3',
                 'optiontextformat' => 1,
                 'optionfeedback' => 'Feedback Text 3',
-                'optionfeedbackformat' => 1
-            )
-        );
-        $qdata->hints = array(
-            0 => (object) array(
+                'optionfeedbackformat' => 1,
+            ],
+        ];
+        $qdata->hints = [
+            0 => (object) [
                 'id' => 0,
                 'questionid' => 4010,
                 'hint' => 'This is the 1st hint',
                 'hintformat' => FORMAT_HTML,
                 'shownumcorrect' => 0,
                 'clearwrong' => 0,
-                'options' => 0
-            ),
-            1 => (object) array(
+                'options' => 0,
+            ],
+            1 => (object) [
                 'id' => 1,
                 'questionid' => 4010,
                 'hint' => 'This is the 2nd hint',
                 'hintformat' => FORMAT_HTML,
                 'shownumcorrect' => 0,
                 'clearwrong' => 0,
-                'options' => 0
-            )
-        );
+                'options' => 0,
+            ],
+        ];
         return $qdata;
     }
 
@@ -302,16 +302,16 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-002';
-        $qdata->questiontext = array(
+        $qdata->questiontext = [
             "text" => 'Questiontext for Question 1',
             'format' => FORMAT_HTML,
-            'itemid' => 1
-        );
-        $qdata->generalfeedback = array(
+            'itemid' => 1,
+        ];
+        $qdata->generalfeedback = [
             "text" => 'This feedback is general',
             'format' => FORMAT_HTML,
-            'itemid' => 2
-        );
+            'itemid' => 2,
+        ];
         $qdata->defaultmark = 1;
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->length = 1;
@@ -322,40 +322,40 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->answernumbering = 'none';
         $qdata->numberofrows = 3;
         $qdata->correctrow = 1;
-        $qdata->option_1 = array(
+        $qdata->option_1 = [
             'text' => 'Option Text 1',
-            'format' => 1
-        );
-        $qdata->feedback_1 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_1 = [
             'text' => 'Feedback Text 1',
-            'format' => 1
-        );
-        $qdata->option_2 = array(
+            'format' => 1,
+        ];
+        $qdata->option_2 = [
             'text' => 'Option Text 2',
-            'format' => 1
-        );
-        $qdata->feedback_2 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_2 = [
             'text' => 'Feedback Text 2',
-            'format' => 1
-        );
-        $qdata->option_3 = array(
+            'format' => 1,
+        ];
+        $qdata->option_3 = [
             'text' => 'Option Text 3',
-            'format' => 1
-        );
-        $qdata->feedback_3 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_3 = [
             'text' => 'Feedback Text 3',
-            'format' => 1
-        );
-        $qdata->hint = array(
-            0 => array(
+            'format' => 1,
+        ];
+        $qdata->hint = [
+            0 => [
                 'text' => 'This is the 1st hint',
-                'format' => FORMAT_HTML
-            ),
-            1  => array(
+                'format' => FORMAT_HTML,
+            ],
+            1  => [
                 'text' => 'This is the 2nd hint',
-                'format' => FORMAT_HTML
-            ),
-        );
+                'format' => FORMAT_HTML,
+            ],
+        ];
         return $qdata;
     }
 
@@ -371,16 +371,16 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-003';
-        $qdata->questiontext = array(
+        $qdata->questiontext = [
             "text" => 'Questiontext for Question 1',
             'format' => FORMAT_HTML,
-            'itemid' => 1
-        );
-        $qdata->generalfeedback = array(
+            'itemid' => 1,
+        ];
+        $qdata->generalfeedback = [
             "text" => 'This feedback is general',
             'format' => FORMAT_HTML,
-            'itemid' => 2
-        );
+            'itemid' => 2,
+        ];
         $qdata->defaultmark = 1;
         $qdata->length = 1;
         $qdata->penalty = 0.3333333;
@@ -391,56 +391,56 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->answernumbering = 'none';
         $qdata->numberofrows = 5;
         $qdata->correctrow = 1;
-        $qdata->option_1 = array(
+        $qdata->option_1 = [
             'text' => 'Option Text 1',
-            'format' => 1
-        );
-        $qdata->feedback_1 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_1 = [
             'text' => 'Feedback Text 1',
-            'format' => 1
-        );
-        $qdata->option_2 = array(
+            'format' => 1,
+        ];
+        $qdata->option_2 = [
             'text' => 'Option Text 2',
-            'format' => 1
-        );
-        $qdata->feedback_2 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_2 = [
             'text' => 'Feedback Text 2',
-            'format' => 1
-        );
-        $qdata->option_3 = array(
+            'format' => 1,
+        ];
+        $qdata->option_3 = [
             'text' => 'Option Text 3',
-            'format' => 1
-        );
-        $qdata->feedback_3 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_3 = [
             'text' => 'Feedback Text 3',
-            'format' => 1
-        );
-        $qdata->option_4 = array(
+            'format' => 1,
+        ];
+        $qdata->option_4 = [
             'text' => 'Option Text 4',
-            'format' => 1
-        );
-        $qdata->feedback_4 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_4 = [
             'text' => 'Feedback Text 4',
-            'format' => 1
-        );
-        $qdata->option_5 = array(
+            'format' => 1,
+        ];
+        $qdata->option_5 = [
             'text' => 'Option Text 5',
-            'format' => 1
-        );
-        $qdata->feedback_5 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_5 = [
             'text' => 'Feedback Text 5',
-            'format' => 1
-        );
-        $qdata->hint = array(
-            0 => array(
+            'format' => 1,
+        ];
+        $qdata->hint = [
+            0 => [
                 'text' => 'This is the 1st hint',
-                'format' => FORMAT_HTML
-            ),
-            1  => array(
+                'format' => FORMAT_HTML,
+            ],
+            1  => [
                 'text' => 'This is the 2nd hint',
-                'format' => FORMAT_HTML
-            ),
-        );
+                'format' => FORMAT_HTML,
+            ],
+        ];
         return $qdata;
     }
 
@@ -457,16 +457,16 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->qtype = 'sc';
         $qdata->name = 'SC-Question-004';
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
-        $qdata->questiontext = array(
+        $qdata->questiontext = [
             "text" => 'Questiontext for Question 1',
             'format' => FORMAT_HTML,
-            'itemid' => 1
-        );
-        $qdata->generalfeedback = array(
+            'itemid' => 1,
+        ];
+        $qdata->generalfeedback = [
             "text" => 'This feedback is general',
             'format' => FORMAT_HTML,
-            'itemid' => 2
-        );
+            'itemid' => 2,
+        ];
         $qdata->defaultmark = 1;
         $qdata->length = 1;
         $qdata->penalty = 0.3333333;
@@ -476,56 +476,56 @@ class qtype_sc_test_helper extends question_test_helper {
         $qdata->answernumbering = 'none';
         $qdata->numberofrows = 5;
         $qdata->correctrow = 1;
-        $qdata->option_1 = array(
+        $qdata->option_1 = [
             'text' => 'Option Text 1',
-            'format' => 1
-        );
-        $qdata->feedback_1 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_1 = [
             'text' => 'Feedback Text 1',
-            'format' => 1
-        );
-        $qdata->option_2 = array(
+            'format' => 1,
+        ];
+        $qdata->option_2 = [
             'text' => 'Option Text 2',
-            'format' => 1
-        );
-        $qdata->feedback_2 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_2 = [
             'text' => 'Feedback Text 2',
-            'format' => 1
-        );
-        $qdata->option_3 = array(
+            'format' => 1,
+        ];
+        $qdata->option_3 = [
             'text' => 'Option Text 3',
-            'format' => 1
-        );
-        $qdata->feedback_3 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_3 = [
             'text' => 'Feedback Text 3',
-            'format' => 1
-        );
-        $qdata->option_4 = array(
+            'format' => 1,
+        ];
+        $qdata->option_4 = [
             'text' => 'Option Text 4',
-            'format' => 1
-        );
-        $qdata->feedback_4 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_4 = [
             'text' => 'Feedback Text 4',
-            'format' => 1
-        );
-        $qdata->option_5 = array(
+            'format' => 1,
+        ];
+        $qdata->option_5 = [
             'text' => 'Option Text 5',
-            'format' => 1
-        );
-        $qdata->feedback_5 = array(
+            'format' => 1,
+        ];
+        $qdata->feedback_5 = [
             'text' => 'Feedback Text 5',
-            'format' => 1
-        );
-        $qdata->hint = array(
-            0 => array(
+            'format' => 1,
+        ];
+        $qdata->hint = [
+            0 => [
                 'text' => 'This is the 1st hint',
-                'format' => FORMAT_HTML
-            ),
-            1  => array(
+                'format' => FORMAT_HTML,
+            ],
+            1  => [
                 'text' => 'This is the 2nd hint',
-                'format' => FORMAT_HTML
-            ),
-        );
+                'format' => FORMAT_HTML,
+            ],
+        ];
         return $qdata;
     }
 }
