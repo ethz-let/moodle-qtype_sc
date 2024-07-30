@@ -80,7 +80,8 @@ Feature: Step 4
     And I log out
 
   @javascript
-  Scenario: Testcase 16
+  Scenario: Testcase 16 for Moodle ≤ 4.1
+    Given the site is running Moodle version 4.1 or lower
 
   # (12) Navigation and label
   # Login as teacher and set Question behavior to "Deferred feedback"
@@ -114,3 +115,40 @@ Feature: Step 4
     And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
     And I click on "quiznavbutton1" "link"
     Then "#quiznavbutton3[title='Incomplete answer']" "css_element" should exist
+
+  @javascript
+  Scenario: Testcase 16 for Moodle ≥ 4.2
+    Given the site is running Moodle version 4.2 or higher
+
+  # (12) Navigation and label
+  # Login as teacher and set Question behavior to "Deferred feedback"
+    Given I log in as "teacher1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Settings" in current page administration
+    And I click on "Question behaviour" "link"
+    And I set the field "How questions behave" to "Deferred feedback"
+    And I press "Save and return to course"
+    And I log out
+
+  # Login as student and see if everything works
+    And I log in as "student2"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    Then I should see "Quiz 1"
+    When I press "Attempt quiz"
+
+  # No option selected
+    When I click on "quiznavbutton2" "link"
+    Then "#quiznavbutton1.notyetanswered" "css_element" should exist
+
+  #One option selected
+    When I click on "tr:contains('Option Text 1') label[title='Click to choose as correct option.']" "css_element"
+    And I click on "quiznavbutton1" "link"
+    Then "#quiznavbutton2[title='Question 2 - Answer saved']" "css_element" should exist
+
+  #One distractor selected
+    When I click on "quiznavbutton3" "link"
+    And I click on "tr:contains('Option Text 2') label[title='Click to cross out as incorrect option.']" "css_element"
+    And I click on "quiznavbutton1" "link"
+    Then "#quiznavbutton3[title='Question 3 - Incomplete answer']" "css_element" should exist

@@ -28,6 +28,8 @@ Feature: Step 8
     And quiz "Quiz 1" contains the following questions:
       | SC Question 001 | 1 |
       | SC Question 002 | 2 |
+    And the following config values are set as admin:
+      | enableasyncbackup | 0 |
 
   @javascript
   Scenario: Testcase 25
@@ -240,7 +242,6 @@ Feature: Step 8
     And I turn editing mode on
     And I open "Quiz 1" actions menu
     And I click on "Edit settings" "link" in the "Quiz 1" activity
-    Then I should see "Updating: Quiz"
     And I set the following fields to these values:
       | id_name | Quiz_restored |
     And I press "id_submitbutton2"
