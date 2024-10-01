@@ -18,7 +18,7 @@
  * qtype_sc editing form.
  *
  * @package qtype_sc
- * @author Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author ETH Zurich (moodle@id.ethz.ch)
  * @author Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @author Jürgen Zimmer (juergen.zimmer@edaktik.at)
  * @author Andreas Hruska (andreas.hruska@edaktik.at)
@@ -45,6 +45,9 @@ class qtype_sc_edit_form extends question_edit_form {
 
     /** @var string messages */
     private $messages;
+
+    /** @var int lastnumberofrows */
+    private $lastnumberofrows;
 
     /**
      * (non-PHPdoc).

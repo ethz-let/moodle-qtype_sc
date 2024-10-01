@@ -18,7 +18,7 @@
  * qtype_sc question definition class.
  *
  * @package     qtype_sc
- * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      ETH Zurich (moodle@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
  * @author      Andreas Hruska (andreas.hruska@edaktik.at)
@@ -51,6 +51,8 @@ class qtype_sc_question extends question_graded_automatically_with_countback {
     public $editedquestion;
     /** @var int correctrow */
     public $correctrow;
+    /** @var string answernumbering */
+    public $answernumbering;
 
     /**
      * (non-PHPdoc).

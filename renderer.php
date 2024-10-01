@@ -18,7 +18,7 @@
  * qtype_sc renderer classes.
  *
  * @package     qtype_sc
- * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      ETH Zurich (moodle@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
  * @author      Andreas Hruska (andreas.hruska@edaktik.at)
@@ -28,8 +28,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
-require_once($CFG->libdir . '/outputcomponents.php');
 
 /**
  * Subclass for generating the bits of output specific to qtype_sc questions.
