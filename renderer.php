@@ -94,7 +94,7 @@ class qtype_sc_renderer extends qtype_renderer {
 
         $table = new html_table();
         $table->id = 'questiontable' . $question->id;
-        $table->attributes['class'] = 'generaltable sc';
+        $table->attributes['class'] = 'generaltable qtype_sc_generaltable sc';
         $order['-1'] = '-1';
 
         foreach ($order as $key => $rowid) {
