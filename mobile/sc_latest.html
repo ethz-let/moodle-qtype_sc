@@ -32,12 +32,14 @@
                                 labelPlacement="end"
                                 justify="start">
                                 <div class="addon-qtype-sc-container qtext ion-text-wrap">
-                                    <p
-                                        [innerHTML]="row.optiontext"
-                                        [component]="component"
-                                        [componentId]="row.optionid + 'label'"
-                                        [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId"
-                                        [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
+                                    <p>
+                                        <core-format-text
+                                            [component]="component"
+                                            [componentId]="row.optionid + 'label'"
+                                            [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId"
+                                            [text]="row.optiontext"
+                                            [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
+                                        </core-format-text>
                                     </p>
                                     <div *ngIf="row.feedback" class="scspecificfeedback ng-star-inserted">
                                         <core-format-text  [component]="component" [componentId]="componentId"
