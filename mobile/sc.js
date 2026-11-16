@@ -81,10 +81,7 @@ var result = {
             var d = divs[i];
 
             var optionlabel = d.querySelector('.scoptionbutton.c0 label');
-            var labelid = optionlabel.id;
-            var optiontext = document.getElementById(labelid).innerHTML;
-         //   var optiontext = optionlabel.innerHTML : null;
-            alert(optiontext);
+            var optiontext = optionlabel.innerHTML : null;
             var optionradio = d.querySelector('.scoptionbutton.c0 input');
             var disabled = optionradio !== null ? (optionradio.hasAttribute('disabled') ? true : false) : false;
             var optionid = optionradio !== null ? optionradio.getAttribute('id') : null;
