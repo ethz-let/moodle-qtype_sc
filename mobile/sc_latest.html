@@ -16,6 +16,17 @@
     <ion-grid>
         <ion-row>
             <ion-col>
+                       <ion-label>
+                            <core-format-text 
+                                [component]="component"
+                                            [componentId]="row.optionid + 'label'"
+                                            [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId"
+                                            [text]="row.optiontext"
+                                            [style.textDecoration]="row.distractorselected ? 'line-through' : 'initial'">
+                            </core-format-text>
+                        </ion-label>
+            </ion-col>
+            <ion-col>
                 <ion-radio-group [name]="question.optiongroupname" [(ngModel)]="question.optionselected">
                     <ng-container *ngFor="let row of question.rows">
                         <ion-item
