@@ -24,7 +24,7 @@ var result = {
         }
 
         this.calculatehighlightrows = function calculatehighlightrows() {
-
+/*
             if (!this.question.scoringmethod) {
                 return;
             }
@@ -32,12 +32,13 @@ var result = {
             if(this.question.scoringmethod == "sconezero") {
                 return;
             }
-
+*/
             const hasCheckedDistractor = this.question.rows.some(row => row.distractorselected == 1);
 
             this.question.rows.forEach(row => {
                 row.highlight = hasCheckedDistractor && row.optionvalue != -1 && !row.distractorselected &&
                     this.question.optionselected == -1;
+                    
             });
 
         }
@@ -81,7 +82,12 @@ var result = {
             var d = divs[i];
 
             var optionlabel = d.querySelector('.scoptionbutton.c0 label');
-            var optiontext = optionlabel.innerHTML : null;
+            
+            var optiontext = optionlabel !== null ? optionlabel.innerHTML : null;
+            var found = optiontext.match(/<img/);
+            if(found) {
+                optiontext = "<p> " + optionlabel.innerHTML + " </p>";
+            }
             var optionradio = d.querySelector('.scoptionbutton.c0 input');
             var disabled = optionradio !== null ? (optionradio.hasAttribute('disabled') ? true : false) : false;
             var optionid = optionradio !== null ? optionradio.getAttribute('id') : null;
